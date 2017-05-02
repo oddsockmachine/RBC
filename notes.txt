@@ -1,0 +1,110 @@
+https://github.com/SmingHub/Sming
+http://micropython.org/
+https://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html
+https://www.mysensors.org/
+http://hackaday.com/2017/04/13/google-calendar-interface-for-your-internet-of-lawns/
+http://hackaday.com/2017/03/03/using-backscatter-radio-for-a-soil-sensor-network/
+https://www.aliexpress.com/item/New-Orange-Pi-Zero-H2-Quad-Core-Open-source-development-board-beyond-Raspberry-Pi/32760774493.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10082_10081_10110_10178_10136_10137_10111_10060_10138_10112_10113_10062_10114_10156_10056_10055_10054_10059_10099_10078_10079_10103_10073_10102_10096_10070_10148_10123_10147_10052_10053_10124_10142_10107_10050_10143_10051-10152_10151,searchweb201603_1,afswitch_1,ppcSwitch_7&btsid=91f078a7-0588-4456-98ba-dde245706e56&algo_expid=3a71276a-2401-4ca7-ae4b-96f64853e3c3-7&algo_pvid=3a71276a-2401-4ca7-ae4b-96f64853e3c3
+https://www.aliexpress.com/item/1PCS-Wireless-module-CH340-NodeMcu-V3-Lua-WIFI-Internet-of-Things-development-board-based-ESP8266/32665100123.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10082_10081_10110_10178_10136_10137_10111_10060_10138_10112_10113_10062_10114_10156_10056_10055_10054_10059_10099_10078_10079_10103_10073_10102_10096_10070_10148_10123_10147_10052_10053_10124_10142_10107_10050_10143_10051,searchweb201603_1,afswitch_1,ppcSwitch_7&btsid=749dbe68-ddd8-45de-8495-fcfb724e4b0a&algo_expid=7492583b-a89b-4533-a068-3343c7c75300-0&algo_pvid=7492583b-a89b-4533-a068-3343c7c75300
+mqtt
+  launchctl load /usr/local/Cellar/mosquitto/1.4.11_2/homebrew.mxcl.mosquitto.plist
+  launchctl unload /usr/local/Cellar/mosquitto/1.4.11_2/homebrew.mxcl.mosquitto.plist
+  /usr/local/opt/mosquitto/sbin/mosquitto -c /usr/local/etc/mosquitto/mosquitto.conf
+https://github.com/eclipse/paho.mqtt-spy/wiki/GettingStarted
+http://stackoverflow.com/questions/31045974/restarting-the-mosquito-broker
+https://github.com/hansonkd/skyline
+https://github.com/mprymek/fulight
+https://github.com/suvash/hulaaki
+https://github.com/gausby/gen_mqtt
+https://pypi.python.org/pypi/paho-mqtt#subscribe-unsubscribe
+http://www.hivemq.com/blog/mqtt-essentials-part-5-mqtt-topics-best-practices
+http://www.steves-internet-guide.com/understanding-mqtt-topics/
+http://micropython-iot-hackathon.readthedocs.io/en/latest/mqtt.html
+https://home-assistant.io/blog/2016/08/31/esp8266-and-micropython-part2/
+schedule
+https://schedule.readthedocs.io/en/stable/api.html
+
+Water, light, temperature, humidity, rain, air-pressure/weather, water-butt sensors - ideally on long wires so they can be optimally placed
+ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, wind-speed etc?
+timelapse photos (from raspi-zeros)
+solar powered sensors, collect timestamped data as often as possible at low power, send only when surplus power
+Define zones on map of farm
+Within zones, define beds/pots/plants
+For each remote node, specify in webapp which pins/addresses are which type of sensor
+Send config data to each node, node reads sensor in appropriate way
+Pin sensors to areas
+Record all measurements over time
+Alert when measurements outside reasonable bounds (too dry, too cold etc)
+Calculate water usage of particular plant type based on temp, humidity, sunlight
+Calculate how much water is necessary (or even optimal) at different times
+Control water (or other controls, eg greenhouse vents) based on scheduled events, alerts, or optimization
+For each bed, keep log of work done, work todo, weight harvested
+Get tips about how to do each task
+scan qr code at each location to tell phone where you are
+
+screen /dev/tty.SLAB_USBtoUART 115200
+esptool.py -p /dev/tty.SLAB_USBtoUART erase_flash
+esptool.py -p /dev/tty.SLAB_USBtoUART --baud 460800 write_flash --flash_size=detect 0 esp8266-20170108-v1.8.7.bin
+1a:fe:34:fa:32:87
+https://learn.adafruit.com/micropython-basics-esp8266-webrepl/access-webrepl
+https://github.com/micropython/webrepl
+http://micropython.org/webrepl/
+http://hackaday.com/2016/07/21/micropython-on-the-esp8266-kicking-the-tires/
+https://github.com/micropython/micropython-lib
+http://www.ebay.com/itm/MCP3008-Microchip-8-Channel-10-bit-ADC-/181804630021?hash=item2a54668005:g:OnMAAOSw03lY5qFV
+http://www.ebay.com/itm/110V-60W-Electric-Temperature-Welding-Soldering-Iron-Gun-Adjustable-With-5Tips-/331978505308?hash=item4d4b75fc5c:g:a9MAAOSw8gVX45FF
+https://github.com/micropython-IMU/micropython-bmp180
+BH1750FVI GY-30
+wifi pw: micropythoN
+
+
+import time, math, machine
+led = machine.PWM(machine.Pin(2), freq=1000)
+def pulse(l, t):
+for i in range(20):
+    l.duty(int(math.sin(i / 10 * math.pi) * 500 + 500))
+    time.sleep_ms(t)
+
+[pulse(led, 20) for i in range(50)]
+
+MQ135:
+import machine
+adc = machine.ADC(0)
+adc.read()
+
+Plug in sensors/actuators to node at new location
+Connect solar power and batteries
+On main webapp, note which sensors are attached to which pins, and where they are placed (soil water sensor, pin 3, middle of strawberry bed 3)
+Every 10 minutes, node wakes up and takes measurements from each sensor it knows about (currently none)
+Every hour, node wakes up and transmits bundle of all recently saved but not acknowledged readings
+Hub receives, acknowledges, and sends back config it thinks the node needs (schedules, settings, setup, time)
+Node now knows about the sensors connected to it. In future, measures each one according to sensor type (eg frequency, scaling)
+
+pin = machine.Pin(2, machine.Pin.IN, machine.Pin.PULL_UP)
+
+
+import network
+sta_if = network.WLAN(network.STA_IF)
+ap_if = network.WLAN(network.AP_IF)
+sta_if.active()
+ap_if.active()
+sta_if.connect('Jill Stein for President', 'mzd57n0ehz')
+sta_if.isconnected()
+sta_if.ifconfig()
+
+
+
+import dht
+import machine
+d = dht.DHT11(machine.Pin(2))
+
+def measure(_d, readings):
+h = []
+t = []
+for i in range(readings):
+_d.measure()
+t.append(_d.temperature())
+h.append(_d.humidity())
+temp = int(sum(t)/len(t))
+hum = int(sum(h)/len(h))
+return temp, hum

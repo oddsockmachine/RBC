@@ -1,0 +1,74 @@
+Parent Zone
+  Name
+  GPS coordinates
+  Child-zones
+
+Zone
+  Name
+  GPS coordinates
+  Plants
+  Sensors
+  Noticeboard
+  Logs
+  Schedule
+  Alerts
+
+Sensor Node
+  ID
+  Zone/GPS
+  Sensors
+  Actuators
+  Schedule
+  Stats
+
+Zones
+  Veg Garden
+    North Bed
+      Row 1
+        Plants
+          Strawberries
+          Raspberries
+        Noticeboard
+        Log
+          Water
+          Temp
+          Produce
+          Planting
+          Picking
+        Schedule
+          Weekly
+            Check bird netting
+      Row 2
+        Plants
+          Peas
+          Carrots
+    South Bed
+  Greenhouse
+    Left Bed
+      Peppers
+      Chilis
+    Right Bed
+
+  Food Forest
+  Field A
+
+Sensor Nodes
+  A
+    Location
+      Veg Garden/North Bed/Row 1/Strawberries
+    Sensors
+      Soil Moisture
+      Rain
+      Temperature
+    Actuators
+      Drip Irrigation
+  B
+    Location
+      Greenhouse/Left Bed
+    Sensors
+      Soil Moisture
+      Temperature
+      Humidity
+    Actuators
+      Drip Irrigation
+      Airflow

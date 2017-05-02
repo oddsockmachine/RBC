@@ -1,0 +1,64 @@
+2017-04-30 13:53:28,511 INFO  [JavaFX Application Thread     ] [BaseConfigurationManager      ]  - Creating UI property file
+2017-04-30 13:53:28,957 ERROR [JavaFX Application Thread     ] [BaseConfigurationUtils        ]  - Invalid number format 
+2017-04-30 13:53:29,407 ERROR [JavaFX Application Thread     ] [MqttStatsFileIO               ]  - Cannot read the statistics file from /Users/davidwalker/mqtt-spy/mqtt-spy-stats.xml
+java.io.FileNotFoundException: Cannot load the file from /Users/davidwalker/mqtt-spy/mqtt-spy-stats.xml
+	at pl.baczkowicz.spy.xml.XMLParser.loadFromFile(XMLParser.java:359)
+	at pl.baczkowicz.mqttspy.ui.stats.MqttStatsFileIO.loadStats(MqttStatsFileIO.java:57)
+	at pl.baczkowicz.spy.ui.stats.StatisticsManager.loadStats(StatisticsManager.java:298)
+	at pl.baczkowicz.mqttspy.ui.controllers.MqttSpyMainController.init(MqttSpyMainController.java:154)
+	at pl.baczkowicz.mqttspy.ui.MqttViewManager.createMainWindow(MqttViewManager.java:151)
+	at pl.baczkowicz.mqttspy.Main.start(Main.java:90)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$163(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$176(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$174(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$175(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+2017-04-30 13:53:30,257 INFO  [JavaFX Application Thread     ] [MqttViewManager               ]  - Default configuration file present (/Users/davidwalker/mqtt-spy/mqtt-spy-configuration.xml) = false
+2017-04-30 13:53:51,069 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-04-30 13:53:51,069 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-04-30 13:53:51,074 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-04-30 13:54:00,344 INFO  [JavaFX Application Thread     ] [EditMqttConnectionController  ]  - Opening connection davidwalker_135351071@127.0.0.1
+2017-04-30 13:54:00,366 INFO  [JavaFX Application Thread     ] [MqttConfigurationUtils        ]  - Auto-complete for server URI (127.0.0.1 -> tcp://127.0.0.1)
+2017-04-30 13:54:00,370 ERROR [Thread-12                     ] [BaseConfigurationUtils        ]  - Invalid number format 
+2017-04-30 13:54:00,504 ERROR [JavaFX Application Thread     ] [FileUtils                     ]  - No files in /Users/davidwalker/mqtt-spy/
+2017-04-30 13:54:01,045 INFO  [mqtt-spy [ConnectionRunnable for davidwalker_135351071@127.0.0.1]] [MqttAsyncConnectionRunnable   ]  - Connecting client ID [davidwalker_135351071] to server [[tcp://127.0.0.1]]; options = 
+============== Connection options ==============
+CleanSession                :  true
+SocketFactory               :  null
+MqttVersion                 :  0
+KeepAliveInterval           :  60
+ConTimeout                  :  30
+UserName                    :  null
+SSLProperties               :  null
+WillDestination             :  null
+==========================================
+
+2017-04-30 13:54:01,056 INFO  [MQTT Call: davidwalker_135351071] [MqttConnectionResultHandler   ]  - davidwalker_135351071@127.0.0.1 connected
+2017-04-30 13:54:01,056 INFO  [JavaFX Application Thread     ] [MqttEventHandler              ]  - About to resubscribe to all requested topics
+2017-04-30 13:54:04,552 INFO  [JavaFX Application Thread     ] [MqttConnectionWithReconnection]  - Disconnecting davidwalker_135351071 from [tcp://127.0.0.1]
+2017-04-30 13:54:04,555 INFO  [MQTT Disc: davidwalker_135351071] [MqttDisconnectionResultHandler]  - davidwalker_135351071@127.0.0.1 disconnected
+2017-04-30 13:55:02,628 INFO  [mqtt-spy [ConnectionRunnable for davidwalker_135351071@127.0.0.1]] [MqttAsyncConnectionRunnable   ]  - Connecting client ID [davidwalker_135351071] to server [[tcp://127.0.0.1]]; options = 
+============== Connection options ==============
+CleanSession                :  true
+SocketFactory               :  null
+MqttVersion                 :  0
+KeepAliveInterval           :  60
+ConTimeout                  :  30
+UserName                    :  null
+SSLProperties               :  null
+WillDestination             :  null
+==========================================
+
+2017-04-30 13:55:02,630 INFO  [MQTT Call: davidwalker_135351071] [MqttConnectionResultHandler   ]  - davidwalker_135351071@127.0.0.1 connected
+2017-04-30 13:55:02,631 INFO  [JavaFX Application Thread     ] [MqttEventHandler              ]  - About to resubscribe to all requested topics
+2017-04-30 13:55:09,392 INFO  [JavaFX Application Thread     ] [NewSubscriptionController     ]  - Subscribing to topic
+2017-04-30 13:55:09,392 INFO  [JavaFX Application Thread     ] [MqttSubscriptionViewManager   ]  - Creating subscription for topic
+2017-04-30 13:55:09,441 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Subscribed to topic
+2017-04-30 13:55:12,611 ERROR [JavaFX Application Thread     ] [BaseConfigurationUtils        ]  - Invalid number format 
+2017-04-30 14:24:30,628 INFO  [JavaFX Application Thread     ] [MqttAsyncConnection           ]  - Publishing message on topic "topic". Payload size = "5"
+2017-04-30 14:40:44,471 INFO  [JavaFX Application Thread     ] [MqttAsyncConnection           ]  - Publishing message on topic "topic". Payload size = "5"
+2017-04-30 18:08:47,351 INFO  [JavaFX Application Thread     ] [MqttAsyncConnection           ]  - Publishing message on topic "topic". Payload size = "5"
+2017-04-30 20:54:32,994 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Successfully unsubscribed from topic
+2017-04-30 20:54:32,994 INFO  [JavaFX Application Thread     ] [MqttConnectionWithReconnection]  - Disconnecting davidwalker_135351071 from [tcp://127.0.0.1]
+2017-04-30 20:54:32,996 INFO  [MQTT Disc: davidwalker_135351071] [MqttDisconnectionResultHandler]  - davidwalker_135351071@127.0.0.1 disconnected
