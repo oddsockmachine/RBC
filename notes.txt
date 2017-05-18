@@ -25,7 +25,7 @@ schedule
 https://schedule.readthedocs.io/en/stable/api.html
 
 Water, light, temperature, humidity, rain, air-pressure/weather, water-butt sensors - ideally on long wires so they can be optimally placed
-ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, wind-speed etc?
+ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, water-flow, wind-speed etc?
 timelapse photos (from raspi-zeros)
 solar powered sensors, collect timestamped data as often as possible at low power, send only when surplus power
 Define zones on map of farm

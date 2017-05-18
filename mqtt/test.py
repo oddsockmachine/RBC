@@ -1,7 +1,9 @@
 import paho.mqtt.client as mqtt
 import time
 import schedule
-from jobs import get_all_jobs, JobList
+from jobs import JobList, Job, report_temp, report_humidity
+from node import Node
+
 
 total = 0
 
@@ -47,11 +49,14 @@ client.connect("127.0.0.1", 1883, 60)
 client.loop_start()
 # client.loop_forever()
 
-joblist = JobList(client)
+# joblist = JobList(client)
+# joblist.add_job(Job("report_temp", 5, report_temp))
+# joblist.add_job(Job("report_humidity", 10, report_humidity))
 
-for j in get_all_jobs():
-    schedule.every(j.period).seconds.do(j.func, "123").tag(j.name,'temp', 'sensor')
-
+# for j in joblist.all_jobs():
+#     schedule.every(j.period).seconds.do(j.func, "123").tag(j.name,'temp', 'sensor')
+testNode = Node("foo")
+testNode.start()
 # schedule.every(5).seconds.do(report_temp, "123").tag('temp', 'sensor')
 while True:
     schedule.run_pending()
