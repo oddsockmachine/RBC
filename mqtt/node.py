@@ -22,11 +22,16 @@ class Node(object):
         return
 
     def refresh_schedule(self):
+        """Empty the node's schedule, rebuild from its internal list of jobs"""
+        schedule.clear() # TODO this will reset countdown to next run.
+        # Need to only reschedule new jobs, remove deleted ones
+        # print ([x.tags for x in schedule.jobs])
         for j in self.jobs.all_jobs():
             schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
         return
 
     def init_pin_mappings(self):
+        # Handle how pins and jobs interact, ensure no conflicts
         self.pin_mappings = {}
         return
 
@@ -55,19 +60,24 @@ class Node(object):
         print(userdata)
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.
-        job_topic = "jobs/#"
-        add_topic = "jobs/{}/add/#".format(self.name)
-        del_topic = "jobs/{}/del/#".format(self.name)
 
-        # print(job_topic)
-        # client.message_callback_add("actuator/#", cb_all_actuator)
-        # client.subscribe("actuator/#")
-        client.message_callback_add(job_topic, cb_all_jobs)
-        client.message_callback_add("jobs/{}/add/#".format(self.name), cb_add_job)
-        client.message_callback_add("jobs/{}/del/#".format(self.name), cb_del_job)
-        client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
-        client.subscribe("jobs/{}/del/#")  # Add, modify, remove, trigger, etc
-        client.subscribe("jobs/{}/add/#")  # Add, modify, remove, trigger, etc
+        action2cb = {"add": cb_add_job,
+                    "del": cb_del_job,
+                    "show": cb_show_jobs,}
+        for action, cb in action2cb.items():
+            job_topic = "jobs/{}/{}/#".format(self.name, action)
+            client.message_callback_add(job_topic, cb)
+            client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
+
+        # job_topic = "jobs/{}/show/#".format(self.name)
+        # add_topic = "jobs/{}/add/#".format(self.name)
+        # del_topic = "jobs/{}/del/#".format(self.name)        #
+        # client.message_callback_add(job_topic, cb_show_jobs)
+        # client.message_callback_add("jobs/{}/add/#".format(self.name), cb_add_job)
+        # client.message_callback_add("jobs/{}/del/#".format(self.name), cb_del_job)
+        # client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
+        # client.subscribe("jobs/{}/del/#")  # Add, modify, remove, trigger, etc
+        # client.subscribe("jobs/{}/add/#")  # Add, modify, remove, trigger, etc
 
 
 
@@ -75,27 +85,44 @@ def cb_all_actuator(client, userdata, msg):
     print("cb_all_actuator!!!!!!!!!!!!!!!!!")
     print(msg.payload)
 
-def cb_all_jobs(client, userdata, msg):
-    print("cb_all_jobs")
+def cb_show_jobs(client, userdata, msg):
+    print("cb_show_jobs")
+    payload = loads(msg.payload)
+    if payload.get("name"):
+        return
+    return
 
 def cb_del_job(client, userdata, msg):
     print("Deleting job from "+userdata.name)
     return
 
+def validate_msg_fields():
+    return
 
 def cb_add_job(client, userdata, msg):
     print("Adding job to " + userdata.name)
-    print(msg.payload)
+    fields = "name period function".split(' ')
     payload = loads(msg.payload)
+    missing_fields = [x for x in fields if x not in list(payload.keys())]
+    if len(missing_fields)>0:
+        print ("The following fields are missing:")
+        print (missing_fields)
+        return
+    # print(msg.payload)
     new_func = get_func(payload.get("function"))
     print(payload['name'])
-    print ("!!!")
+    name = payload.get("name")
+    pin = payload.get("pin", "no_pin")
+    uid = name + pin  # Tag so we can identify this function later.
+    # Must be hashable such that we can replace a job based on eg name/type/pin
+    new_job = Job(name, int(payload.get("period")), new_func)
+    # new_job.tags = "name="+name
     _self = userdata
-    _self.jobs.add_job(Job(payload.get("name"), 7, new_func))
+    _self.jobs.add_job(new_job)
     _self.refresh_schedule()
-    attrs = vars(msg)
-    print (', '.join("%s: %s" % item for item in attrs.items()))
-    print(userdata.name)
-    print(userdata.get_all_jobs())
-    print(client)
-    print(msg)
+    # attrs = vars(msg)
+    # print (', '.join("%s: %#s" % item for item in attrs.items()))
+    # print(userdata.name)
+    # print(userdata.get_all_jobs())
+    # print(client)
+    # print(msg)

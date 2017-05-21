@@ -4,16 +4,16 @@ import schedule
 from node import Node
 
 
-
-def cb_all_actuator(client, userdata, msg):
-    print("cb_all_actuator")
-    print(msg.payload)
-def cb_irrigation_actuator(client, userdata, msg):
-    print("cb_irrigation_actuator")
-    print(msg.payload)
-def cb_ventilation_actuator(client, userdata, msg):
-    print("cb_ventilation_actuator")
-    print(msg.payload)
+#
+# def cb_all_actuator(client, userdata, msg):
+#     print("cb_all_actuator")
+#     print(msg.payload)
+# def cb_irrigation_actuator(client, userdata, msg):
+#     print("cb_irrigation_actuator")
+#     print(msg.payload)
+# def cb_ventilation_actuator(client, userdata, msg):
+#     print("cb_ventilation_actuator")
+#     print(msg.payload)
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -33,12 +33,12 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
 
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-client.connect("127.0.0.1", 1883, 60)
+# client = mqtt.Client()
+# client.on_connect = on_connect
+# client.on_message = on_message
+# client.connect("127.0.0.1", 1883, 60)
 
-client.loop_start()
+# client.loop_start()
 # client.loop_forever()
 
 testNode = Node("foo")
