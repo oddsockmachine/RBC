@@ -33,11 +33,6 @@ class Job(object):
 
 
 
-sched = {
-    report_temp: 5,
-    report_humidity: 10
-}
-
 # jobs = []
 # jobs.append(Job("report_temp", 5, report_temp))
 # jobs.append(Job("report_humidity", 10, report_humidity))

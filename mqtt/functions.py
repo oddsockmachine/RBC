@@ -13,7 +13,6 @@ def report_temp(_id, client):
 
 def report_humidity(_id, client):
     print("Reporting hmdy")
-    print (client)
     hmdy = randint(0,35)
     # global client
     client.publish("topic", "hello"+_id)

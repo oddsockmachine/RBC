@@ -1,0 +1,29 @@
+Subscribe to a topic:
+  mosquitto_sub -h 127.0.0.1 -t topic
+
+Subscribe to stats:
+  mosquitto_sub -h 127.0.0.1 -t "\$SYS/#"
+Topics for sys stats:
+  broker/bytes/received
+  broker/bytes/sent
+  broker/clients/connected
+  broker/clients/maximum
+  broker/load/connections/{1,5,15}
+  broker/load/bytes/received/{1,5,15}
+  broker/load/bytes/sent/{1,5,15}
+  broker/load/messages/received/{1,5,15}
+  broker/load/messages/sent/{1,5,15}
+  broker/messages/inflight
+  broker/messages/received
+  broker/messages/sent
+  broker/subscriptions/count
+  broker/uptime
+
+Publish a message:
+  mosquitto_pub -h 127.0.0.1 -t actuator/hmdy -m "hi2"
+
+Start Mosquitto server:
+  /usr/local/opt/mosquitto/sbin/mosquitto -c /usr/local/etc/mosquitto/mosquitto.conf
+
+Start Mosquitto Spy:
+  java -jar mqtt-spy-0.5.4-jar-with-dependencies.jar

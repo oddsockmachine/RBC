@@ -62,3 +62,31 @@ WillDestination             :  null
 2017-04-30 20:54:32,994 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Successfully unsubscribed from topic
 2017-04-30 20:54:32,994 INFO  [JavaFX Application Thread     ] [MqttConnectionWithReconnection]  - Disconnecting davidwalker_135351071 from [tcp://127.0.0.1]
 2017-04-30 20:54:32,996 INFO  [MQTT Disc: davidwalker_135351071] [MqttDisconnectionResultHandler]  - davidwalker_135351071@127.0.0.1 disconnected
+2017-05-17 23:26:36,201 INFO  [JavaFX Application Thread     ] [MqttViewManager               ]  - Default configuration file present (/Users/davidwalker/mqtt-spy/mqtt-spy-configuration.xml) = false
+2017-05-17 23:26:42,335 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-05-17 23:26:42,335 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-05-17 23:26:42,340 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-05-17 23:26:58,876 INFO  [JavaFX Application Thread     ] [EditMqttConnectionController  ]  - Opening connection davidwalker_232642337@127.0.0.1
+2017-05-17 23:26:58,918 INFO  [JavaFX Application Thread     ] [MqttConfigurationUtils        ]  - Auto-complete for server URI (127.0.0.1 -> tcp://127.0.0.1)
+2017-05-17 23:26:59,046 ERROR [JavaFX Application Thread     ] [FileUtils                     ]  - No files in /Users/davidwalker/mqtt-spy/
+2017-05-17 23:26:59,589 INFO  [mqtt-spy [ConnectionRunnable for davidwalker_232642337@127.0.0.1]] [MqttAsyncConnectionRunnable   ]  - Connecting client ID [davidwalker_232642337] to server [[tcp://127.0.0.1]]; options = 
+============== Connection options ==============
+CleanSession                :  true
+SocketFactory               :  null
+MqttVersion                 :  0
+KeepAliveInterval           :  60
+ConTimeout                  :  30
+UserName                    :  null
+SSLProperties               :  null
+WillDestination             :  null
+==========================================
+
+2017-05-17 23:26:59,601 INFO  [MQTT Call: davidwalker_232642337] [MqttConnectionResultHandler   ]  - davidwalker_232642337@127.0.0.1 connected
+2017-05-17 23:26:59,602 INFO  [JavaFX Application Thread     ] [MqttEventHandler              ]  - About to resubscribe to all requested topics
+2017-05-17 23:27:33,003 INFO  [JavaFX Application Thread     ] [MqttAsyncConnection           ]  - Publishing message on topic "topic". Payload size = "0"
+2017-05-17 23:27:39,741 INFO  [JavaFX Application Thread     ] [NewSubscriptionController     ]  - Subscribing to topic
+2017-05-17 23:27:39,741 INFO  [JavaFX Application Thread     ] [MqttSubscriptionViewManager   ]  - Creating subscription for topic
+2017-05-17 23:27:39,808 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Subscribed to topic
+2017-05-17 23:28:26,095 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Successfully unsubscribed from topic
+2017-05-17 23:28:26,096 INFO  [JavaFX Application Thread     ] [MqttConnectionWithReconnection]  - Disconnecting davidwalker_232642337 from [tcp://127.0.0.1]
+2017-05-17 23:28:26,099 INFO  [MQTT Disc: davidwalker_232642337] [MqttDisconnectionResultHandler]  - davidwalker_232642337@127.0.0.1 disconnected

@@ -1,15 +1,9 @@
 import paho.mqtt.client as mqtt
 import time
 import schedule
-from jobs import JobList, Job, report_temp, report_humidity
 from node import Node
 
 
-total = 0
-
-def update_schedule(jobs, new_info):
-
-    return
 
 def cb_all_actuator(client, userdata, msg):
     print("cb_all_actuator")
@@ -27,19 +21,17 @@ def on_connect(client, userdata, flags, rc):
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client.subscribe("topic/thing/")
-    client.subscribe("actuator/#")
-    client.message_callback_add("actuator/#", cb_all_actuator)
-    client.message_callback_add("actuator/temp", cb_irrigation_actuator)
-    client.message_callback_add("actuator/hmdy", cb_ventilation_actuator)
+    # client.subscribe("topic/thing/")
+    # client.subscribe("actuator/#")
+    # client.message_callback_add("actuator/#", cb_all_actuator)
+    # client.message_callback_add("actuator/temp", cb_irrigation_actuator)
+    # client.message_callback_add("actuator/hmdy", cb_ventilation_actuator)
 
 
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
-    global total
-    total += 1
 
 client = mqtt.Client()
 client.on_connect = on_connect
@@ -49,15 +41,12 @@ client.connect("127.0.0.1", 1883, 60)
 client.loop_start()
 # client.loop_forever()
 
-# joblist = JobList(client)
-# joblist.add_job(Job("report_temp", 5, report_temp))
-# joblist.add_job(Job("report_humidity", 10, report_humidity))
-
-# for j in joblist.all_jobs():
-#     schedule.every(j.period).seconds.do(j.func, "123").tag(j.name,'temp', 'sensor')
 testNode = Node("foo")
 testNode.start()
-# schedule.every(5).seconds.do(report_temp, "123").tag('temp', 'sensor')
 while True:
-    schedule.run_pending()
-    time.sleep(1)
+    try:
+        schedule.run_pending()
+        time.sleep(1)
+    except KeyboardInterrupt:
+        testNode.disconnect()
+        exit(0)
