@@ -3,7 +3,7 @@ from jobs import JobList, Job
 from functions import *
 import schedule
 from functools import partial
-
+from json import loads
 
 class Node(object):
     """docstring for Node."""
@@ -14,12 +14,14 @@ class Node(object):
         self.client.user_data_set(self)
         self.client.on_connect = self.on_connect
         self.jobs = JobList(self.client)
-        # js = [report_temp, report_humidity]
-        # jx =
-        self.cb_all_jobs = partial(cb_all_jobs)
         self.init_pin_mappings()
         self.load_in_jobs()
         # self.load_subscriptions()
+        # for j in self.jobs.all_jobs():
+        #     schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
+        return
+
+    def refresh_schedule(self):
         for j in self.jobs.all_jobs():
             schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
         return
@@ -41,21 +43,11 @@ class Node(object):
         return schedule.jobs
 
     def load_in_jobs(self):
-        self.jobs.add_job(Job("report_temp", 5, report_temp))
-        self.jobs.add_job(Job("report_humidity", 9, report_humidity))
+        # self.jobs.add_job(Job("report_temp", 5, report_temp))
+        # self.jobs.add_job(Job("report_humidity", 9, report_humidity))
         return
 
     def load_callbacks(self):
-        return
-
-    # def load_subscriptions(self):
-    #     job_topic = "jobs/{}/#".format(self.name)
-    #     print(job_topic)
-    #     self.client.message_callback_add("actuator/#", cb_all_actuator)
-    #     self.client.message_callback_add(job_topic, cb_all_jobs)
-    #     self.client.subscribe("actuator/#")
-    #     self.client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
-
         return
 
     def on_connect(self, client, userdata, flags, rc):
@@ -64,24 +56,20 @@ class Node(object):
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.
         job_topic = "jobs/#"
-        print(job_topic)
-        client.message_callback_add("actuator/#", cb_all_actuator)
+        add_topic = "jobs/{}/add/#".format(self.name)
+        del_topic = "jobs/{}/del/#".format(self.name)
+
+        # print(job_topic)
+        # client.message_callback_add("actuator/#", cb_all_actuator)
+        # client.subscribe("actuator/#")
         client.message_callback_add(job_topic, cb_all_jobs)
-        client.subscribe("actuator/#")
+        client.message_callback_add("jobs/{}/add/#".format(self.name), cb_add_job)
+        client.message_callback_add("jobs/{}/del/#".format(self.name), cb_del_job)
         client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
+        client.subscribe("jobs/{}/del/#")  # Add, modify, remove, trigger, etc
+        client.subscribe("jobs/{}/add/#")  # Add, modify, remove, trigger, etc
 
 
-
-    # def create_job_cb(self):
-    #     _self = self
-    #     def cb_all_jobs(client=client, userdata=userdata, msg=msg):
-    #         print("cb_all_jobs")
-    #         print(_self.name)
-    #         print(msg.payload)
-    #         print(userdata)
-    #         print(client)
-    #         print(msg)
-    #     return cb_all_jobs
 
 def cb_all_actuator(client, userdata, msg):
     print("cb_all_actuator!!!!!!!!!!!!!!!!!")
@@ -89,7 +77,24 @@ def cb_all_actuator(client, userdata, msg):
 
 def cb_all_jobs(client, userdata, msg):
     print("cb_all_jobs")
+
+def cb_del_job(client, userdata, msg):
+    print("Deleting job from "+userdata.name)
+    return
+
+
+def cb_add_job(client, userdata, msg):
+    print("Adding job to " + userdata.name)
     print(msg.payload)
+    payload = loads(msg.payload)
+    new_func = get_func(payload.get("function"))
+    print(payload['name'])
+    print ("!!!")
+    _self = userdata
+    _self.jobs.add_job(Job(payload.get("name"), 7, new_func))
+    _self.refresh_schedule()
+    attrs = vars(msg)
+    print (', '.join("%s: %s" % item for item in attrs.items()))
     print(userdata.name)
     print(userdata.get_all_jobs())
     print(client)

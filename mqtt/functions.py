@@ -20,3 +20,11 @@ def report_humidity(_id, client):
     # print(schedule.jobs)
     # print(schedule.next_run())
     return hmdy
+
+
+def get_func(name):
+    funcs = {
+        "report_temp": report_temp,
+        "report_humidity": report_humidity,
+    }
+    return funcs.get(name)
