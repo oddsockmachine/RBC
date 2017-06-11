@@ -25,7 +25,7 @@ schedule
 https://schedule.readthedocs.io/en/stable/api.html
 
 Water, light, temperature, humidity, rain, air-pressure/weather, water-butt sensors - ideally on long wires so they can be optimally placed
-ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, water-flow, wind-speed etc?
+ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, water-flow, wind-speed, solar-shower-temp
 timelapse photos (from raspi-zeros)
 solar powered sensors, collect timestamped data as often as possible at low power, send only when surplus power
 Define zones on map of farm
@@ -35,12 +35,14 @@ Send config data to each node, node reads sensor in appropriate way
 Pin sensors to areas
 Record all measurements over time
 Alert when measurements outside reasonable bounds (too dry, too cold etc)
+Alert when conditions are optimal (excess hot water = have a shower)
 Calculate water usage of particular plant type based on temp, humidity, sunlight
 Calculate how much water is necessary (or even optimal) at different times
 Control water (or other controls, eg greenhouse vents) based on scheduled events, alerts, or optimization
 For each bed, keep log of work done, work todo, weight harvested
 Get tips about how to do each task
 scan qr code at each location to tell phone where you are
+schedule work to minimize workload - spread out over time, and focused on location
 
 screen /dev/tty.SLAB_USBtoUART 115200
 esptool.py -p /dev/tty.SLAB_USBtoUART erase_flash

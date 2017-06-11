@@ -1,5 +1,5 @@
 from functions import *
-# client = None
+import schedule
 
 def job_to_channel(location, _id):
     return "sensors/{location}/{_id}/temperature".format(location, _id)
@@ -14,6 +14,8 @@ class JobList(object):
         self.jobs = []
     def add_job(self, job):
         self.jobs.append(job)
+        schedule.every(job.period).seconds.do(job.func, self.client, job.args).tag(job.name, job.uid, 'temp', 'sensor')
+        # schedule.every(job.period).seconds.do(job.func, "123", self.client).tag(job.name, 'temp', 'sensor')
     def get_job(self, query):
         return
     def all_jobs(self):
@@ -21,22 +23,15 @@ class JobList(object):
 
 class Job(object):
     """docstring for Job."""
-    def __init__(self, name, period, func):
+    def __init__(self, name, period, func, args):
         super(Job, self).__init__()
         self.name = name
         self.period = period
         self.func = func
+        self.pin = args.get('pin')
+        self.uid = self.name + '_' + self.pin
         # self.client = client
-        self.args = []  # args for eg pin numbers, multipliers etc
+        self.args = args  # args for eg pin numbers, multipliers etc
+        self.args['job_uid'] = self.uid
     def execute(self):
         return self.func(args)
-
-
-
-# jobs = []
-# jobs.append(Job("report_temp", 5, report_temp))
-# jobs.append(Job("report_humidity", 10, report_humidity))
-#
-# def get_all_jobs():
-#     return jobs
-#
