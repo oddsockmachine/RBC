@@ -20,6 +20,10 @@ class JobList(object):
         return
     def all_jobs(self):
         return self.jobs
+    def report_jobs(self):
+        jobs = [j.__dict__.copy() for j in self.jobs]
+        [j.pop("func") for j in jobs]  # Magic side effect, don't care about return value
+        return jobs
 
 class Job(object):
     """docstring for Job."""

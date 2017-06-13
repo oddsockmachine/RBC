@@ -53,7 +53,6 @@ class Node(object):
         # self.jobs.add_job(Job("report_humidity", 9, report_humidity))
         return
 
-
     def on_connect(self, client, userdata, flags, rc):
         """Subscribing in on_connect() means that if we lose the connection and
         reconnect then subscriptions will be renewed."""
@@ -69,13 +68,16 @@ class Node(object):
             client.message_callback_add(job_topic, cb)
             client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
 
-def cb_report_in(self):
+def cb_report_in(client, userdata, msg):
     """Return internal stats to base station"""
-    return {}
+    report = {}
+    node = userdata
+    report['name'] = node.name
+    report['jobs'] = node.jobs.report_jobs()
+    # print(report)
+    client.publish("topic", dumps(report))
+    return report
 
-def cb_all_actuator(client, userdata, msg):
-    print("cb_all_actuator!!!!!!!!!!!!!!!!!")
-    print(msg.payload)
 
 def cb_show_jobs(client, userdata, msg):
     print("cb_show_jobs")
@@ -105,7 +107,6 @@ def cb_add_job(client, userdata, msg):
     if not msg_fields_valid(payload):
         return
     new_func = get_func(payload.get("function"))
-    # print(payload['name'])
     job_name = payload.get("name")
     pin = payload.get("pin", "no_pin")
     uid = job_name + pin  # Tag so we can identify this function later.
