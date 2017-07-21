@@ -6,6 +6,19 @@ http://hackaday.com/2017/04/13/google-calendar-interface-for-your-internet-of-la
 http://hackaday.com/2017/03/03/using-backscatter-radio-for-a-soil-sensor-network/
 https://www.aliexpress.com/item/New-Orange-Pi-Zero-H2-Quad-Core-Open-source-development-board-beyond-Raspberry-Pi/32760774493.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10082_10081_10110_10178_10136_10137_10111_10060_10138_10112_10113_10062_10114_10156_10056_10055_10054_10059_10099_10078_10079_10103_10073_10102_10096_10070_10148_10123_10147_10052_10053_10124_10142_10107_10050_10143_10051-10152_10151,searchweb201603_1,afswitch_1,ppcSwitch_7&btsid=91f078a7-0588-4456-98ba-dde245706e56&algo_expid=3a71276a-2401-4ca7-ae4b-96f64853e3c3-7&algo_pvid=3a71276a-2401-4ca7-ae4b-96f64853e3c3
 https://www.aliexpress.com/item/1PCS-Wireless-module-CH340-NodeMcu-V3-Lua-WIFI-Internet-of-Things-development-board-based-ESP8266/32665100123.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10082_10081_10110_10178_10136_10137_10111_10060_10138_10112_10113_10062_10114_10156_10056_10055_10054_10059_10099_10078_10079_10103_10073_10102_10096_10070_10148_10123_10147_10052_10053_10124_10142_10107_10050_10143_10051,searchweb201603_1,afswitch_1,ppcSwitch_7&btsid=749dbe68-ddd8-45de-8495-fcfb724e4b0a&algo_expid=7492583b-a89b-4533-a068-3343c7c75300-0&algo_pvid=7492583b-a89b-4533-a068-3343c7c75300
+
+Sensors:
+  https://www.adafruit.com/product/372
+  MQ-135 Air Quality Sensor
+  BMP180 3v3/5v 5 Pins I2C Digital Barometric Pressure Sensor
+  BH1750FVI GY-30 I2C Digital Light Intensity Sensor
+  Pyroelectric IR Infrared PIR Motion Sensor Detector Module HC-SR501
+  DHT11 Digital Humidity & Temperature
+  https://www.osbeehives.com/pages/buzz-box-app
+
+Your Order Number is 1496031-2716709017.
+Your order confirmation will be emailed to oddsockmachine@gmail.com
+
 mqtt
   launchctl load /usr/local/Cellar/mosquitto/1.4.11_2/homebrew.mxcl.mosquitto.plist
   launchctl unload /usr/local/Cellar/mosquitto/1.4.11_2/homebrew.mxcl.mosquitto.plist
@@ -24,8 +37,8 @@ https://home-assistant.io/blog/2016/08/31/esp8266-and-micropython-part2/
 schedule
 https://schedule.readthedocs.io/en/stable/api.html
 
-Water, light, temperature, humidity, rain, air-pressure/weather, water-butt sensors - ideally on long wires so they can be optimally placed
-ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, water-flow, wind-speed, solar-shower-temp
+Water, light, temperature (air, water, soil), humidity, rain, air-pressure/weather, water-butt sensors - ideally on long wires so they can be optimally placed
+ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, water-flow, wind-speed, solar-shower-temp, smoke, weight of bee hives,
 timelapse photos (from raspi-zeros)
 solar powered sensors, collect timestamped data as often as possible at low power, send only when surplus power
 Define zones on map of farm
@@ -34,7 +47,7 @@ For each remote node, specify in webapp which pins/addresses are which type of s
 Send config data to each node, node reads sensor in appropriate way
 Pin sensors to areas
 Record all measurements over time
-Alert when measurements outside reasonable bounds (too dry, too cold etc)
+Alert when measurements outside reasonable bounds (too dry, too cold, risk of fire etc)
 Alert when conditions are optimal (excess hot water = have a shower)
 Calculate water usage of particular plant type based on temp, humidity, sunlight
 Calculate how much water is necessary (or even optimal) at different times
@@ -44,6 +57,8 @@ Get tips about how to do each task
 scan qr code at each location to tell phone where you are
 schedule work to minimize workload - spread out over time, and focused on location
 
+http://quasar-framework.org/guide/index.html
+https://www.irrigationtutorials.com/drip-irrigation-design-guidelines-basics-of-measurements-parts-and-more/
 screen /dev/tty.SLAB_USBtoUART 115200
 esptool.py -p /dev/tty.SLAB_USBtoUART erase_flash
 esptool.py -p /dev/tty.SLAB_USBtoUART --baud 460800 write_flash --flash_size=detect 0 esp8266-20170108-v1.8.7.bin

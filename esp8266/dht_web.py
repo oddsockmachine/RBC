@@ -46,7 +46,7 @@ while True:
         line = cl_file.readline()
         if not line or line == b'\r\n':
             break
-    t, h = measure(d, 3)
+    t, h = measure(d, 3, True)
     data = "{}c, {}%".format(t,h,True)
     response = html % data
     cl.send(response)

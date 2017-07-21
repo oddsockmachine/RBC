@@ -1,10 +1,12 @@
+from datetime import datetime
 from random import randint
 from json import dumps
 
 def default_data(node, args):
     return{'job_ID': args.get('job_uid'),
            'node_ID': node.name,
-           'pin': args.get('pin')}
+           'pin': args.get('pin'),
+           'timestamp': str(datetime.now())}
 
 def report_temp(client, args):
     print("Reporting temp on pin "+args.get('pin'))
