@@ -1,0 +1,5 @@
+elasticsearch==5.4.0
+honcho==1.0.1
+paho-mqtt==1.2.3
+schedule==0.4.2
+urllib3==1.21.1

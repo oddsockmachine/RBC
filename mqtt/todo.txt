@@ -1,0 +1,13 @@
+Need to buffer messages internally, send when there is enough power
+
+Components/services:
+  ELK/logging backend
+  Nodes
+    Solar power
+    Wakeup schedule should be minimum frequency of sensor readings
+  Sensors
+    Physical/electrical
+    Reading framework
+  Central server
+  Frontend, visualization
+  Phone app

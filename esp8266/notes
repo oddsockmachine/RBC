@@ -1,0 +1,40 @@
+# WiFi access
+MicroPython-fa3287
+
+# Terminal access
+screen /dev/tty.SLAB_USBtoUART 115200
+
+screen -ls
+screen -r 13257.ttys004
+
+# Set password
+import webrepl_setup
+# Reset board after to take effect
+
+
+open ~/projects/RBC/esp8266/webrepl/webrepl.html
+
+
+# connect to wifi router
+import network
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect('Jill Stein for President', 'mzd57n0ehz')
+wlan.ifconfig()
+('192.168.0.11', '255.255.255.0', '192.168.0.1', '75.75.75.75')
+import webrepl
+webrepl.start()
+WebREPL daemon started on ws://192.168.4.1:8266  Access Point
+WebREPL daemon started on ws://192.168.0.11:8266  IP on network
+
+
+
+machine.deepsleep()   resumes on preconfigured interrupt (pin or RTC)
+
+
+deep-sleep
+wake every x minutes, radio off
+check battery level
+  if moderate, take readings, store on file
+  if very high take readings, turn on radio, transmit, clear internal buffer
+check time relative to RTC. When transmitting, ensure relative times are converted to absolute
