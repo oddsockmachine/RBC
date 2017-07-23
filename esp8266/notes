@@ -38,3 +38,7 @@ check battery level
   if moderate, take readings, store on file
   if very high take readings, turn on radio, transmit, clear internal buffer
 check time relative to RTC. When transmitting, ensure relative times are converted to absolute
+
+
+urequest
+https://github.com/micropython/micropython-lib/blob/master/urequests/urequests.py
