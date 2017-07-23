@@ -1,1 +1,16 @@
 If you're running a headless Raspberry Pi, there's no need to power the display circuitry, and you can save a little power by running /usr/bin/tvservice -o (-p to re-enable). Add the line to /etc/rc.local to disable HDMI on boot.
+
+router creds - admin:motorola
+
+wget https://downloads.raspberrypi.org/raspbian_lite_latest
+unzip raspbian_lite_latest
+diskutil list
+# disk2
+diskutil unmountDisk /dev/disk2
+sudo dd bs=1m if=2017-07-05-raspbian-jessie-lite.img of=/dev/rdisk2 conv=sync
+touch /Volumes/boot/ssh
+
+# on the pi
+sudo apt-get install -y htop
+sudo apt-get install -y python-pip python3-dev
+sudo pip install -y --upgrade virtualenv

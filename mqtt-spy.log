@@ -191,3 +191,49 @@ WillDestination             :  null
 2017-07-23 09:00:34,741 INFO  [JavaFX Application Thread     ] [NewSubscriptionController     ]  - Subscribing to #
 2017-07-23 09:00:34,742 INFO  [JavaFX Application Thread     ] [MqttSubscriptionViewManager   ]  - Creating subscription for #
 2017-07-23 09:00:34,803 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Subscribed to #
+2017-07-23 12:22:50,439 ERROR [MQTT Rec: davidwalker_090015457] [MqttCallbackHandler           ]  - Connection davidwalker_090015457@127.0.0.1 lost
+Connection lost (32109) - java.io.EOFException
+	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:146)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readByte(DataInputStream.java:267)
+	at org.eclipse.paho.client.mqttv3.internal.wire.MqttInputStream.readMqttWireMessage(MqttInputStream.java:65)
+	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:107)
+	... 1 more
+2017-07-23 12:22:50,446 WARN  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Client not connected
+2017-07-23 12:22:50,446 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Successfully unsubscribed from #
+2017-07-23 15:29:03,620 INFO  [JavaFX Application Thread     ] [MqttViewManager               ]  - Default configuration file present (/Users/davidwalker/mqtt-spy/mqtt-spy-configuration.xml) = false
+2017-07-23 15:29:05,668 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-07-23 15:29:05,668 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-07-23 15:29:05,672 INFO  [JavaFX Application Thread     ] [EditConnectionsController     ]  - Selecting first item...
+2017-07-23 15:29:09,800 INFO  [JavaFX Application Thread     ] [EditMqttConnectionController  ]  - Opening connection davidwalker_152905669@127.0.0.1
+2017-07-23 15:29:09,832 INFO  [JavaFX Application Thread     ] [MqttConfigurationUtils        ]  - Auto-complete for server URI (127.0.0.1 -> tcp://127.0.0.1)
+2017-07-23 15:29:09,955 ERROR [JavaFX Application Thread     ] [FileUtils                     ]  - No files in /Users/davidwalker/mqtt-spy/
+2017-07-23 15:29:10,493 INFO  [mqtt-spy [ConnectionRunnable for davidwalker_152905669@127.0.0.1]] [MqttAsyncConnectionRunnable   ]  - Connecting client ID [davidwalker_152905669] to server [[tcp://127.0.0.1]]; options = 
+============== Connection options ==============
+CleanSession                :  true
+SocketFactory               :  null
+MqttVersion                 :  0
+KeepAliveInterval           :  60
+ConTimeout                  :  30
+UserName                    :  null
+SSLProperties               :  null
+WillDestination             :  null
+==========================================
+
+2017-07-23 15:29:10,503 INFO  [MQTT Call: davidwalker_152905669] [MqttConnectionResultHandler   ]  - davidwalker_152905669@127.0.0.1 connected
+2017-07-23 15:29:10,504 INFO  [JavaFX Application Thread     ] [MqttEventHandler              ]  - About to resubscribe to all requested topics
+2017-07-23 15:29:15,504 INFO  [JavaFX Application Thread     ] [NewSubscriptionController     ]  - Subscribing to #
+2017-07-23 15:29:15,504 INFO  [JavaFX Application Thread     ] [MqttSubscriptionViewManager   ]  - Creating subscription for #
+2017-07-23 15:29:15,558 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Subscribed to #
+2017-07-23 15:32:46,164 ERROR [MQTT Rec: davidwalker_152905669] [MqttCallbackHandler           ]  - Connection davidwalker_152905669@127.0.0.1 lost
+Connection lost (32109) - java.io.EOFException
+	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:146)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readByte(DataInputStream.java:267)
+	at org.eclipse.paho.client.mqttv3.internal.wire.MqttInputStream.readMqttWireMessage(MqttInputStream.java:65)
+	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:107)
+	... 1 more
+2017-07-23 15:32:46,170 WARN  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Client not connected
+2017-07-23 15:32:46,170 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Successfully unsubscribed from #
