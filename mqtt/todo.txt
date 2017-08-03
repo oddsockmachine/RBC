@@ -1,3 +1,8 @@
+Generalize libraries/interfaces so code for rpi and esp work the same
+  libs = {'esp': './libs/esp/', 'rpi': './libs/rpi/', 'osx': './libs/osx'}
+  sys.path.append(libs[target])
+  import mqtt
+
 Need to buffer messages internally, send when there is enough power
 
 Components/services:

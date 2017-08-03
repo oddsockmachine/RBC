@@ -15,6 +15,7 @@ Sensors:
   Pyroelectric IR Infrared PIR Motion Sensor Detector Module HC-SR501
   DHT11 Digital Humidity & Temperature
   https://www.osbeehives.com/pages/buzz-box-app
+  http://hackaday.com/2017/07/31/low-cost-rain-gauge-looks-for-floods/
 
 Your Order Number is 1496031-2716709017.
 Your order confirmation will be emailed to oddsockmachine@gmail.com
@@ -36,9 +37,11 @@ http://micropython-iot-hackathon.readthedocs.io/en/latest/mqtt.html
 https://home-assistant.io/blog/2016/08/31/esp8266-and-micropython-part2/
 schedule
 https://schedule.readthedocs.io/en/stable/api.html
+presence
+https://github.com/mqtt/mqtt.github.io/wiki/presence
 
 Water, light, temperature (air, water, soil), humidity, rain, air-pressure/weather, water-butt sensors - ideally on long wires so they can be optimally placed
-ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, water-flow, wind-speed, solar-shower-temp, smoke, weight of bee hives,
+ph, chemicals, fertilizer, oxygen, co2, UV/visible/IR, mains-power, wifi-strength, water-pressure, water-flow, wind-speed, solar-shower-temp, smoke, weight of bee hives, methane etc in compost heap
 timelapse photos (from raspi-zeros)
 solar powered sensors, collect timestamped data as often as possible at low power, send only when surplus power
 Define zones on map of farm

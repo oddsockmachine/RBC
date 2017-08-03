@@ -9,8 +9,43 @@ diskutil list
 diskutil unmountDisk /dev/disk2
 sudo dd bs=1m if=2017-07-05-raspbian-jessie-lite.img of=/dev/rdisk2 conv=sync
 touch /Volumes/boot/ssh
+diskutil eject /dev/disk2
 
 # on the pi
+ssh pi@192.168.0.15
 sudo apt-get install -y htop
 sudo apt-get install -y python-pip python3-dev
 sudo pip install -y --upgrade virtualenv
+
+wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+sudo apt-key add mosquitto-repo.gpg.key
+cd /etc/apt/sources.list.d/
+sudo wget http://repo.mosquitto.org/debian/mosquitto-wheezy.list
+sudo apt-get install mosquitto mosquitto-clients python-mosquitto
+
+
+
+sudo /etc/init.d/mosquitto stop
+
+# https://dzone.com/articles/going-smaller-deploying-elk-stack-to-the-raspberry
+sudo apt-get install oracle-java7-jdk  # sudo apt-get install default-jre
+sudo mkdir /usr/share/elasticsearch
+cd /usr/share/elasticsearch
+wget https://packages.elastic.co/GPG-KEY-elasticsearch
+sudo apt-get install elasticsearch
+sudo nano /etc/elasticsearch/elasticsearch.yml
+sudo service elasticsearch restart
+
+# RPI ZERO
+https://davidmaitland.me/2015/12/raspberry-pi-zero-headless-setup/
+
+sudo nmap -p22 -sV 192.168.0.0/24
+
+
+# Ansible
+# Install Ansible on controller
+sudo pip install ansible
+git clone https://github.com/rhietala/raspberry-ansible.git
+
+low power
+https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=127210

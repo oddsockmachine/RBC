@@ -36,7 +36,8 @@ class Node(object):
         return
 
     def start(self):
-        self.client.connect("127.0.0.1", 1883, 60)
+        self.client.connect("192.168.0.15", 1883, 60)
+        # self.client.connect("127.0.0.1", 1883, 60)
         self.client.loop_start()
         return
 
@@ -73,8 +74,8 @@ def cb_report_in(client, userdata, msg):
     report = {}
     node = userdata
     report['name'] = node.name
-    report['jobs'] = node.jobs.report_jobs()
-    # print(report)
+    report['jobs'] = [dictj.__dict__ for j in node.jobs.all_jobs()]
+    print(report)
     client.publish("topic", dumps(report))
     return report
 
