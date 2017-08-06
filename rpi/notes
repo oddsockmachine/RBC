@@ -1,3 +1,5 @@
+https://www.stewright.me/2017/07/a-portable-battery-powered-raspberry-pi-zero-web-server-with-solar-panel/
+http://www.pibakery.org/
 If you're running a headless Raspberry Pi, there's no need to power the display circuitry, and you can save a little power by running /usr/bin/tvservice -o (-p to re-enable). Add the line to /etc/rc.local to disable HDMI on boot.
 
 router creds - admin:motorola

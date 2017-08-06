@@ -8,6 +8,8 @@ import dht
 from time import sleep
 
 
+sensors = {"ID": sensor_obj(pin, type, etc)}
+
 
 CONFIG = {
     "broker": "192.168.0.12",

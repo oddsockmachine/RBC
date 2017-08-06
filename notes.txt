@@ -7,6 +7,12 @@ http://hackaday.com/2017/03/03/using-backscatter-radio-for-a-soil-sensor-network
 https://www.aliexpress.com/item/New-Orange-Pi-Zero-H2-Quad-Core-Open-source-development-board-beyond-Raspberry-Pi/32760774493.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10082_10081_10110_10178_10136_10137_10111_10060_10138_10112_10113_10062_10114_10156_10056_10055_10054_10059_10099_10078_10079_10103_10073_10102_10096_10070_10148_10123_10147_10052_10053_10124_10142_10107_10050_10143_10051-10152_10151,searchweb201603_1,afswitch_1,ppcSwitch_7&btsid=91f078a7-0588-4456-98ba-dde245706e56&algo_expid=3a71276a-2401-4ca7-ae4b-96f64853e3c3-7&algo_pvid=3a71276a-2401-4ca7-ae4b-96f64853e3c3
 https://www.aliexpress.com/item/1PCS-Wireless-module-CH340-NodeMcu-V3-Lua-WIFI-Internet-of-Things-development-board-based-ESP8266/32665100123.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10082_10081_10110_10178_10136_10137_10111_10060_10138_10112_10113_10062_10114_10156_10056_10055_10054_10059_10099_10078_10079_10103_10073_10102_10096_10070_10148_10123_10147_10052_10053_10124_10142_10107_10050_10143_10051,searchweb201603_1,afswitch_1,ppcSwitch_7&btsid=749dbe68-ddd8-45de-8495-fcfb724e4b0a&algo_expid=7492583b-a89b-4533-a068-3343c7c75300-0&algo_pvid=7492583b-a89b-4533-a068-3343c7c75300
 
+http://www.ebay.com/itm/10pcs-3X7cm-3-7cm-Double-Side-Prototype-pcb-Breadboard-Universal-for-Arduino-1-6-/162573266736?hash=item25da1f2f30:g:QGAAAOSwnK9ZV1i-
+https://www.digikey.com/product-detail/en/microchip-technology/MCP3008-I-P/MCP3008-I-P-ND/319422
+https://www.tindie.com/products/xorbit/lifepo4weredsolar1/
+https://hackaday.io/project/9461-lifepo4weredpi
+https://www.pycom.io/product/lopy/
+
 Sensors:
   https://www.adafruit.com/product/372
   MQ-135 Air Quality Sensor
@@ -60,7 +66,8 @@ Get tips about how to do each task
 scan qr code at each location to tell phone where you are
 schedule work to minimize workload - spread out over time, and focused on location
 
-http://quasar-framework.org/guide/index.html
+http://hackaday.com/2014/09/27/automated-watering-system-uses-neat-diy-water-valve/  servo based valve
+http://quasar-framework.org/guide/index.html  mobile app framework
 https://www.irrigationtutorials.com/drip-irrigation-design-guidelines-basics-of-measurements-parts-and-more/
 screen /dev/tty.SLAB_USBtoUART 115200
 esptool.py -p /dev/tty.SLAB_USBtoUART erase_flash
@@ -78,19 +85,7 @@ BH1750FVI GY-30
 wifi pw: micropythoN
 
 
-import time, math, machine
-led = machine.PWM(machine.Pin(2), freq=1000)
-def pulse(l, t):
-for i in range(20):
-    l.duty(int(math.sin(i / 10 * math.pi) * 500 + 500))
-    time.sleep_ms(t)
 
-[pulse(led, 20) for i in range(50)]
-
-MQ135:
-import machine
-adc = machine.ADC(0)
-adc.read()
 
 Plug in sensors/actuators to node at new location
 Connect solar power and batteries
@@ -100,31 +95,15 @@ Every hour, node wakes up and transmits bundle of all recently saved but not ack
 Hub receives, acknowledges, and sends back config it thinks the node needs (schedules, settings, setup, time)
 Node now knows about the sensors connected to it. In future, measures each one according to sensor type (eg frequency, scaling)
 
-pin = machine.Pin(2, machine.Pin.IN, machine.Pin.PULL_UP)
 
 
-import network
-sta_if = network.WLAN(network.STA_IF)
-ap_if = network.WLAN(network.AP_IF)
-sta_if.active()
-ap_if.active()
-sta_if.connect('Jill Stein for President', 'mzd57n0ehz')
-sta_if.isconnected()
-sta_if.ifconfig()
-
-
-
-import dht
-import machine
-d = dht.DHT11(machine.Pin(2))
-
-def measure(_d, readings):
-h = []
-t = []
-for i in range(readings):
-_d.measure()
-t.append(_d.temperature())
-h.append(_d.humidity())
-temp = int(sum(t)/len(t))
-hum = int(sum(h)/len(h))
-return temp, hum
+ORDER:
+https://www.aliexpress.com/store/product/WEMOS-LOLIN32-V1-0-0-wifi-bluetooth-board-based-ESP-32-4MB-FLASH/1331105_32808551116.html
+https://www.aliexpress.com/item/R1B1-New-Temperature-and-Relative-Humidity-Sensor-DHT11-Module-with-Cable/32243034423.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=0682bc95-6316-46a8-bfc3-84a639b6104d&algo_expid=a0581f2d-b2d7-4d20-8309-1fe9cc97b09f-2&algo_pvid=a0581f2d-b2d7-4d20-8309-1fe9cc97b09f&transAbTest=ae803_2
+https://www.aliexpress.com/item/1set-lot-Snow-Raindrops-Detection-Sensor-Module-Rain-Weather-Module-Humidity-For-Arduino/32711871234.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=3bb74c9b-577a-4f62-b513-05b2314acbea&algo_expid=66cf505b-81a5-49ab-a487-f131dc7af529-4&algo_pvid=66cf505b-81a5-49ab-a487-f131dc7af529&transAbTest=ae803_2
+https://www.aliexpress.com/item/Rain-Water-Level-Sensor-Module-Detection-Liquid-Surface-Depth-Height-For-Arduino/32648510937.html?spm=2114.10010108.1000023.6.3e979d4dkXoF7c
+https://www.aliexpress.com/item/1PCS-photosensitive-sensor-module-light-sensor-free-shipping-drop-shipping/32710118060.html?spm=2114.10010108.1000023.4.4489a806Ixu8fF
+https://www.aliexpress.com/item/Free-shipping-soil-the-hygrometer-detection-module-robot-intelligent-car-soil-moisture-sensor-for-arduino/32281385387.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=b89607ef-bfed-4efc-b54d-dcf948bcf5b5&algo_expid=04c10ad1-ffc1-4d0a-8355-48096796942a-6&algo_pvid=04c10ad1-ffc1-4d0a-8355-48096796942a&transAbTest=ae803_2
+https://www.aliexpress.com/item/Stainless-steel-package-Waterproof-DS18b20-temperature-probe-temperature-sensor-18B20-For-Arduino/32236998050.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=eb9e6f38-9e0d-4e3a-82b1-98ce5a925e01&algo_expid=d2e48100-2720-46f0-b985-938cee48069b-0&algo_pvid=d2e48100-2720-46f0-b985-938cee48069b&transAbTest=ae803_2
+https://www.aliexpress.com/item/1pcs-Digispark-kickstarter-development-board-ATTINY85-module-for-Arduino-usb/32581512379.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=f58bb0ef-b759-4c22-bbcb-29364e59a2b8&algo_expid=3041cbc4-9f4b-4a81-be25-0329a6b623db-1&algo_pvid=3041cbc4-9f4b-4a81-be25-0329a6b623db&transAbTest=ae803_2
+https://www.aliexpress.com/item/Raspberry-Pi-Zero-Camera-Module-Focal-Adjustable-Night-Vision-Webcam-with-IR-Sensor-LED-Light-for/32795660121.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=b6cd39da-d820-49cd-b3bc-2285e0cfd081&algo_expid=5e7f46ff-80c4-4a51-aa24-85bd7eb4449b-6&algo_pvid=5e7f46ff-80c4-4a51-aa24-85bd7eb4449b&transAbTest=ae803_2

@@ -1,0 +1,20 @@
+MQTT_URL: 127.0.0.1
+HW_TYPE: esp8266
+ID: 123
+ssh_user: root
+ssh_key: /Users/davidwalker/.ssh/rundeck_id_rsa
+schedule:
+  enable: true
+  refresh_envs_in_db: 330
+  update_local_chef_repo: 150
+  update_local_cookbooks_repo: 600
+  update_local_env_repo: 120
+  cache_ec2_instances: 300
+  update_cached_property_files: 3600
+
+host: "0.0.0.0"
+port: 4000
+workers: 4
+processes: 5
+debug: true
+prop_cache_dir: ./properties_cache

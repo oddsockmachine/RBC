@@ -10,7 +10,7 @@ screen -r 13257.ttys004
 # Set password
 import webrepl_setup
 # Reset board after to take effect
-
+>>>> python1
 
 open ~/projects/RBC/esp8266/webrepl/webrepl.html
 
@@ -42,3 +42,18 @@ check time relative to RTC. When transmitting, ensure relative times are convert
 
 urequest
 https://github.com/micropython/micropython-lib/blob/master/urequests/urequests.py
+
+
+MQ135:
+import machine
+adc = machine.ADC(0)
+adc.read()
+
+
+import time, math, machine
+led = machine.PWM(machine.Pin(2), freq=1000)
+def pulse(l, t):
+  for i in range(20):
+      l.duty(int(math.sin(i / 10 * math.pi) * 500 + 500))
+      time.sleep_ms(t)
+[pulse(led, 20) for i in range(50)]

@@ -1,21 +1,24 @@
 import paho.mqtt.client as mqtt
 from jobs import JobList, Job
+from sensors import *
 from functions import *
 import schedule
-from functools import partial
-from json import loads
+import time
+# from functools import partial
+from json import loads, dumps
 
 class Node(object):
     """docstring for Node."""
     def __init__(self, name):
         super(Node, self).__init__()
         self.name = name
-        self.client = mqtt.Client(client_id="name")
+        self.client = mqtt.Client(client_id=name)
         self.client.user_data_set(self)
         self.client.on_connect = self.on_connect
         self.jobs = JobList(self.client)
         self.init_pin_mappings()
         self.load_in_jobs()
+        self.sensors = SensorSet()
         # self.load_subscriptions()
         # for j in self.jobs.all_jobs():
         #     schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
@@ -36,12 +39,20 @@ class Node(object):
         return
 
     def start(self):
-        self.client.connect("192.168.0.15", 1883, 60)
-        # self.client.connect("127.0.0.1", 1883, 60)
+        def presence_msg(connected=True):
+            return dumps({'presence': 'Connected' if connected else 'Disconnected', 'node': self.name})
+        # LassWill must be set before connect()
+        presence_channel = 'presence/{}'.format(self.name)
+        self.client.will_set(presence_channel, presence_msg(False), 0, False)
+
+        # self.client.connect("192.168.0.15", 1883, 60)
+        self.client.connect("127.0.0.1", 1883, 60)
         self.client.loop_start()
+        self.client.publish(presence_channel, presence_msg(True))
         return
 
     def disconnect(self):
+        print("Safely disconnecting")
         self.client.disconnect()
 
     def get_all_jobs(self):
@@ -116,3 +127,17 @@ def cb_add_job(client, userdata, msg):
     new_job = Job(job_name, int(payload.get("period")), new_func, payload)
     _self = userdata
     _self.jobs.add_job(new_job)
+
+
+if __name__ == '__main__':
+    print("Please provide config file")
+    myNode = Node("bar")
+    myNode.start()
+    while True:
+        try:
+            schedule.run_pending()
+            time.sleep(1)
+        except KeyboardInterrupt:
+            myNode.disconnect()
+            break
+    exit(0)
