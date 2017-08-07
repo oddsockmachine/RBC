@@ -1,6 +1,12 @@
 Generalize libraries/interfaces so code for rpi and esp work the same
 Presence https://github.com/mqtt/mqtt.github.io/wiki/presence
 Need to buffer messages internally, send when there is enough power
+print/log msgs could be published to mqtt
+
+When adding new jobs/sensors:
+  Add sensor which is linked to pin, and includes read function.
+  Add job which is on schedule, finds sensor by uid, calls read function
+
 
 Components/services:
   ELK/logging backend

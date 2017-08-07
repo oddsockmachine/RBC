@@ -13,8 +13,10 @@ def report_temp(client, args):
     temp = randint(0,35)
     node = client._userdata
     response = default_data(node, args)
-    response.update({'type': 'temp', 'value': temp})
-    client.publish("topic", dumps(response))
+    job_type = 'temp'
+    response.update({'type': job_type, 'units': 'C', 'value': temp})
+    channel = "topic/{}/{}/{}".format(node.name, job_type, args.get('job_uid'))
+    client.publish(channel, dumps(response))
     return response
 
 def report_humidity(client, args):
@@ -22,8 +24,10 @@ def report_humidity(client, args):
     hmdy = randint(0,35)
     node = client._userdata
     response = default_data(node, args)
-    response.update({'type': 'hmdy', 'value': hmdy})
-    client.publish("topic", dumps(response))
+    job_type = 'hmdy'
+    response.update({'type': job_type, 'units': '%', 'value': hmdy})
+    channel = "topic/{}/{}/{}".format(node.name, job_type, args.get('job_uid'))
+    client.publish(channel, dumps(response))
     return response
 
 

@@ -19,6 +19,7 @@ class Node(object):
         self.init_pin_mappings()
         self.load_in_jobs()
         self.sensors = SensorSet()
+        self.error_log = []
         # self.load_subscriptions()
         # for j in self.jobs.all_jobs():
         #     schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
@@ -125,6 +126,7 @@ def cb_add_job(client, userdata, msg):
     # Must be hashable such that we can replace a job based on eg name/type/pin
     print("Adding job {} to {}".format(job_name, userdata.name))
     new_job = Job(job_name, int(payload.get("period")), new_func, payload)
+    
     _self = userdata
     _self.jobs.add_job(new_job)
 
