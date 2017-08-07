@@ -1,34 +1,31 @@
 
 class Sensor(object):
     """Representation of a particular type of sensor on a pin/port."""
-    def __init__(self, uid, pin, function, name):
+    def __init__(self, uid, pin, name):
         super(Sensor, self).__init__()
         self.uid = uid
         self.pin = pin
         self.name = name
-        self.function = function
     def read(self):
         raise Exception("Read function not implemented")
         return 0
 
 class DHT_Sensor(Sensor):
     """docstring for DHT_Sensor."""
-    def __init__(self, uid, pin, function, name):
+    def __init__(self, uid, pin, name):
         super(Sensor, self).__init__()
         self.dht = DHT(pin)
     def read(self):
         result = self.dht.read()
-        result = self.function()
         return result
 
 class Mock_Sensor(Sensor):
     """docstring for Mock_Sensor."""
-    def __init__(self, uid, pin, function, name):
+    def __init__(self, uid, pin, name):
         super(Sensor, self).__init__()
         self.uid = uid
         self.pin = pin
         self.name = name
-        self.function = function
 
         class Randomizer(object):
             def __init__(self, foo):
@@ -39,7 +36,6 @@ class Mock_Sensor(Sensor):
 
     def read(self):
         result = self.randomizer.get()
-        # result = self.function()
         return result
 
 
@@ -95,26 +91,27 @@ class SensorSet(object):
     def delete_sensor_by_pin(self, sensor):
         return
 
-from random import randint
-sensor_set = SensorSet()
-sensorA = Mock_Sensor('123', 1, lambda x:1, 'sensorA')
-sensorB = Mock_Sensor('456', 2, lambda x:1, 'sensorB')
-sensorC = Mock_Sensor('789', 1, lambda x:1, 'sensorC')
-sensorD = Mock_Sensor('456', 3, lambda x:1, 'sensorD')
-
-sensor_set.add_sensor(sensorA)
-sensor_set.add_sensor(sensorB)
-try:
-    sensor_set.add_sensor(sensorC)
-except:
-    pass
-try:
-    sensor_set.add_sensor(sensorD)
-except:
-    pass
-
-sensorX = sensor_set.get_sensor_by_id('456')
-print(sensorX.name)
-sensorY = sensor_set.get_sensor_by_pin(1)
-print(sensorY.name)
-print(sensorX.read())
+# if __name__ == '__main__':
+    # from random import randint
+    # sensor_set = SensorSet()
+    # sensorA = Mock_Sensor('123', 1, 'sensorA')
+    # sensorB = Mock_Sensor('456', 2, 'sensorB')
+    # sensorC = Mock_Sensor('789', 1, 'sensorC')
+    # sensorD = Mock_Sensor('456', 3, 'sensorD')
+    #
+    # sensor_set.add_sensor(sensorA)
+    # sensor_set.add_sensor(sensorB)
+    # try:
+    #     sensor_set.add_sensor(sensorC)
+    # except:
+    #     pass
+    # try:
+    #     sensor_set.add_sensor(sensorD)
+    # except:
+    #     pass
+    #
+    # sensorX = sensor_set.get_sensor_by_id('456')
+    # print(sensorX.name)
+    # sensorY = sensor_set.get_sensor_by_pin(1)
+    # print(sensorY.name)
+    # print(sensorX.read())

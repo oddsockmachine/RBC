@@ -4,7 +4,7 @@ from json import dumps
 
 def default_data(node, args):
     return{'job_ID': args.get('job_uid'),
-           'node_ID': node.name,
+           'node': node.name,
            'pin': args.get('pin'),
            'timestamp': str(datetime.now())}
 

@@ -4,8 +4,9 @@ from sensors import *
 from functions import *
 import schedule
 import time
-# from functools import partial
 from json import loads, dumps
+from logger import log_catch
+
 
 class Node(object):
     """docstring for Node."""
@@ -18,7 +19,7 @@ class Node(object):
         self.jobs = JobList(self.client)
         self.init_pin_mappings()
         self.load_in_jobs()
-        self.sensors = SensorSet()
+        self.sensor_set = SensorSet()
         self.error_log = []
         # self.load_subscriptions()
         # for j in self.jobs.all_jobs():
@@ -62,9 +63,20 @@ class Node(object):
     def load_in_jobs(self):
         """Read in list of starting jobs from file on device. Run when node
         first starts up. Useful in case of power loss"""
-        # self.jobs.add_job(Job("report_temp", 5, report_temp))
-        # self.jobs.add_job(Job("report_humidity", 9, report_humidity))
+        error_reporter = Job("error_reporter", 5, self.report_errors, {'pin':''})
+        self.jobs.add_job(error_reporter)
+
         return
+
+    def log_error(self, msg):
+        self.error_log.append(msg)
+
+    def report_errors(self, a, b):
+        print("Publishing error report")
+        error_channel = 'errors/{}'.format(self.name)
+        error_msgs = ",,,".join(self.error_log)  # convert list of json messages into str
+        self.client.publish(error_channel, error_msgs)  # Publish
+        self.error_log = []  # Clear error log, to avoid repeats
 
     def on_connect(self, client, userdata, flags, rc):
         """Subscribing in on_connect() means that if we lose the connection and
@@ -75,6 +87,7 @@ class Node(object):
         action2cb = {"add": cb_add_job,
                     "del": cb_del_job,
                     "show": cb_show_jobs,
+                    # "get_errors": cb_show_errors,
                     "report": cb_report_in,}
         for action, cb in action2cb.items():
             job_topic = "jobs/{}/{}/#".format(self.name, action)
@@ -103,7 +116,6 @@ def cb_del_job(client, userdata, msg):
     print("Deleting job from "+userdata.name)
     attrs = vars(msg)
     print (', '.join("%s: %#s" % item for item in attrs.items()))
-
     return
 
 def msg_fields_valid(payload):
@@ -126,8 +138,11 @@ def cb_add_job(client, userdata, msg):
     # Must be hashable such that we can replace a job based on eg name/type/pin
     print("Adding job {} to {}".format(job_name, userdata.name))
     new_job = Job(job_name, int(payload.get("period")), new_func, payload)
-    
     _self = userdata
+    with log_catch(_self):
+        new_sensor = Mock_Sensor(uid, pin, job_name)
+        _self.sensor_set.add_sensor(new_sensor)
+
     _self.jobs.add_job(new_job)
 
 
