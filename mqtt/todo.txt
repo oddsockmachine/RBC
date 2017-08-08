@@ -3,6 +3,7 @@ Presence https://github.com/mqtt/mqtt.github.io/wiki/presence
 Need to buffer messages internally, send when there is enough power
 How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi etc
 Send "report logs" msg, return last [x] logs from queue
+config yml
 
 When adding new jobs/sensors:
   Add sensor which is linked to pin, and includes read function.

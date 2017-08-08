@@ -2,6 +2,9 @@ MQTT_URL: 127.0.0.1
 HW_TYPE: esp8266
 ID: 123
 Name: Foo
+err_log_size: 25
+log_size: 25
 schedule:
-  enable: true
-  error_reporting: 300
+  error_reporting:
+    enable: true
+    period: 100

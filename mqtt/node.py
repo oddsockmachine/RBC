@@ -2,11 +2,13 @@ import paho.mqtt.client as mqtt
 from jobs import *
 from sensors import *
 from sensor_set import SensorSet
-from functions import *
 import schedule
 import time
 from json import loads, dumps
 from logger import log_catch
+from collections import deque
+
+from channels import ChannelMgr
 
 
 class Node(object):
@@ -22,10 +24,16 @@ class Node(object):
         self.load_in_jobs()
         self.sensor_set = SensorSet()
         self.error_log = []
+        self.logs = deque([], 5)  # TODO log_size from config
+        self.channel = ChannelMgr(name)
         # self.load_subscriptions()
-        # for j in self.jobs.all_jobs():
-        #     schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
         return
+
+    def log(self, msg):
+        # log will auto-rotate if past max len
+        print(msg)
+        self.logs.append(msg)
+        print(len(self.logs))
 
     def refresh_schedule(self):
         """Empty the node's schedule, rebuild from its internal list of jobs"""
@@ -44,8 +52,8 @@ class Node(object):
     def start(self):
         def presence_msg(connected=True):
             return dumps({'presence': 'Connected' if connected else 'Disconnected', 'node': self.name})
-        # LassWill must be set before connect()
-        presence_channel = 'presence/{}'.format(self.name)
+        # LastWill must be set before connect()
+        presence_channel = self.channel.presence()
         self.client.will_set(presence_channel, presence_msg(False), 0, False)
 
         # self.client.connect("192.168.0.15", 1883, 60)
@@ -75,7 +83,7 @@ class Node(object):
         if len(self.error_log) == 0: # Ignore if no error msgs
             return
         print("Publishing error report")
-        error_channel = 'errors/{}'.format(self.name)
+        error_channel = self.channel.errors()
         error_msgs = ",,,".join(self.error_log)  # convert list of json messages into str
         self.client.publish(error_channel, error_msgs)  # Publish
         self.error_log = []  # Clear error log, to avoid repeats
@@ -84,15 +92,15 @@ class Node(object):
         """Subscribing in on_connect() means that if we lose the connection and
         reconnect then subscriptions will be renewed."""
         print("Node '{name}' connected with result code {rc}".format(name=self.name, rc=rc))
-        print(userdata)
-
         action2cb = {"add": cb_add_job,
                     "del": cb_del_job,
                     "show": cb_show_jobs,
+                    "trigger": cb_trigger_job,
                     # "get_errors": cb_show_errors,
                     "report": cb_report_in,}
         for action, cb in action2cb.items():
             job_topic = "jobs/{}/{}/#".format(self.name, action)
+            job_topic = self.channel.jobs(action)
             client.message_callback_add(job_topic, cb)
             client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
 
@@ -104,6 +112,7 @@ def cb_report_in(client, userdata, msg):
     report['name'] = node.name
     report['jobs'] = [dictj.__dict__ for j in node.jobs.all_jobs()]
     print(report)
+    # TODO self.logs?
     client.publish("topic", dumps(report))
     return report
 
@@ -112,44 +121,48 @@ def cb_show_jobs(client, userdata, msg):
     print("cb_show_jobs")
     payload = loads(msg.payload)
     if payload.get("name"):
-        return
+        return  # TODO
+    return
+
+
+def cb_trigger_job(client, userdata, msg):
+    print("cb_trigger_job")
+    payload = loads(msg.payload)
+    if payload.get("name"):
+        return  # TODO
     return
 
 def cb_del_job(client, userdata, msg):
-    print("Deleting job from "+userdata.name)
+    self.log("Deleting job from "+userdata.name)
     attrs = vars(msg)
-    print (', '.join("%s: %#s" % item for item in attrs.items()))
+    print(', '.join("%s: %#s" % item for item in attrs.items()))
     return
 
-def msg_fields_valid(payload):
+def validate_msg_fields_valid(payload):
     fields = "name period sensor_type pin".split(' ')
     missing_fields = [x for x in fields if x not in list(payload.keys())]
     if len(missing_fields)>0:
-        print ("The following fields are missing: " + str(missing_fields))
-        return False
+        print("!!!!!!!!!!!!")
+        raise Exception("The following fields are missing: " + str(missing_fields))
     return True
 
 def cb_add_job(client, userdata, msg):
     _self = userdata
-    print("New job incoming...")
+    _self.log("New job incoming...")
     payload = loads(msg.payload)
     with log_catch(_self):
-        if not msg_fields_valid(payload):
-            raise Exception("Invalid message field")  # TODO specify what's wrong
-    # new_func = get_func(payload.get("function"))
-    sensor_type = payload.get("sensor_type")
-    sensor_class = get_sensor_class(sensor_type)
-    job_name = payload.get("name")
-    pin = payload.get("pin", "no_pin")
-    period = int(payload.get("period"))
-    uid = "~".join([sensor_type, job_name, pin])  # Tag so we can identify this function later.
-    # Must be hashable such that we can replace a job based on eg name/type/pin
-    print("Adding job {} type {}".format(job_name, sensor_class))
-    # new_job = Job(job_name, int(payload.get("period")), new_func, payload)
-    with log_catch(_self):
+        # validate_msg_fields_valid(payload)
+        sensor_type = payload["sensor_type"]
+        sensor_class = get_sensor_class(sensor_type)
+        job_name = payload["name"]
+        pin = payload["pin"]
+        period = int(payload["period"])
+        uid = "~".join([sensor_type, job_name, pin])  # Tag so we can identify this function later.
+        # Must be hashable such that we can replace a job based on eg name/type/pin
+        _self.log("Adding job {} type {}".format(job_name, sensor_class))
+    # with log_catch(_self):
         new_sensor = sensor_class(uid, pin, job_name)
         _self.sensor_set.add_sensor(new_sensor)
-        # If pin mapping fails, below is ignored
         new_job = SensorJob(period, _self, new_sensor)
         _self.jobs.add_job(new_job)
 

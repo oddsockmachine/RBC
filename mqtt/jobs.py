@@ -54,7 +54,8 @@ class SensorJob(Job):
         with log_catch(self.node):
             result = self.sensor.read()
             msg = self.default_msg()
-            channel = "topic/{}/{}/{}".format(self.node.name, self.sensor.type, self.uid)
+            # channel = "sensors/{}/{}/{}".format(self.node.name, self.sensor.type, self.name)  # self.uid
+            channel = self.node.channel.sensors(self.node.name, self.sensor.type, self.name)
             msg.update({"job_id": self.uid, "job_name":self.name, "pin": self.sensor.pin, "type": self.sensor.type, "value": str(result)})
             self.client.publish(channel, dumps(msg))
             self.last_run = datetime.now()
@@ -65,7 +66,7 @@ class InternalJob(Job):
         # super(InternalJob, self).__init__()
         self.period = int(period)
         self.name = name
-        self.uid = randint(0,1000)  # TODO use uid()
+        self.uid = "error_reporter"
         self.last_run = None  # TODO keep track of last run time on file
         self.client = node.client
         self.node = node
