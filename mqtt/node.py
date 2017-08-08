@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from jobs import JobList, Job
+from jobs import *
 from sensors import *
 from functions import *
 import schedule
@@ -63,16 +63,17 @@ class Node(object):
     def load_in_jobs(self):
         """Read in list of starting jobs from file on device. Run when node
         first starts up. Useful in case of power loss"""
-        error_reporter = Job("error_reporter", 5, self.report_errors, {'pin':''})
-        self.jobs.add_job(error_reporter)
-
+        # error_reporter = Job("error_reporter", 5, self.report_errors, {'pin':''})  TODO TODO
+        # self.jobs.add_job(error_reporter)
         return
 
     def log_error(self, msg):
         self.error_log.append(msg)
 
-    def report_errors(self, a, b):
-        print("Publishing error report")
+    def report_errors(self):
+        # print("Publishing error report")
+        if len(self.error_log) == 0: # Ignore if no error msgs
+            return
         error_channel = 'errors/{}'.format(self.name)
         error_msgs = ",,,".join(self.error_log)  # convert list of json messages into str
         self.client.publish(error_channel, error_msgs)  # Publish
@@ -93,6 +94,7 @@ class Node(object):
             job_topic = "jobs/{}/{}/#".format(self.name, action)
             client.message_callback_add(job_topic, cb)
             client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
+
 
 def cb_report_in(client, userdata, msg):
     """Return internal stats to base station"""
@@ -134,16 +136,18 @@ def cb_add_job(client, userdata, msg):
     new_func = get_func(payload.get("function"))
     job_name = payload.get("name")
     pin = payload.get("pin", "no_pin")
+    period = int(payload.get("period"))
     uid = job_name + pin  # Tag so we can identify this function later.
     # Must be hashable such that we can replace a job based on eg name/type/pin
     print("Adding job {} to {}".format(job_name, userdata.name))
-    new_job = Job(job_name, int(payload.get("period")), new_func, payload)
+    # new_job = Job(job_name, int(payload.get("period")), new_func, payload)
     _self = userdata
     with log_catch(_self):
         new_sensor = Mock_Sensor(uid, pin, job_name)
         _self.sensor_set.add_sensor(new_sensor)
-
-    _self.jobs.add_job(new_job)
+        # If pin mapping fails, below is ignored
+        new_job = SensorJob(period, _self, new_sensor)
+        _self.jobs.add_job(new_job)
 
 
 if __name__ == '__main__':

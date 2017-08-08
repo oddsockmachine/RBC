@@ -69,6 +69,7 @@ schedule work to minimize workload - spread out over time, and focused on locati
 http://hackaday.com/2014/09/27/automated-watering-system-uses-neat-diy-water-valve/  servo based valve
 http://quasar-framework.org/guide/index.html  mobile app framework
 https://www.irrigationtutorials.com/drip-irrigation-design-guidelines-basics-of-measurements-parts-and-more/
+example, iot sailboat https://github.com/gwilken/ariadne-io
 screen /dev/tty.SLAB_USBtoUART 115200
 esptool.py -p /dev/tty.SLAB_USBtoUART erase_flash
 esptool.py -p /dev/tty.SLAB_USBtoUART --baud 460800 write_flash --flash_size=detect 0 esp8266-20170108-v1.8.7.bin

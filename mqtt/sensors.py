@@ -1,3 +1,11 @@
+from random import randint
+
+def default_data(node, sensor):
+    return{'job_ID': args.get('job_uid'),
+           'node': node.name,
+           'pin': args.get('pin'),
+           'timestamp': str(datetime.now())}
+
 
 class Sensor(object):
     """Representation of a particular type of sensor on a pin/port."""
@@ -6,6 +14,8 @@ class Sensor(object):
         self.uid = uid
         self.pin = pin
         self.name = name
+        self.type = "Default"
+        self.units = "None"
     def read(self):
         raise Exception("Read function not implemented")
         return 0
@@ -26,18 +36,30 @@ class Mock_Sensor(Sensor):
         self.uid = uid
         self.pin = pin
         self.name = name
+        self.type = "Fake"
+        self.units = "Nothings"
 
         class Randomizer(object):
             def __init__(self, foo):
                 self.foo = foo
             def get(self):
-                return randint(0,self.foo)
+                return randint(0,100)
         self.randomizer = Randomizer(self.pin)
 
     def read(self):
         result = self.randomizer.get()
         return result
 
+    def publish(self, result):
+        print("Reporting fake temp on pin "+self.pin)
+        # temp = randint(0,35)
+        node = client._userdata
+        response = default_data(node, args)
+        job_type = 'temp'
+        response.update({'type': job_type, 'units': 'C', 'value': result})
+        channel = "topic/{}/{}/{}".format(node.name, job_type, args.get('job_uid'))
+        client.publish(channel, dumps(response))
+        return response
 
 
 class SensorSet(object):

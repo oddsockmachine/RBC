@@ -1,5 +1,6 @@
 from functions import *
 import schedule
+from json import dumps
 
 def job_to_channel(location, _id):
     return "sensors/{location}/{_id}/temperature".format(location, _id)
@@ -14,7 +15,8 @@ class JobList(object):
         self.jobs = []
     def add_job(self, job):
         self.jobs.append(job)
-        schedule.every(job.period).seconds.do(job.func, self.client, job.args).tag(job.name, job.uid, 'temp', 'sensor')
+        # schedule.every(job.period).seconds.do(job.func, self.client, job.args).tag(job.name, job.uid, 'temp', 'sensor')
+        schedule.every(job.period).seconds.do(job.execute).tag(job.name, job.uid, 'temp', 'sensor')
         # schedule.every(job.period).seconds.do(job.func, "123", self.client).tag(job.name, 'temp', 'sensor')
     def get_job(self, query):
         return
@@ -27,15 +29,32 @@ class JobList(object):
 
 class Job(object):
     """docstring for Job."""
-    def __init__(self, name, period, func, args):
+    def __init__(self, period, node, name, job):
         super(Job, self).__init__()
         self.name = name
         self.period = period
-        self.func = func
-        self.pin = args.get('pin')
-        self.uid = self.name + '_' + self.pin
-        # self.client = client
-        self.args = args  # args for eg pin numbers, multipliers etc
-        self.args['job_uid'] = self.uid
+    def default_msg(self):
+        return {"node": self.node.name, "timestamp": str(datetime.now())}
     def execute(self):
-        return self.func(args)
+        raise Exception("Execute function not implemented for {}".format(str(self)))
+
+class SensorJob(Job):
+    """docstring for Job."""
+    def __init__(self, period, node, sensor):
+        # super(SensorJob, self).__init__()
+        self.name = sensor.name
+        self.period = int(period)
+        print(self.period)
+        self.sensor = sensor
+        self.uid = sensor.uid
+        self.last_run = None  # TODO keep track of last run time on file
+        self.client = node.client
+        self.node = node
+        # self.client = client
+        # self.args = args  # args for eg pin numbers, multipliers etc
+    def execute(self):
+        result = self.sensor.read()
+        msg = self.default_msg()
+        channel = "topic/{}/{}/{}".format(self.node.name, self.sensor.type, self.uid)
+        msg.update({"job_id": self.uid, "job_name":self.name, "pin": self.sensor.pin, "type": self.sensor.type, "units": self.sensor.units, "value": str(result)})
+        self.client.publish(channel, dumps(msg))
