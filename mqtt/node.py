@@ -63,15 +63,15 @@ class Node(object):
     def load_in_jobs(self):
         """Read in list of starting jobs from file on device. Run when node
         first starts up. Useful in case of power loss"""
-        # error_reporter = Job("error_reporter", 5, self.report_errors, {'pin':''})  TODO TODO
-        # self.jobs.add_job(error_reporter)
+        error_reporter = InternalJob(5, self, "error_reporter", self.report_errors)
+        self.jobs.add_job(error_reporter)
         return
 
     def log_error(self, msg):
         self.error_log.append(msg)
 
     def report_errors(self):
-        # print("Publishing error report")
+        print("Publishing error report")
         if len(self.error_log) == 0: # Ignore if no error msgs
             return
         error_channel = 'errors/{}'.format(self.name)

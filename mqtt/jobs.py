@@ -29,7 +29,7 @@ class JobList(object):
 
 class Job(object):
     """docstring for Job."""
-    def __init__(self, period, node, name, job):
+    def __init__(self, period, node, name, func):
         super(Job, self).__init__()
         self.name = name
         self.period = period
@@ -44,17 +44,29 @@ class SensorJob(Job):
         # super(SensorJob, self).__init__()
         self.name = sensor.name
         self.period = int(period)
-        print(self.period)
         self.sensor = sensor
         self.uid = sensor.uid
         self.last_run = None  # TODO keep track of last run time on file
         self.client = node.client
         self.node = node
-        # self.client = client
-        # self.args = args  # args for eg pin numbers, multipliers etc
     def execute(self):
         result = self.sensor.read()
         msg = self.default_msg()
         channel = "topic/{}/{}/{}".format(self.node.name, self.sensor.type, self.uid)
         msg.update({"job_id": self.uid, "job_name":self.name, "pin": self.sensor.pin, "type": self.sensor.type, "units": self.sensor.units, "value": str(result)})
         self.client.publish(channel, dumps(msg))
+        self.last_run = datetime.now()
+
+class InternalJob(Job):
+    """docstring for Job."""
+    def __init__(self, period, node, name, func):
+        # super(InternalJob, self).__init__()
+        self.period = int(period)
+        self.name = name
+        self.uid = randint(0,1000)  # TODO use uid()
+        self.last_run = None  # TODO keep track of last run time on file
+        self.client = node.client
+        self.node = node
+        self.func = func
+    def execute(self):
+        return self.func()
