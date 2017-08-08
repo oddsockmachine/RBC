@@ -1,1 +1,1 @@
-mosquitto_pub -h 127.0.0.1 -t jobs/bar/add -m '{"name": "slow_hmdty", "function": "report_humidity", "period": "10", "pin": "2"}'
+mosquitto_pub -h 127.0.0.1 -t jobs/bar/add -m '{"name": "slow_mock", "sensor_type": "Mock", "period": "6", "pin": "2"}'

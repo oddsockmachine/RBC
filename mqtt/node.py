@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 from jobs import *
 from sensors import *
+from sensor_set import SensorSet
 from functions import *
 import schedule
 import time
@@ -71,9 +72,9 @@ class Node(object):
         self.error_log.append(msg)
 
     def report_errors(self):
-        print("Publishing error report")
         if len(self.error_log) == 0: # Ignore if no error msgs
             return
+        print("Publishing error report")
         error_channel = 'errors/{}'.format(self.name)
         error_msgs = ",,,".join(self.error_log)  # convert list of json messages into str
         self.client.publish(error_channel, error_msgs)  # Publish
@@ -121,7 +122,7 @@ def cb_del_job(client, userdata, msg):
     return
 
 def msg_fields_valid(payload):
-    fields = "name period function pin".split(' ')
+    fields = "name period sensor_type pin".split(' ')
     missing_fields = [x for x in fields if x not in list(payload.keys())]
     if len(missing_fields)>0:
         print ("The following fields are missing: " + str(missing_fields))
@@ -129,21 +130,24 @@ def msg_fields_valid(payload):
     return True
 
 def cb_add_job(client, userdata, msg):
+    _self = userdata
     print("New job incoming...")
     payload = loads(msg.payload)
-    if not msg_fields_valid(payload):
-        return
-    new_func = get_func(payload.get("function"))
+    with log_catch(_self):
+        if not msg_fields_valid(payload):
+            raise Exception("Invalid message field")  # TODO specify what's wrong
+    # new_func = get_func(payload.get("function"))
+    sensor_type = payload.get("sensor_type")
+    sensor_class = get_sensor_class(sensor_type)
     job_name = payload.get("name")
     pin = payload.get("pin", "no_pin")
     period = int(payload.get("period"))
-    uid = job_name + pin  # Tag so we can identify this function later.
+    uid = "~".join([sensor_type, job_name, pin])  # Tag so we can identify this function later.
     # Must be hashable such that we can replace a job based on eg name/type/pin
-    print("Adding job {} to {}".format(job_name, userdata.name))
+    print("Adding job {} type {}".format(job_name, sensor_class))
     # new_job = Job(job_name, int(payload.get("period")), new_func, payload)
-    _self = userdata
     with log_catch(_self):
-        new_sensor = Mock_Sensor(uid, pin, job_name)
+        new_sensor = sensor_class(uid, pin, job_name)
         _self.sensor_set.add_sensor(new_sensor)
         # If pin mapping fails, below is ignored
         new_job = SensorJob(period, _self, new_sensor)

@@ -1,10 +1,11 @@
 from random import randint
 
-def default_data(node, sensor):
-    return{'job_ID': args.get('job_uid'),
-           'node': node.name,
-           'pin': args.get('pin'),
-           'timestamp': str(datetime.now())}
+def get_sensor_class(sensor_type):
+    sensors = {
+        "DHT_11": DHT_Sensor,
+        "Mock": Mock_Sensor,
+    }
+    return sensors.get(sensor_type)
 
 
 class Sensor(object):
@@ -24,10 +25,23 @@ class DHT_Sensor(Sensor):
     """docstring for DHT_Sensor."""
     def __init__(self, uid, pin, name):
         super(Sensor, self).__init__()
-        self.dht = DHT(pin)
+        self.uid = uid
+        self.pin = pin
+        self.name = name
+        self.type = "DHT_11"
+        self.units = "C/%"
+        class DHT(object):
+            def __init__(self, foo):
+                self.foo = foo
+            def get(self):
+                return randint(0,100)
+        self.randomizer = DHT(self.pin)
+
     def read(self):
-        result = self.dht.read()
-        return result
+        result_t = self.randomizer.get()
+        result_h = self.randomizer.get()
+        return {'temp': {'value': result_t, 'units': 'c'},
+                'hmdy': {'value': result_h, 'units': '%'}}
 
 class Mock_Sensor(Sensor):
     """docstring for Mock_Sensor."""
@@ -38,7 +52,6 @@ class Mock_Sensor(Sensor):
         self.name = name
         self.type = "Fake"
         self.units = "Nothings"
-
         class Randomizer(object):
             def __init__(self, foo):
                 self.foo = foo
@@ -48,92 +61,4 @@ class Mock_Sensor(Sensor):
 
     def read(self):
         result = self.randomizer.get()
-        return result
-
-    def publish(self, result):
-        print("Reporting fake temp on pin "+self.pin)
-        # temp = randint(0,35)
-        node = client._userdata
-        response = default_data(node, args)
-        job_type = 'temp'
-        response.update({'type': job_type, 'units': 'C', 'value': result})
-        channel = "topic/{}/{}/{}".format(node.name, job_type, args.get('job_uid'))
-        client.publish(channel, dumps(response))
-        return response
-
-
-class SensorSet(object):
-    """Set of sensors on all pins/ports of a Node."""
-    def __init__(self):
-        super(SensorSet, self).__init__()
-        self.sensors = []
-        self.valid_pins = [0,1,2,3,4,5]
-        self.used_pins = []
-
-    def get_sensor_by_pin(self, pin):
-        s = [s for s in self.sensors if s.pin == pin]
-        if len(s) == 1:
-            return s[0]
-        if len(s) == 0:
-            raise Exception("Sensor not found")
-            return None
-        else:
-            raise Exception("Conflicting sensor pins found")
-            return None
-        return
-
-    def get_sensor_by_id(self, ID):
-        s = [s for s in self.sensors if s.uid == ID]
-        if len(s) == 1:
-            return s[0]
-        if len(s) == 0:
-            raise Exception("Sensor not found")
-            return None
-        else:
-            raise Exception("Conflicting sensor UIDs found")
-            return None
-        return
-
-    def add_sensor(self, sensor):
-        if sensor.pin in self.used_pins:
-            conflict = self.get_sensor_by_pin(sensor.pin)
-            raise Exception("Error: Pin {} already in use by {}".format(conflict.pin, conflict.name))
-            return None
-        if sensor.uid in [s.uid for s in self.sensors]:
-            conflict = self.get_sensor_by_id(sensor.uid)
-            raise Exception("Error: UID {} already in use by {}".format(conflict.uid, conflict.name))
-            return None
-        self.used_pins.append(sensor.pin)
-        self.sensors.append(sensor)
-        return
-
-    def delete_sensor_by_id(self, sensor):
-        return
-
-    def delete_sensor_by_pin(self, sensor):
-        return
-
-# if __name__ == '__main__':
-    # from random import randint
-    # sensor_set = SensorSet()
-    # sensorA = Mock_Sensor('123', 1, 'sensorA')
-    # sensorB = Mock_Sensor('456', 2, 'sensorB')
-    # sensorC = Mock_Sensor('789', 1, 'sensorC')
-    # sensorD = Mock_Sensor('456', 3, 'sensorD')
-    #
-    # sensor_set.add_sensor(sensorA)
-    # sensor_set.add_sensor(sensorB)
-    # try:
-    #     sensor_set.add_sensor(sensorC)
-    # except:
-    #     pass
-    # try:
-    #     sensor_set.add_sensor(sensorD)
-    # except:
-    #     pass
-    #
-    # sensorX = sensor_set.get_sensor_by_id('456')
-    # print(sensorX.name)
-    # sensorY = sensor_set.get_sensor_by_pin(1)
-    # print(sensorY.name)
-    # print(sensorX.read())
+        return {'mock': {'value': result, 'units': self.units}}

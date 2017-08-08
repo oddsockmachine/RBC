@@ -1,6 +1,7 @@
 from functions import *
 import schedule
 from json import dumps
+from logger import log_catch
 
 def job_to_channel(location, _id):
     return "sensors/{location}/{_id}/temperature".format(location, _id)
@@ -16,7 +17,7 @@ class JobList(object):
     def add_job(self, job):
         self.jobs.append(job)
         # schedule.every(job.period).seconds.do(job.func, self.client, job.args).tag(job.name, job.uid, 'temp', 'sensor')
-        schedule.every(job.period).seconds.do(job.execute).tag(job.name, job.uid, 'temp', 'sensor')
+        schedule.every(job.period).seconds.do(job.execute).tag(job.name, job.uid)
         # schedule.every(job.period).seconds.do(job.func, "123", self.client).tag(job.name, 'temp', 'sensor')
     def get_job(self, query):
         return
@@ -50,12 +51,13 @@ class SensorJob(Job):
         self.client = node.client
         self.node = node
     def execute(self):
-        result = self.sensor.read()
-        msg = self.default_msg()
-        channel = "topic/{}/{}/{}".format(self.node.name, self.sensor.type, self.uid)
-        msg.update({"job_id": self.uid, "job_name":self.name, "pin": self.sensor.pin, "type": self.sensor.type, "units": self.sensor.units, "value": str(result)})
-        self.client.publish(channel, dumps(msg))
-        self.last_run = datetime.now()
+        with log_catch(self.node):
+            result = self.sensor.read()
+            msg = self.default_msg()
+            channel = "topic/{}/{}/{}".format(self.node.name, self.sensor.type, self.uid)
+            msg.update({"job_id": self.uid, "job_name":self.name, "pin": self.sensor.pin, "type": self.sensor.type, "value": str(result)})
+            self.client.publish(channel, dumps(msg))
+            self.last_run = datetime.now()
 
 class InternalJob(Job):
     """docstring for Job."""
@@ -69,4 +71,6 @@ class InternalJob(Job):
         self.node = node
         self.func = func
     def execute(self):
-        return self.func()
+        with log_catch(self.node):
+            self.last_run = datetime.now()
+            return self.func()

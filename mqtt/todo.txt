@@ -1,7 +1,8 @@
 Generalize libraries/interfaces so code for rpi and esp work the same
 Presence https://github.com/mqtt/mqtt.github.io/wiki/presence
 Need to buffer messages internally, send when there is enough power
-print/log msgs could be published to mqtt
+How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi etc
+Send "report logs" msg, return last [x] logs from queue
 
 When adding new jobs/sensors:
   Add sensor which is linked to pin, and includes read function.

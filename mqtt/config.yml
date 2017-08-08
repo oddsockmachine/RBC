@@ -4,9 +4,4 @@ ID: 123
 Name: Foo
 schedule:
   enable: true
-  refresh_envs_in_db: 330
-  update_local_chef_repo: 150
-  update_local_cookbooks_repo: 600
-  update_local_env_repo: 120
-  cache_ec2_instances: 300
-  update_cached_property_files: 3600
+  error_reporting: 300
