@@ -51,3 +51,24 @@ git clone https://github.com/rhietala/raspberry-ansible.git
 
 low power
 https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=127210
+
+
+
+
+ELK
+sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.1.deb
+sudo dpkg -i elasticsearch-5.5.1.deb
+sudo rm elasticsearch-5.5.1.deb
+sudo update-rc.d elasticsearch defaults
+
+sudo apt-get install oracle-java8-jdk
+
+sudo wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.1.deb
+sudo dpkg -i logstash-5.5.1.deb
+sudo rm logstash-5.5.1.deb
+
+
+sudo pip install docker-compose
+git clone https://github.com/ind3x/rpi-docker-elk.git docker-elk
+cd docker-elk
+sudo docker-compose up

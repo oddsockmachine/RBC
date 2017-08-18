@@ -272,3 +272,51 @@ Timed out while waiting to write messages to the server (32002)
 	at java.util.TimerThread.run(Timer.java:505)
 2017-08-06 17:06:01,263 WARN  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Client not connected
 2017-08-06 17:06:01,263 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Successfully unsubscribed from #
+2017-08-08 20:04:07,337 INFO  [mqtt-spy [ConnectionRunnable for davidwalker_163739288@127.0.0.1]] [MqttAsyncConnectionRunnable   ]  - Connecting client ID [davidwalker_163739288] to server [[tcp://127.0.0.1]]; options = 
+============== Connection options ==============
+CleanSession                :  true
+SocketFactory               :  null
+MqttVersion                 :  0
+KeepAliveInterval           :  60
+ConTimeout                  :  30
+UserName                    :  null
+SSLProperties               :  null
+WillDestination             :  null
+==========================================
+
+2017-08-08 20:04:07,342 INFO  [MQTT Call: davidwalker_163739288] [MqttConnectionResultHandler   ]  - davidwalker_163739288@127.0.0.1 connected
+2017-08-08 20:04:07,342 INFO  [JavaFX Application Thread     ] [MqttEventHandler              ]  - About to resubscribe to all requested topics
+2017-08-08 20:04:17,687 INFO  [JavaFX Application Thread     ] [NewSubscriptionController     ]  - Subscribing to #
+2017-08-08 20:05:02,846 INFO  [JavaFX Application Thread     ] [MqttConnectionWithReconnection]  - Disconnecting davidwalker_163739288 from [tcp://127.0.0.1]
+2017-08-08 20:05:02,849 INFO  [MQTT Disc: davidwalker_163739288] [MqttDisconnectionResultHandler]  - davidwalker_163739288@127.0.0.1 disconnected
+2017-08-08 20:05:09,814 INFO  [JavaFX Application Thread     ] [EditMqttConnectionController  ]  - Opening connection davidwalker_163739288@127.0.0.1
+2017-08-08 20:05:09,843 INFO  [JavaFX Application Thread     ] [MqttConfigurationUtils        ]  - Auto-complete for server URI (127.0.0.1 -> tcp://127.0.0.1)
+2017-08-08 20:05:09,909 ERROR [JavaFX Application Thread     ] [FileUtils                     ]  - No files in /Users/davidwalker/mqtt-spy/
+2017-08-08 20:05:10,415 INFO  [mqtt-spy [ConnectionRunnable for davidwalker_163739288@127.0.0.1]] [MqttAsyncConnectionRunnable   ]  - Connecting client ID [davidwalker_163739288] to server [[tcp://127.0.0.1]]; options = 
+============== Connection options ==============
+CleanSession                :  true
+SocketFactory               :  null
+MqttVersion                 :  0
+KeepAliveInterval           :  60
+ConTimeout                  :  30
+UserName                    :  null
+SSLProperties               :  null
+WillDestination             :  null
+==========================================
+
+2017-08-08 20:05:10,418 INFO  [MQTT Call: davidwalker_163739288] [MqttConnectionResultHandler   ]  - davidwalker_163739288@127.0.0.1 connected
+2017-08-08 20:05:10,418 INFO  [JavaFX Application Thread     ] [MqttEventHandler              ]  - About to resubscribe to all requested topics
+2017-08-08 20:05:22,340 INFO  [JavaFX Application Thread     ] [NewSubscriptionController     ]  - Subscribing to #
+2017-08-08 20:05:22,341 INFO  [JavaFX Application Thread     ] [MqttSubscriptionViewManager   ]  - Creating subscription for #
+2017-08-08 20:05:22,384 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Subscribed to #
+2017-08-08 20:18:14,161 ERROR [MQTT Rec: davidwalker_163739288] [MqttCallbackHandler           ]  - Connection davidwalker_163739288@127.0.0.1 lost
+Connection lost (32109) - java.io.EOFException
+	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:146)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readByte(DataInputStream.java:267)
+	at org.eclipse.paho.client.mqttv3.internal.wire.MqttInputStream.readMqttWireMessage(MqttInputStream.java:65)
+	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:107)
+	... 1 more
+2017-08-08 20:18:14,162 WARN  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Client not connected
+2017-08-08 20:18:14,162 INFO  [JavaFX Application Thread     ] [BaseMqttConnection            ]  - Successfully unsubscribed from #

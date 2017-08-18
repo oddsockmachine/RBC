@@ -1,13 +1,17 @@
-Generalize libraries/interfaces so code for rpi and esp work the same
-Presence https://github.com/mqtt/mqtt.github.io/wiki/presence
-Need to buffer messages internally, send when there is enough power
-How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi etc
-Send "report logs" msg, return last [x] logs from queue
+MQTT 2 ELK bridge
+RPI ELK
+improve on_connect setup
 config yml
+tests
+Send "report logs" msg, return last [x] logs from queue
+How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi etc
+Set_Name action (might need to restart)
 
-When adding new jobs/sensors:
-  Add sensor which is linked to pin, and includes read function.
-  Add job which is on schedule, finds sensor by uid, calls read function
+Push notifications to mobile devices!
+Presence https://github.com/mqtt/mqtt.github.io/wiki/presence
+Generalize libraries/interfaces so code for rpi and esp work the same
+Need to batch/buffer messages internally, send when there is enough power
+Update internal clock on wake
 
 
 Components/services:

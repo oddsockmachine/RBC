@@ -1,10 +1,19 @@
 MQTT_URL: 127.0.0.1
-HW_TYPE: esp8266
-ID: 123
-Name: Foo
+MQTT_PORT: 1883
+MQTT_KEEPALIVE: 1883
+HW_TYPE: local
+debug: true
+# HW_TYPE: esp8266
+# HW_TYPE: esp8266
+# ID: 123
+# node_name: Foo
 err_log_size: 25
 log_size: 25
 schedule:
   error_reporting:
     enable: true
-    period: 100
+    period: 10
+  log_reporting:
+    enable: true
+    period: 11
+batch: False  # Publish continuously, or batch messages

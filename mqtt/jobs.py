@@ -54,7 +54,6 @@ class SensorJob(Job):
         with log_catch(self.node):
             result = self.sensor.read()
             msg = self.default_msg()
-            # channel = "sensors/{}/{}/{}".format(self.node.name, self.sensor.type, self.name)  # self.uid
             channel = self.node.channel.sensors(self.node.name, self.sensor.type, self.name)
             msg.update({"job_id": self.uid, "job_name":self.name, "pin": self.sensor.pin, "type": self.sensor.type, "value": str(result)})
             self.client.publish(channel, dumps(msg))

@@ -1,4 +1,5 @@
 import paho.mqtt.client as mqtt
+from sys import argv
 from jobs import *
 from sensors import *
 from sensor_set import SensorSet
@@ -7,7 +8,7 @@ import time
 from json import loads, dumps
 from logger import log_catch
 from collections import deque
-
+from conf import load_config
 from channels import ChannelMgr
 
 
@@ -15,25 +16,25 @@ class Node(object):
     """docstring for Node."""
     def __init__(self, name):
         super(Node, self).__init__()
+        self.config = load_config()  # Load config from default path
         self.name = name
         self.client = mqtt.Client(client_id=name)
         self.client.user_data_set(self)
         self.client.on_connect = self.on_connect
         self.jobs = JobList(self.client)
-        self.init_pin_mappings()
         self.load_in_jobs()
         self.sensor_set = SensorSet()
-        self.error_log = []
-        self.logs = deque([], 5)  # TODO log_size from config
+        self.error_log = deque([], self.config['err_log_size'])
+        self.logs = deque([], self.config['log_size'])
         self.channel = ChannelMgr(name)
         # self.load_subscriptions()
         return
 
     def log(self, msg):
         # log will auto-rotate if past max len
-        print(msg)
+        if self.config['debug']:
+            print(msg)
         self.logs.append(msg)
-        print(len(self.logs))
 
     def refresh_schedule(self):
         """Empty the node's schedule, rebuild from its internal list of jobs"""
@@ -44,25 +45,19 @@ class Node(object):
         #     schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
         return
 
-    def init_pin_mappings(self):
-        # Handle how pins and jobs interact, ensure no conflicts
-        self.pin_mappings = {}
-        return
-
     def start(self):
         def presence_msg(connected=True):
             return dumps({'presence': 'Connected' if connected else 'Disconnected', 'node': self.name})
         # LastWill must be set before connect()
         presence_channel = self.channel.presence()
         self.client.will_set(presence_channel, presence_msg(False), 0, False)
-
-        # self.client.connect("192.168.0.15", 1883, 60)
-        self.client.connect("127.0.0.1", 1883, 60)
+        self.client.connect(self.config['MQTT_URL'], self.config['MQTT_PORT'], self.config['MQTT_KEEPALIVE'])
         self.client.loop_start()
         self.client.publish(presence_channel, presence_msg(True))
         return
 
     def disconnect(self):
+        """Disconnects safely, sends LWT msg"""
         print("Safely disconnecting")
         self.client.disconnect()
 
@@ -72,21 +67,43 @@ class Node(object):
     def load_in_jobs(self):
         """Read in list of starting jobs from file on device. Run when node
         first starts up. Useful in case of power loss"""
-        error_reporter = InternalJob(5, self, "error_reporter", self.report_errors)
-        self.jobs.add_job(error_reporter)
+        if self.config['schedule']['error_reporting']['enable']:
+            error_reporter = InternalJob(self.config['schedule']['error_reporting']['period'], self, "error_reporter", self.report_errors)
+            self.jobs.add_job(error_reporter)
+        if self.config['schedule']['log_reporting']['enable']:
+            log_reporter = InternalJob(self.config['schedule']['log_reporting']['period'], self, "log_reporter", self.report_logs)
+            self.jobs.add_job(log_reporter)
+        return
+
+    def backup_to_disk(self):
+        """Save state of all jobs and sensors to file on device. Run when
+        changes are made, so state can be restored with load_in_jobs"""
         return
 
     def log_error(self, msg):
+        """Send an error message to this node's error log
+        Typically called by the log_catch contextmanager"""
         self.error_log.append(msg)
 
     def report_errors(self):
+        """If there are errors in the logs, compile them all and publish.
+        Clear the log after"""
         if len(self.error_log) == 0: # Ignore if no error msgs
             return
-        print("Publishing error report")
         error_channel = self.channel.errors()
         error_msgs = ",,,".join(self.error_log)  # convert list of json messages into str
-        self.client.publish(error_channel, error_msgs)  # Publish
+        self.client.publish(error_channel, dumps(list(self.error_log)))  # Publish
         self.error_log = []  # Clear error log, to avoid repeats
+
+    def report_logs(self):
+        """If there are logs in the logs, compile them all and publish.
+        Clear the log after"""
+        if len(self.logs) == 0: # Ignore if no log msgs
+            return
+        log_channel = self.channel.logs()
+        log_msgs = ",,,".join(self.logs)  # convert list of json messages into str
+        self.client.publish(log_channel, dumps(list(self.logs)))  # Publish
+        self.logs = deque([], 50)
 
     def on_connect(self, client, userdata, flags, rc):
         """Subscribing in on_connect() means that if we lose the connection and
@@ -107,18 +124,19 @@ class Node(object):
 
 def cb_report_in(client, userdata, msg):
     """Return internal stats to base station"""
+    self.log("Reporting in")
     report = {}
     node = userdata
     report['name'] = node.name
-    report['jobs'] = [dictj.__dict__ for j in node.jobs.all_jobs()]
-    print(report)
+    report['jobs'] = [j.__dict__ for j in node.jobs.all_jobs()]
+    # print(report)
     # TODO self.logs?
     client.publish("topic", dumps(report))
     return report
 
 
 def cb_show_jobs(client, userdata, msg):
-    print("cb_show_jobs")
+    self.log("cb_show_jobs")
     payload = loads(msg.payload)
     if payload.get("name"):
         return  # TODO
@@ -142,7 +160,6 @@ def validate_msg_fields_valid(payload):
     fields = "name period sensor_type pin".split(' ')
     missing_fields = [x for x in fields if x not in list(payload.keys())]
     if len(missing_fields)>0:
-        print("!!!!!!!!!!!!")
         raise Exception("The following fields are missing: " + str(missing_fields))
     return True
 
@@ -159,7 +176,7 @@ def cb_add_job(client, userdata, msg):
         period = int(payload["period"])
         uid = "~".join([sensor_type, job_name, pin])  # Tag so we can identify this function later.
         # Must be hashable such that we can replace a job based on eg name/type/pin
-        _self.log("Adding job {} type {}".format(job_name, sensor_class))
+        _self.log("Adding job {} type {}".format(job_name, sensor_class.__name__))
     # with log_catch(_self):
         new_sensor = sensor_class(uid, pin, job_name)
         _self.sensor_set.add_sensor(new_sensor)
@@ -168,8 +185,12 @@ def cb_add_job(client, userdata, msg):
 
 
 if __name__ == '__main__':
-    print("Please provide config file")
-    myNode = Node("bar")
+    try:
+        node_name = argv[1]
+    except:
+        print("Please provide config file")
+        exit(1)
+    myNode = Node(node_name)
     myNode.start()
     while True:
         try:

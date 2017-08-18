@@ -14,6 +14,9 @@ class ChannelMgr(object):
     def errors(self):
         return "errors/{nodename}".format(nodename=self.nodename)
 
+    def logs(self):
+        return "logs/{nodename}".format(nodename=self.nodename)
+
     def presence(self):
         return "presence/{nodename}".format(nodename=self.nodename)
 

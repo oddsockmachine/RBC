@@ -40,8 +40,7 @@ class DHT_Sensor(Sensor):
     def read(self):
         result_t = self.randomizer.get()
         result_h = self.randomizer.get()
-        return {'temp': {'value': result_t, 'units': 'c'},
-                'hmdy': {'value': result_h, 'units': '%'}}
+        return {'temp': result_t, 'hmdy': result_h}
 
 class Mock_Sensor(Sensor):
     """docstring for Mock_Sensor."""
