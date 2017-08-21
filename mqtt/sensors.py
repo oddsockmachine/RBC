@@ -17,6 +17,8 @@ class Sensor(object):
         self.name = name
         self.type = "Default"
         self.units = "None"
+    def report(self):
+        return {'uid': self.uid, 'pin': self.pin, 'name': self.name, 'type': self.type}
     def read(self):
         raise Exception("Read function not implemented")
         return 0

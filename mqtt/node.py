@@ -34,7 +34,8 @@ class Node(object):
         # log will auto-rotate if past max len
         if self.config['debug']:
             print(msg)
-        self.logs.append(msg)
+        msg_data = dumps({'timestamp': str(datetime.now()), 'log': str(msg), 'node': self.name})
+        self.logs.append(msg_data)
 
     def refresh_schedule(self):
         """Empty the node's schedule, rebuild from its internal list of jobs"""
@@ -124,14 +125,13 @@ class Node(object):
 
 def cb_report_in(client, userdata, msg):
     """Return internal stats to base station"""
-    self.log("Reporting in")
+    _self = userdata
+    _self.log("Reporting in")
     report = {}
-    node = userdata
-    report['name'] = node.name
-    report['jobs'] = [j.__dict__ for j in node.jobs.all_jobs()]
-    # print(report)
-    # TODO self.logs?
-    client.publish("topic", dumps(report))
+    report['name'] = _self.name
+    report['jobs'] = _self.jobs.all_jobs()
+    report['sensor_set'] = _self.sensor_set.report()
+    client.publish(_self.channel.report(), dumps(report))
     return report
 
 
@@ -174,7 +174,7 @@ def cb_add_job(client, userdata, msg):
         job_name = payload["name"]
         pin = payload["pin"]
         period = int(payload["period"])
-        uid = "~".join([sensor_type, job_name, pin])  # Tag so we can identify this function later.
+        uid = "~".join([_self.name, sensor_type, job_name, pin])  # Tag so we can identify this function later.
         # Must be hashable such that we can replace a job based on eg name/type/pin
         _self.log("Adding job {} type {}".format(job_name, sensor_class.__name__))
     # with log_catch(_self):

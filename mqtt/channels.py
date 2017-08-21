@@ -20,6 +20,9 @@ class ChannelMgr(object):
     def presence(self):
         return "presence/{nodename}".format(nodename=self.nodename)
 
+    def report(self):
+        return "report/{nodename}".format(nodename=self.nodename)
+
     def actions(self, actuator, action):
         return "actions/{nodename}/{actuator}/{action}/#".format(nodename=self.nodename, actuator=actuator, action=action)
 

@@ -4,8 +4,11 @@ class SensorSet(object):
     def __init__(self):
         super(SensorSet, self).__init__()
         self.sensors = []
-        self.valid_pins = [0,1,2,3,4,5]
+        self.valid_pins = [0,1,2,3,4,5]  # TODO get from config based on hardware type
         self.used_pins = []
+
+    def report(self):
+        return {'sensors': {s.name: s.pin for s in self.sensors}, 'used_pins': self.used_pins, 'valid_pins': self.valid_pins}
 
     def get_sensor_by_pin(self, pin):
         s = [s for s in self.sensors if s.pin == pin]

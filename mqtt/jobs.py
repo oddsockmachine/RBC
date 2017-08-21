@@ -22,7 +22,7 @@ class JobList(object):
     def get_job(self, query):
         return
     def all_jobs(self):
-        return self.jobs
+        return [j.report() for j in self.jobs]
     def report_jobs(self):
         jobs = [j.__dict__.copy() for j in self.jobs]
         [j.pop("func") for j in jobs]  # Magic side effect, don't care about return value
@@ -38,6 +38,8 @@ class Job(object):
         return {"node": self.node.name, "timestamp": str(datetime.now())}
     def execute(self):
         raise Exception("Execute function not implemented for {}".format(str(self)))
+    def report(self):
+        return {'name': self.name, 'type': self.__class__.__name__}
 
 class SensorJob(Job):
     """docstring for Job."""
@@ -50,6 +52,10 @@ class SensorJob(Job):
         self.last_run = None  # TODO keep track of last run time on file
         self.client = node.client
         self.node = node
+    def report(self):
+        x = {'name': self.name, 'type': self.__class__.__name__, 'period': self.period, 'sensor': self.sensor.report(), 'uid': self.uid, 'last_run': str(self.last_run), 'node': self.node.name}
+        return x
+
     def execute(self):
         with log_catch(self.node):
             result = self.sensor.read()
@@ -65,11 +71,13 @@ class InternalJob(Job):
         # super(InternalJob, self).__init__()
         self.period = int(period)
         self.name = name
-        self.uid = "error_reporter"
+        self.uid = "~".join([node.name, "internal", name])
         self.last_run = None  # TODO keep track of last run time on file
         self.client = node.client
         self.node = node
         self.func = func
+    def report(self):
+        return {'name': self.name, 'type': self.__class__.__name__, 'period': self.period, 'func': self.func.__name__, 'uid': self.uid, 'last_run': str(self.last_run), 'node': self.node.name}
     def execute(self):
         with log_catch(self.node):
             self.last_run = datetime.now()

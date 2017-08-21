@@ -4,7 +4,7 @@ MQTT_KEEPALIVE: 1883
 HW_TYPE: local
 debug: true
 # HW_TYPE: esp8266
-# HW_TYPE: esp8266
+# HW_TYPE: rpi
 # ID: 123
 # node_name: Foo
 err_log_size: 25
@@ -17,3 +17,7 @@ schedule:
     enable: true
     period: 11
 batch: False  # Publish continuously, or batch messages
+valid_pins:
+  rpi: [0,1,2,3,4,5,6,7,8]
+  esp8266: [0,1,2,3,4]
+  local: [0,1,2,3]
