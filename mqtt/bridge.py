@@ -11,11 +11,11 @@ from conf import load_config
 config = load_config()
 name = 'bridge'
 channel = ChannelMgr(name)
-elk_port = 9400
-elk_host = '192.168.55.34'
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# s.connect((elk_host, elk_port))
-# sock = s
+elk_port = 9300
+elk_host = '192.168.0.15'
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((elk_host, elk_port))
+sock = s
 client = mqtt.Client(client_id=name)
 
 def send_to_elk(sock, data):

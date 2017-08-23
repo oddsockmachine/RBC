@@ -1,0 +1,5 @@
+Using Digispark as a super-cheap ADC. Typical analog muxes and I2C/SPI ADCs seem to be much more expensive.
+Digispark board has 6 pins, 5 can be ADC
+Use all 5 for ADC, and 6th for serial out to send all measurements periodically
+Node (esp8266/RasPiZero) is responsible for knowing which sensor is on which pin, how to scale readings etc
+Sensorset class keeps track of available pins - use a separate range (eg 90-94) to denote a digispark ADC expander
