@@ -13,9 +13,9 @@ name = 'bridge'
 channel = ChannelMgr(name)
 elk_port = 9300
 elk_host = '192.168.0.15'
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((elk_host, elk_port))
-sock = s
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.connect((elk_host, elk_port))
+# sock = s
 client = mqtt.Client(client_id=name)
 
 def send_to_elk(sock, data):
@@ -84,7 +84,7 @@ for topic in topics:
     client.subscribe(channel_name)  # Add, modify, remove, trigger, etc
 
 client.loop_start()
-client.publish(presence_channel, presence_msg(True))
+client.publish(channel.presence(), presence_msg(True))
 
 while True:
     try:

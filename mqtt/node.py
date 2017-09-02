@@ -112,8 +112,10 @@ class Node(object):
         print("Node '{name}' connected with result code {rc}".format(name=self.name, rc=rc))
         action2cb = {"add": cb_add_job,
                     "del": cb_del_job,
-                    "show": cb_show_jobs,
+                    # "show": cb_show_jobs,
                     "trigger": cb_trigger_job,
+                    "get_logs": cb_report_logs,
+                    "query_sensor": cb_query_sensor,
                     # "get_errors": cb_show_errors,
                     "report": cb_report_in,}
         for action, cb in action2cb.items():
@@ -135,6 +137,16 @@ def cb_report_in(client, userdata, msg):
     return report
 
 
+def cb_report_logs(client, userdata, msg):
+    """Return internal stats to base station"""
+    _self = userdata
+    _self.log("Sending logs")
+    report = {}
+    report['name'] = _self.name
+    report['logs'] = _self.report_logs()
+    client.publish(_self.channel.logs(), dumps(report))
+    return report
+
 def cb_show_jobs(client, userdata, msg):
     self.log("cb_show_jobs")
     payload = loads(msg.payload)
@@ -142,6 +154,19 @@ def cb_show_jobs(client, userdata, msg):
         return  # TODO
     return
 
+def cb_query_sensor(client, userdata, msg):
+    _self = userdata
+    _self.log("cb_query_sensor")
+    payload = loads(msg.payload)
+    with log_catch(_self):
+        sensor_uid = payload["sensor_uid"]
+        print(sensor_uid)
+        _self.log("querying {}".format(sensor_uid))
+        sensor = _self.sensor_set.get_sensor_by_id(sensor_uid)
+        reading = sensor.read()
+        print(reading)
+        # TODO publish results
+    return
 
 def cb_trigger_job(client, userdata, msg):
     print("cb_trigger_job")

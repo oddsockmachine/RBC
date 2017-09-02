@@ -4,6 +4,10 @@ tests
 Send "report logs" msg, return last [x] logs from queue
 How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi etc
 Set_Name action (might need to restart)
+trigger_job should call a sensor/actuator immediately.
+If Node is offline/powered down, bridge should queue any sent messages/tasks until the node wakes up
+temp sensor inside node?
+report internal voltage
 
 Push notifications to mobile devices!
 Generalize libraries/interfaces so code for rpi and esp work the same

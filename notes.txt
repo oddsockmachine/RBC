@@ -22,6 +22,7 @@ Sensors:
   DHT11 Digital Humidity & Temperature
   https://www.osbeehives.com/pages/buzz-box-app
   http://hackaday.com/2017/07/31/low-cost-rain-gauge-looks-for-floods/
+  http://docs.micropython.org/en/v1.8.2/esp8266/esp8266/tutorial/onewire.html
 
 Your Order Number is 1496031-2716709017.
 Your order confirmation will be emailed to oddsockmachine@gmail.com
@@ -108,3 +109,20 @@ https://www.aliexpress.com/item/Free-shipping-soil-the-hygrometer-detection-modu
 https://www.aliexpress.com/item/Stainless-steel-package-Waterproof-DS18b20-temperature-probe-temperature-sensor-18B20-For-Arduino/32236998050.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=eb9e6f38-9e0d-4e3a-82b1-98ce5a925e01&algo_expid=d2e48100-2720-46f0-b985-938cee48069b-0&algo_pvid=d2e48100-2720-46f0-b985-938cee48069b&transAbTest=ae803_2
 https://www.aliexpress.com/item/1pcs-Digispark-kickstarter-development-board-ATTINY85-module-for-Arduino-usb/32581512379.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=f58bb0ef-b759-4c22-bbcb-29364e59a2b8&algo_expid=3041cbc4-9f4b-4a81-be25-0329a6b623db-1&algo_pvid=3041cbc4-9f4b-4a81-be25-0329a6b623db&transAbTest=ae803_2
 https://www.aliexpress.com/item/Raspberry-Pi-Zero-Camera-Module-Focal-Adjustable-Night-Vision-Webcam-with-IR-Sensor-LED-Light-for/32795660121.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_10315_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_19,ppcSwitch_7&btsid=b6cd39da-d820-49cd-b3bc-2285e0cfd081&algo_expid=5e7f46ff-80c4-4a51-aa24-85bd7eb4449b-6&algo_pvid=5e7f46ff-80c4-4a51-aa24-85bd7eb4449b&transAbTest=ae803_2
+
+antenna wifi
+https://www.amazon.com/dp/B01LX11VNJ/ref=psdc_3015438011_t2_B01KBU61S8
+
+orange pi zero
+https://www.aliexpress.com/store/product/New-Orange-Pi-Zero-H2-Quad-Core-Open-source-development-board-beyond-Raspberry-Pi/1553371_32760774493.html
+https://diyprojects.io/orange-pi-onelite-tutorial-use-gpio-python-pinouts/
+https://opi-gpio.readthedocs.io/en/latest/
+
+solar battery charger
+https://www.aliexpress.com/item/DC-5V-2-1A-USP-Mobile-Power-Diy-Board-4-2V-Charge-Discharger-boost-battery-protection/32824032545.html?spm=2114.10010108.1000023.2.4b24ae2bqq0K1q
+https://www.banggood.com/5V-2A-Solar-Panel-Power-Bank-USB-Charge-Voltage-Controller-Regulator-Module-6V-20V-Input-p-1099540.html?rmmds=detail-top-buytogether-auto
+https://www.banggood.com/3_5W-Solar-Panel-USB-Battery-Charger-For-iPhone-Smartphone-Device-p-913610.html?rmmds=search
+https://www.banggood.com/6V-2_5W-Mini-Solar-Panel-Photovoltaic-Panel-p-993138.html?rmmds=detail-left-hotproducts
+https://www.banggood.com/KEWEISI-4V-20V-0-3A-USB-Charger-Power-Detector-Battery-Capacity-Tester-Voltage-Current-Meter-p-984613.html?rmmds=detail-top-buytogether-auto
+https://www.aliexpress.com/item/Cheap-4pcs-18650-Li-Ion-rechargeable-battery-3-7-volt-3000mAh-batteries-with-18650-battery-holder/32811615592.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10307_10137_10060_10155_10154_10333_10334_10056_10335_10055_10336_10054_10059_10332_100031_10099_10103_10102_10052_10053_10142_10107_10050_10051_10324_10325_10326_10084_10083_10080_10082_10081_10178_10110_10111_10112_10113_10114_10312_10313_10314_10078_10079_10073-10332_10333,searchweb201603_16,ppcSwitch_7&btsid=84be8552-d92c-4f0e-835c-d4f8332736cc&algo_expid=1435f573-60f8-4108-8041-59f86697b304-3&algo_pvid=1435f573-60f8-4108-8041-59f86697b304&transAbTest=ae803_2
+https://www.aliexpress.com/item/4-piece-Portable-Mini-6V-1W-Solar-Panel-Bank-Solar-Power-Panel-DIY-Home-Solar-System/32758233916.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10307_10137_10060_10155_10154_10333_10334_10056_10335_10055_10336_10054_10059_10332_100031_10099_10103_10102_10052_10053_10142_10107_10050_10051_10324_10325_10326_10084_10083_10080_10082_10081_10178_10110_10111_10112_10113_10114_10312_10313_10314_10078_10079_10073-10332_10333,searchweb201603_16,ppcSwitch_7&btsid=6e74ccf6-e5de-46d1-b9d0-f0c8ff843274&algo_expid=9aaa1a11-f8df-409a-843d-7e3147030bb0-0&algo_pvid=9aaa1a11-f8df-409a-843d-7e3147030bb0&transAbTest=ae803_2

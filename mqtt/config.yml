@@ -19,5 +19,5 @@ schedule:
 batch: False  # Publish continuously, or batch messages
 valid_pins:
   rpi: [0,1,2,3,4,5,6,7,8]
-  esp8266: [0,1,2,3,4]
+  esp8266: [0,1,2,3,4, 90,91,92,93,94]
   local: [0,1,2,3]

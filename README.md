@@ -2,7 +2,6 @@
 
 ### A resource manager for a community farm
 
-
 ##### Overview
 
 Connect sensors to nodes. Any sensor can connect to any node via a universal connector.
@@ -29,7 +28,7 @@ Sensor types:
 - Timelapse photos (Visible and IR)
 
 Workflow:
-- Define zones on map of farm
+- Define zones on map of property
 - Within zones, define beds/pots/plants
 - For each remote node, specify in webapp which connectors are which type of sensor
 - Send config data to each node, node reads sensor in appropriate way
