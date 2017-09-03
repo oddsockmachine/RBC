@@ -58,7 +58,7 @@ class RPi_CPU_Temp(Sensor):
         from subprocess import check_output
         def get_cpu_temp():
             output = check_output("vcgencmd measure_temp".split())
-            output = output.strip()
+            output = output.decode().strip().split('').replace("'C","")
             return output
         self.get_cpu_temp = get_cpu_temp
 
