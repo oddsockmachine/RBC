@@ -4,7 +4,7 @@ def get_sensor_class(sensor_type):
     sensors = {
         "DHT_11": DHT_Sensor,
         "Mock": Mock_Sensor,
-        "RPi_CPU_Temp": RPi_Internal_Temp_Sensor,
+        "RPi_CPU_Temp": RPi_CPU_Temp,
     }
     return sensors.get(sensor_type)
 
@@ -46,8 +46,8 @@ class DHT_Sensor(Sensor):
         return {'temp': result_t, 'hmdy': result_h}
 
 
-class RPi_Internal_Temp_Sensor(Sensor):
-    """docstring for RPi_Internal_Temp_Sensor."""
+class RPi_CPU_Temp(Sensor):
+    """docstring for RPi_CPU_Temp."""
     def __init__(self, uid, pin, name):
         super(Sensor, self).__init__()
         self.uid = uid
@@ -58,6 +58,7 @@ class RPi_Internal_Temp_Sensor(Sensor):
         from subprocess import check_output
         def get_cpu_temp():
             output = check_output("vcgencmd measure_temp".split())
+            output = output.strip()
             return output
         self.get_cpu_temp = get_cpu_temp
 
