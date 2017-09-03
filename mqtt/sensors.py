@@ -109,7 +109,7 @@ class RPi_Mem_Usage(Sensor):
         result = self.get_disk_usage()
         mem, total, used, free, shared, buffers, cached = [r.replace('M','') for r in result.split(' ') if len(r)>0]
         percent = str(100*(int(used)/int(total)))[:2]
-        return {'disk_usage': {'total': total, 'used':used, 'free':free, 'percent': percent, 'units': self.units}}
+        return {'mem_usage': {'total': total, 'used':used, 'free':free, 'percent': percent, 'units': self.units}}
 
 
 class Mock_Sensor(Sensor):

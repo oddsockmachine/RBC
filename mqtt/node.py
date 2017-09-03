@@ -223,5 +223,6 @@ if __name__ == '__main__':
             time.sleep(1)
         except KeyboardInterrupt:
             myNode.disconnect()
+            sleep(2)  # Adding sleep to ensure LastWill is sent
             break
     exit(0)
