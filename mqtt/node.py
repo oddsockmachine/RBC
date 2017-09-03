@@ -222,6 +222,7 @@ if __name__ == '__main__':
             schedule.run_pending()
             time.sleep(1)
         except KeyboardInterrupt:
+            from time import sleep
             myNode.disconnect()
             sleep(2)  # Adding sleep to ensure LastWill is sent
             break
