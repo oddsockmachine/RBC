@@ -108,7 +108,7 @@ class RPi_Mem_Usage(Sensor):
     def read(self):
         result = self.get_disk_usage()
         mem, total, used, free, shared, buffers, cached = [r.replace('M','') for r in result.split(' ') if len(r)>0]
-        percent = int(used)/int(total)
+        percent = str(100*(int(used)/int(total)))[:2]
         return {'disk_usage': {'total': total, 'used':used, 'free':free, 'percent': percent, 'units': self.units}}
 
 
