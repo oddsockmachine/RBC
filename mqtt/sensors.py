@@ -79,7 +79,7 @@ class RPi_Disk_Usage(Sensor):
         from subprocess import check_output
         def get_disk_usage():
             output = check_output("df -h".split())
-            output = output.decode()[1]
+            output = output.decode().split('\n')[1]
             return output
         self.get_disk_usage = get_disk_usage
 
