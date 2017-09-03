@@ -222,9 +222,6 @@ if __name__ == '__main__':
             schedule.run_pending()
             time.sleep(1)
         except KeyboardInterrupt:
-            from time import sleep
-            # myNode.client.publish(presence_channel, presence_msg(False))
-            # myNode.disconnect()
-            # sleep(1)  # Adding sleep to ensure LastWill is sent
+            # myNode.disconnect()  # Explictly disconnecting doesn't send LWT, so we'll ignore this
             break
     exit(0)
