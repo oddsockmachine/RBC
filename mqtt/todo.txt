@@ -6,7 +6,6 @@ How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi 
 Set_Name action (might need to restart)
 trigger_job should call a sensor/actuator immediately.
 If Node is offline/powered down, bridge should queue any sent messages/tasks until the node wakes up
-temp sensor inside node?
 report internal voltage
 update_firmware: job pulls latest git repo, then restarts node
 
@@ -15,6 +14,7 @@ Push notifications to mobile devices!
 Generalize libraries/interfaces so code for rpi and esp work the same
 Need to batch/buffer messages internally, send when there is enough power
 Update internal clock on wake
+alerts if too many errors in given time
 
 
 Components/services:
@@ -28,3 +28,6 @@ Components/services:
   Central server
   Frontend, visualization
   Phone app
+
+
+  for id in core sdram_c sdram_i sdram_p ; do  echo -e "$id:\t$(vcgencmd measure_volts $id)" ; done

@@ -5,6 +5,7 @@ def get_sensor_class(sensor_type):
         "DHT_11": DHT_Sensor,
         "Mock": Mock_Sensor,
         "RPi_CPU_Temp": RPi_CPU_Temp,
+        "RPi_Disk_Usage": RPi_Disk_Usage,
     }
     return sensors.get(sensor_type)
 
@@ -65,6 +66,27 @@ class RPi_CPU_Temp(Sensor):
     def read(self):
         result = self.get_cpu_temp()
         return {'cpu_temp': {'value': result, 'units': self.units}}
+
+class RPi_Disk_Usage(Sensor):
+    """docstring for RPi_Disk_Usage."""
+    def __init__(self, uid, pin, name):
+        super(Sensor, self).__init__()
+        self.uid = uid
+        self.pin = pin
+        self.name = name
+        self.type = "Disk_Usage"
+        self.units = "GB"
+        from subprocess import check_output
+        def get_cpu_temp():
+            output = check_output("df -h".split())
+            output = output.decode()[1]
+            return output
+        self.get_cpu_temp = get_cpu_temp
+
+    def read(self):
+         = self.get_cpu_temp()
+        fs, total, used, avail, percent, mount = result.split(' ')
+        return {'disk_usage': {'total': total, 'used':used, 'available':avail, 'percent':percent 'units': self.units}}
 
 
 class Mock_Sensor(Sensor):
