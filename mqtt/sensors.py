@@ -84,7 +84,7 @@ class RPi_Disk_Usage(Sensor):
         self.get_disk_usage = get_disk_usage
 
     def read(self):
-         = self.get_cpu_temp()
+        result = self.get_disk_usage()
         fs, total, used, avail, percent, mount = result.split(' ')
         return {'disk_usage': {'total': total, 'used':used, 'available':avail, 'percent':percent 'units': self.units}}
 
