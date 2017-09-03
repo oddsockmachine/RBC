@@ -149,7 +149,7 @@ def cb_report_logs(client, userdata, msg):
 
 def cb_show_jobs(client, userdata, msg):
     self.log("cb_show_jobs")
-    payload = loads(msg.payload)
+    payload = loads(msg.payload.decode())
     if payload.get("name"):
         return  # TODO
     return
@@ -157,7 +157,7 @@ def cb_show_jobs(client, userdata, msg):
 def cb_query_sensor(client, userdata, msg):
     _self = userdata
     _self.log("cb_query_sensor")
-    payload = loads(msg.payload)
+    payload = loads(msg.payload.decode())
     with log_catch(_self):
         sensor_uid = payload["sensor_uid"]
         print(sensor_uid)
@@ -170,7 +170,7 @@ def cb_query_sensor(client, userdata, msg):
 
 def cb_trigger_job(client, userdata, msg):
     print("cb_trigger_job")
-    payload = loads(msg.payload)
+    payload = loads(msg.payload.decode())
     if payload.get("name"):
         return  # TODO
     return
@@ -191,7 +191,7 @@ def validate_msg_fields_valid(payload):
 def cb_add_job(client, userdata, msg):
     _self = userdata
     _self.log("New job incoming...")
-    payload = loads(msg.payload)
+    payload = loads(msg.payload.decode())
     with log_catch(_self):
         # validate_msg_fields_valid(payload)
         sensor_type = payload["sensor_type"]
