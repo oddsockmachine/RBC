@@ -224,7 +224,7 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             from time import sleep
             # myNode.client.publish(presence_channel, presence_msg(False))
-            myNode.disconnect()
-            sleep(1)  # Adding sleep to ensure LastWill is sent
+            # myNode.disconnect()
+            # sleep(1)  # Adding sleep to ensure LastWill is sent
             break
     exit(0)
