@@ -77,11 +77,11 @@ class RPi_Disk_Usage(Sensor):
         self.type = "Disk_Usage"
         self.units = "GB"
         from subprocess import check_output
-        def get_cpu_temp():
+        def get_disk_usage():
             output = check_output("df -h".split())
             output = output.decode()[1]
             return output
-        self.get_cpu_temp = get_cpu_temp
+        self.get_disk_usage = get_disk_usage
 
     def read(self):
          = self.get_cpu_temp()
