@@ -85,6 +85,8 @@ class RPi_Disk_Usage(Sensor):
 
     def read(self):
         result = self.get_disk_usage()
+        print(result)
+        print(result.split(' '))
         fs, total, used, avail, percent, mount = result.split(' ')
         return {'disk_usage': {'total': total, 'used':used, 'available':avail, 'percent':percent, 'units': self.units}}
 
