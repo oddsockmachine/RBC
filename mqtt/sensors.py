@@ -40,7 +40,7 @@ class DHT_Sensor(Sensor):
         self.name = name
         self.type = "DHT_11"
         self.units = "C/%"
-        dht11 = dht11.DHT11(pin=self.pin)
+        self.dht11_instance = dht11.DHT11(pin=self.pin)
         # class DHT(object):
         #     def __init__(self, foo):
         #         self.foo = foo
@@ -49,12 +49,12 @@ class DHT_Sensor(Sensor):
         # self.randomizer = DHT(self.pin)
 
     def read(self):
-        result = self.dht11.read()
+        result = self.dht11_instance.read()
         if result.is_valid():
             result_t = result.temperature
             result_h = result.humidity
             return {'temp': result_t, 'hmdy': result_h}
-        
+
 
 
 class RPi_CPU_Temp(Sensor):
