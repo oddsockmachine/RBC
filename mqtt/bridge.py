@@ -74,6 +74,7 @@ client.will_set(channel.presence(), presence_msg(False), 0, False)
 
 client.connect(config['MQTT_URL'], config['MQTT_PORT'], config['MQTT_KEEPALIVE'])
 
+# Hideous hack to find all user-defined callback functions
 cb_funcs = {x:y for x,y in globals().items() if str(x).endswith("_cb")}
 topics = ['sensors', 'logs', 'errors', 'presence', 'report']
 for topic in topics:

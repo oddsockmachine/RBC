@@ -1,5 +1,4 @@
 vcgencmd display_power 0
-git clone https://github.com/geringonca/RBC.git
 sudo apt-get install htop tree
 sudo apt-get install build-essential libssl-dev libffi-dev python3-dev
 sudo apt-get install -y python3-pip

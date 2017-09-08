@@ -3,6 +3,7 @@ improve on_connect setup
 tests
 Send "report logs" msg, return last [x] logs from queue
 How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi etc
+  Could use spi/i2c address as pin so we can pass that in remotely
 Set_Name action (might need to restart)
 trigger_job should call a sensor/actuator immediately.
 If Node is offline/powered down, bridge should queue any sent messages/tasks until the node wakes up

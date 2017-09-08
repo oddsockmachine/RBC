@@ -3,3 +3,17 @@ Digispark board has 6 pins, 5 can be ADC
 Use all 5 for ADC, and 6th for serial out to send all measurements periodically
 Node (esp8266/RasPiZero) is responsible for knowing which sensor is on which pin, how to scale readings etc
 Sensorset class keeps track of available pins - use a separate range (eg 90-94) to denote a digispark ADC expander
+
+1 ADC to measure battery voltage
+1 output to enable power to node
+1 serial output to send measurements to node
+3 spare ADC for sensors - not much
+
+Digispark Pro has 14 GPIO, 10 ADC. Less than twice the price of regular Digispark
+https://www.aliexpress.com/item/Free-shipping-1pcs-Digispark-Pro-kickstarter-development-board-use-Micro-ATTINY167-module-for-Arduino-usb/32695837223.html?ws_ab_test=searchweb0_0,searchweb201602_3_10152_10065_10151_10068_10130_10324_10325_10326_10084_10083_10080_10307_10082_10081_10110_10178_10137_10111_10060_10112_10113_10155_10114_10154_10056_10055_10054_10312_10313_10059_10314_100031_10099_10078_10079_10103_10073_10102_10052_10053_10142_10107_10050_10051,searchweb201603_21,ppcSwitch_7&btsid=8192852e-0836-474a-a019-d99d3286b3c5&algo_expid=fea29fdd-9d3a-4533-b5ae-aaedb6762006-1&algo_pvid=fea29fdd-9d3a-4533-b5ae-aaedb6762006&transAbTest=ae803_2
+That would leave 9 ADC for other sensors, which seems more reasonable
+
+Arduino Pro Mini even cheaper, 8 ADC, 20GPIO
+https://www.aliexpress.com/item/1pcs-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz/1950297129.html
+http://www.home-automation-community.com/arduino-low-power-how-to-run-atmega328p-for-a-year-on-coin-cell-battery/
+Very low power, could be used to take multiple sensor readings more often, and only turn on rpi/esp8266 to transmit occasionally 
