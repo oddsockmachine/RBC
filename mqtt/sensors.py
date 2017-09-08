@@ -50,10 +50,11 @@ class DHT_Sensor(Sensor):
 
     def read(self):
         result = self.dht11_instance.read()
-        if result.is_valid():
-            result_t = result.temperature
-            result_h = result.humidity
-            return {'temp': result_t, 'hmdy': result_h}
+        while not result.is_valid():
+            result = self.dht11_instance.read()
+        result_t = result.temperature
+        result_h = result.humidity
+        return {'temp': result_t, 'hmdy': result_h}
 
 
 
