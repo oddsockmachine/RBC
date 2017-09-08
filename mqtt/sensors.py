@@ -1,4 +1,9 @@
 from random import randint
+import RPi.GPIO as GPIO
+import dht11
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.cleanup()
 
 def get_sensor_class(sensor_type):
     sensors = {
@@ -35,17 +40,21 @@ class DHT_Sensor(Sensor):
         self.name = name
         self.type = "DHT_11"
         self.units = "C/%"
-        class DHT(object):
-            def __init__(self, foo):
-                self.foo = foo
-            def get(self):
-                return randint(0,100)
-        self.randomizer = DHT(self.pin)
+        dht11 = dht11.DHT11(pin=self.pin)
+        # class DHT(object):
+        #     def __init__(self, foo):
+        #         self.foo = foo
+        #     def get(self):
+        #         return randint(0,100)
+        # self.randomizer = DHT(self.pin)
 
     def read(self):
-        result_t = self.randomizer.get()
-        result_h = self.randomizer.get()
-        return {'temp': result_t, 'hmdy': result_h}
+        result = self.dht11.read()
+        if result.is_valid():
+            result_t = result.temperature
+            result_h = result.humidity
+            return {'temp': result_t, 'hmdy': result_h}
+        
 
 
 class RPi_CPU_Temp(Sensor):
