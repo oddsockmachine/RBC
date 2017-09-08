@@ -40,7 +40,8 @@ class DHT_Sensor(Sensor):
         self.name = name
         self.type = "DHT_11"
         self.units = "C/%"
-        self.dht11_instance = dht11.DHT11(pin=self.pin)
+        print(self.pin)
+        self.dht11_instance = dht11.DHT11(pin=int(self.pin))
         # class DHT(object):
         #     def __init__(self, foo):
         #         self.foo = foo
