@@ -1,14 +1,18 @@
-MQTT_URL: 192.168.0.13
+debug: true
+REDIS_URL: 192.168.99.100
+REDIS_PORT: 6379
+# MQTT_URL: 192.168.0.13
+MQTT_URL: 127.0.0.1
 MQTT_PORT: 1883
 MQTT_KEEPALIVE: 1883
 HW_TYPE: local
-debug: true
 # HW_TYPE: esp8266
 # HW_TYPE: rpi
 # ID: 123
 # node_name: Foo
 err_log_size: 25
 log_size: 25
+topics: [sensors, logs, errors, report, presence]
 schedule:
   error_reporting:
     enable: true
