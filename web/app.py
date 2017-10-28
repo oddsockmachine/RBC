@@ -1,9 +1,9 @@
 from sanic import Sanic
 from sanic.response import json
 from sanic.views import HTTPMethodView
-from model import get_node_by_id, get_all_nodes, create_node
+from model import get_node_by_id, get_all_nodes, create_node, get_location_by_url, get_graph_under_location
 from sanic.response import text
-
+from json import dumps
 app = Sanic("Node_Manager")
 
 @app.route("/")
@@ -33,12 +33,12 @@ class Node(HTTPMethodView):
         data = request.json
         print(data)
         name = data['name']
-        location = data['location']
+        # location = data['location']
         location_url = data['location_url']
         lat = data['lat']
         lon = data['lon']
         tags = ", ".join(data['tags'])
-        new_node = create_node(name, location, location_url, lat, lon, tags)
+        new_node = create_node(name, location_url, lat, lon, tags)
         return(json({"status":"success",
                      "redirect_url":app.url_for('NodeID', node_id=str(new_node.uid.decode("utf-8") ))}))
 app.add_route(Node.as_view(), '/node/')
@@ -46,6 +46,7 @@ app.add_route(Node.as_view(), '/node/')
 class NodeID(HTTPMethodView):
     async def get(self, request, node_id):
         this_node = get_node_by_id(node_id)
+        # this_node['location'] = this_node['location'].url  # Hack to prevent deep recursion into location graph
         return json(this_node)
 
     async def put(self, request, node_id):
@@ -75,6 +76,31 @@ class SensorID(HTTPMethodView):
         # TODO code for deleting node
         return text('I am delete method for node {} sensor {}'.format(node_id, sensor_id))
 app.add_route(SensorID.as_view(), '/node/<node_id>/sensor/<sensor_id>')
+
+
+class Location(HTTPMethodView):
+    async def get(self, request):
+        loc_url = request.args.get('loc_url')
+        location = get_location_by_url(loc_url)
+        location_data = location.to_json()
+        child_graph = get_graph_under_location(location)
+        print(child_graph)
+        return text(dumps({'location_data': location_data,
+                            'child_graph': child_graph}))
+        # return text('I am get method for location {}'.format(loc_url))
+
+    async def post(self, request):
+        # TODO code for creating location
+        return text('I am post method for location {}'.format(loc_url))
+
+    async def put(self, request):
+        # TODO code for modifying location
+        return text('I am put method for location {}'.format(loc_url))
+
+    async def delete(self, request):
+        # TODO code for deleting location
+        return text('I am delete method for location {}'.format(loc_url))
+app.add_route(Location.as_view(), '/location')
 
 
 
