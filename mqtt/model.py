@@ -129,14 +129,11 @@ def get_location_by_url(_url):
         print("{} conflicting locations found at {}".format(len(locs), url))
         return None
 
-def get_location_graph_under(location):
-    def recurse(location, graph):
-        for child in location.children:
-            graph['children'].append({'location': location.name, 'children': []})
-            recurse(child, graph)
-        return graph
-    graph = {'location': location.name, 'children': []}
-    graph = recurse(location, graph)
+def get_graph_under_location(location):
+    graph = {'location': str(location.name.decode('utf-8')), 'children': {}}
+    for child in location.children:
+        c_graph = get_graph_under_location(child)
+        graph['children'][str(child.name.decode('utf-8'))] = c_graph
     return graph
 
 
@@ -156,9 +153,17 @@ root_location = get_root_location()
 # bayside = create_location('3 Bayside', 'Our apartment', root_location)
 # balcony = create_location('Balcony', 'On the balcony', bayside)
 # living_room = create_location('Living Room', 'In the living room', bayside)
-print(root_location.children[0].children[0].name)
-print(root_location.children[0].children[0].url)
+# print(root_location.children[0].children[0].name)
+# print(root_location.children[0].children[0].url)
 
-print(get_location_by_url('root').children[0].name)
-print(get_location_by_url('root/3_bayside/balcony').children)
-# print(get_location_graph_under(root_location))
+# print(get_location_by_url('root').children[0].name)
+# lroom = get_location_by_url('root/3_bayside/living_room')
+# window1 = create_location('East Window', 'Main window, East facing', lroom)
+# window2 = create_location('South Window', 'Main window, South facing', lroom)
+# window3 = create_location('West Window', 'Main window, West facing', lroom)
+# window4 = create_location('Kitchen Window', 'Kitchen window, West facing', lroom)
+# window5 = create_location('Desk Window', 'Desk window, East facing', lroom)
+
+from pprint import pprint
+graph = get_graph_under_location(root_location)
+pprint(graph)
