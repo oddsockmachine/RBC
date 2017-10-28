@@ -18,6 +18,7 @@ class Location(rom.Model):
     def to_json(self):
         d = {}
         d['name'] = str(self.name.decode('utf-8'))
+        d['description'] = str(self.description.decode('utf-8'))
         d['url'] = str(self.url.decode('utf-8'))
         d['parent'] = {'name': self.parent.name.decode('utf-8'), 'url': self.parent.url.decode('utf-8')}
         d['children'] = [{'name':c.name.decode('utf-8'), 'url':c.url.decode('utf-8')} for c in self.children]
@@ -124,7 +125,7 @@ def get_root_location():
 def create_location(name, description, parent):
     url = parent.url.decode('utf-8') + '/' + name.replace(' ', '_').lower()
     print(name, parent.name, parent.url, url)
-    new_loc = Location(name=name, url=url, description='Our apartment', parent=parent)
+    new_loc = Location(name=name, url=url, description=description, parent=parent)
     new_loc.save()
     return new_loc
 

@@ -1,7 +1,7 @@
 from sanic import Sanic
 from sanic.response import json
 from sanic.views import HTTPMethodView
-from model import get_node_by_id, get_all_nodes, create_node, get_location_by_url, get_graph_under_location
+from model import get_node_by_id, get_all_nodes, create_node, get_location_by_url, get_graph_under_location, create_location
 from sanic.response import text
 from json import dumps
 app = Sanic("Node_Manager")
@@ -39,8 +39,8 @@ class Node(HTTPMethodView):
         lon = data['lon']
         tags = ", ".join(data['tags'])
         new_node = create_node(name, location_url, lat, lon, tags)
-        return(json({"status":"success",
-                     "redirect_url":app.url_for('NodeID', node_id=str(new_node.uid.decode("utf-8") ))}))
+        return(json({"status": "success",
+                     "node_id": new_node.uid.decode("utf-8")}))
 app.add_route(Node.as_view(), '/node/')
 
 class NodeID(HTTPMethodView):
@@ -90,8 +90,16 @@ class Location(HTTPMethodView):
         # return text('I am get method for location {}'.format(loc_url))
 
     async def post(self, request):
-        # TODO code for creating location
-        return text('I am post method for location {}'.format(loc_url))
+        data = request.json
+        name = data['name']
+        description = data['description']
+        parent_url = data['parent_url']
+        parent_loc = get_location_by_url(parent_url)
+        new_loc = create_location(name, description, parent_loc)
+        print(new_loc.to_json())
+        return(json({"status": "success",
+                     "location_url": new_loc.url}))
+        # return text('I am post method for location {}'.format(loc_url))
 
     async def put(self, request):
         # TODO code for modifying location
