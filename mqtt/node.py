@@ -27,8 +27,15 @@ class Node(object):
         self.error_log = deque([], self.config['err_log_size'])
         self.logs = deque([], self.config['log_size'])
         self.channel = ChannelMgr(name)
+        self.start_time = datetime.now()
+        self.wake_time = datetime.now()
         # self.load_subscriptions()
         return
+
+    def uptime(self):
+        now = datetime.now()
+        return {'uptime': now - self.start_time,
+                'waketime': now - self.wake_time}
 
     def log(self, msg):
         # log will auto-rotate if past max len

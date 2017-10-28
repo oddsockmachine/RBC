@@ -1,9 +1,9 @@
 from random import randint
-import RPi.GPIO as GPIO
-import dht11
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.cleanup()
+# import RPi.GPIO as GPIO
+# import dht11
+# GPIO.setwarnings(False)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.cleanup()
 
 def get_sensor_class(sensor_type):
     sensors = {
@@ -40,19 +40,15 @@ class DHT_Sensor(Sensor):
         self.name = name
         self.type = "DHT_11"
         self.units = "C/%"
-        print(self.pin)
         self.dht11_instance = dht11.DHT11(pin=int(self.pin))
-        # class DHT(object):
-        #     def __init__(self, foo):
-        #         self.foo = foo
-        #     def get(self):
-        #         return randint(0,100)
-        # self.randomizer = DHT(self.pin)
 
     def read(self):
+        attempts = 0
         result = self.dht11_instance.read()
-        while not result.is_valid():
+        while not result.is_valid() and attempts < 5:
             result = self.dht11_instance.read()
+        if not result.is_valid():
+            raise("Error reading from "+ self)
         result_t = result.temperature
         result_h = result.humidity
         return {'temp': result_t, 'hmdy': result_h}
