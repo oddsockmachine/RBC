@@ -1,0 +1,30 @@
+# Run postgres
+docker run --rm -it --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+
+# Use psql
+docker run -it --rm --link some-postgres:postgres postgres psql -h postgres -U postgres
+
+# Run postgraphql
+/usr/local/Cellar/node/8.8.1/bin/postgraphql -c postgres://postgres:mysecretpassword@192.168.99.100:5432/postgres -s public
+docker run -p 5000:5000 postgraphql/postgraphql --connection postgres://postgres:mysecretpassword@192.168.99.100:5432/postgres
+
+# Access graphiql
+http://localhost:5000/graphiql
+
+# Stress test/benchmark graphql endpoint
+echo '{"query":"query{allLocations{nodes{id,name,url,description}}}"}' > data.json
+ab -n 1000 -c 20 -T application/json -p data.json http://0.0.0.0:5000/graphql/
+
+schema
+https://editor.ponyorm.com/user/oddsockmachine/node_test/python
+https://docs.ponyorm.com/firststeps.html#
+
+# Postgraphql schema design tutorial (user auth etc)
+https://github.com/postgraphql/postgraphql/blob/master/examples/forum/TUTORIAL.md
+
+Postgrest
+https://postgrest.com/en/v4.3/
+
+# pgadmin
+# https://hub.docker.com/r/dpage/pgadmin4/
+docker run --rm -it -p 80:80 --name pgadmin -e "PGADMIN_DEFAULT_EMAIL=user@domain.com" -e "PGADMIN_DEFAULT_PASSWORD=mysecretpassword" -d dpage/pgadmin4

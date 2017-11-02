@@ -32,3 +32,17 @@ Components/services:
 
 
 for id in core sdram_c sdram_i sdram_p ; do  echo -e "$id:\t$(vcgencmd measure_volts $id)" ; done
+
+
+
+Connect sensors to node
+Upload firmware to node
+Add config file to node, specifying which sensors etc
+On wake, node reads config and executes jobs as required.
+Each job executed writes a timestamp to disk
+Node regularly polls manager for config. If different, write it to disk.
+
+Manager is rest/gql app
+Node state stored in DB
+
+Nodes

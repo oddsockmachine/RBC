@@ -19,6 +19,8 @@ export default {
   },
   // data function avails data to the template
   data() {
+    // GET /someUrl
+    // this.$http.get('localhost:8000');
     return {
       todos: [{
         title: 'Todo A',

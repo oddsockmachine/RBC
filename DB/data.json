@@ -1,0 +1,1 @@
+{"query":"query{allLins{nodes{id,url,description}}}"}

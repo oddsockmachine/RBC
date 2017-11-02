@@ -11,7 +11,7 @@ Sensor types:
 - Soil moisture
 - Ambient light intensity (split by UV/IR/Visible)
 - Ambient light color
-- Temperature
+- Temperature (soil, water, air, surface, cellar, freezer)
 - Air humidity
 - Rain
 - Air-pressure/weather
@@ -35,7 +35,7 @@ Workflow:
 - Pin sensors to zones
 - Record all measurements over time
 - Alert when measurements outside reasonable bounds (too dry, too cold etc)
-- Alert when conditions are optimal (eg excess hot water = have a shower, night temperatures no longer below x degrees = transplant seedlings)
+- Alert when conditions are optimal (eg excess hot water = have a shower, night temperatures no longer below x degrees = transplant seedlings, freezer broken = send text)
 - Calculate water usage of particular plant type based on temp, humidity, sunlight
 - Calculate how much water is necessary (or even optimal) at different times
 - Control water (or other controls, eg greenhouse vents) based on scheduled events, alerts, or optimization

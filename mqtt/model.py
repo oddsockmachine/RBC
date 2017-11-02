@@ -14,6 +14,7 @@ class Location(rom.Model):
     description = rom.String(required=True)
     parent = rom.ManyToOne('Location', on_delete='cascade')
     children = rom.OneToMany('Location', column='parent')
+    nodes = rom.OneToMany('Node', column='location')
     # outline of grid coordinates for map
     def to_json(self):
         d = {}
@@ -22,6 +23,7 @@ class Location(rom.Model):
         d['url'] = str(self.url.decode('utf-8'))
         d['parent'] = {'name': self.parent.name.decode('utf-8'), 'url': self.parent.url.decode('utf-8')}
         d['children'] = [{'name':c.name.decode('utf-8'), 'url':c.url.decode('utf-8')} for c in self.children]
+        d['nodes'] = [str(n.uid.decode('utf-8')) for n in self.nodes]
         return dumps(d)
 
 class Sensor(rom.Model):
@@ -33,6 +35,17 @@ class Sensor(rom.Model):
     period = rom.Integer()  # In seconds
     units = rom.String()  # Human readable units
     node = rom.ManyToOne('Node', on_delete='cascade', required=True)
+    def to_json(self):
+        s = {}
+        s['name'] = str(self.name.decode('utf-8'))
+        s['uid'] = str(self.uid.decode('utf-8'))
+        s['sensor_type'] = str(self.sensor_type.decode('utf-8'))
+        s['pin'] = str(self.pin.decode('utf-8'))
+        s['period'] = str(self.period)
+        s['units'] = str(self.units.decode('utf-8'))
+        s['node'] = str(self.node)
+        return s
+
 
 class Node(rom.Model):
     name = rom.String(required=True, index=True, keygen=rom.FULL_TEXT)
@@ -76,16 +89,38 @@ class Node(rom.Model):
         self.save()
 
     def to_json(self):
-        d = self.__dict__.get('_data')
-        d['location'] = d['location'].url
+        d = {}
+        d['name'] = self.name
+        d['uid'] = self.uid
+        d['presence'] = self.presence
+        d['tags'] = self.tags
+        d['created_at'] = self.created_at
+        d['woken_at'] = self.woken_at
+        d['power'] = self.power
+        d['lat'] = self.lat
+        d['lon'] = self.lon
+        d['location'] = self.location.url
+        d['sensors'] = [s.to_json() for s in self.sensors]
         return d
 
-def exists(uid):
+def make_uid():
+    uid = str(uuid4()).split("-")[0]
+    return uid
+
+def create_sensor(name, sensor_type, pin, period, units, node):
+    uid = make_uid()
+    if isinstance(node, str):  # incase we pass a uid instead of instance
+        node = get_node_by_id(node)
+    new_sen = Sensor(name=name, uid=uid, sensor_type=sensor_type, pin=pin, period=period, units=units, node=node)
+    new_sen.save()
+    return new_sen
+
+def node_exists(uid):
     n = Node.query.filter(uid=uid).all()
     return (len(n) > 0)
 
 def create_node(name, location_url, lat, lon, tags):
-    uid = str(uuid4()).split("-")[0]
+    uid = make_uid()
     location = get_location_by_url(location_url)
     n = Node(name=name, uid=uid, lat=lat, lon=lon, location=location, tags=tags).init()
     n.save()
@@ -99,15 +134,15 @@ def create_node_from_report(report):
 
 def get_node_by_name(name):
     n = Node.query.filter(name=name).all()
-    return n[0].to_json()
+    return n[0]
 
 def get_node_by_id(uid):
     n = Node.query.filter(uid=uid).all()
-    return n[0].to_json()
+    return n[0]
 
 def get_all_nodes():
     n = Node.query.filter().all()
-    return map(lambda x: x.to_json(), n)
+    return n
 
 def get_root_location():
     locs = Location.query.filter(name='root').all()
@@ -178,6 +213,10 @@ if __name__ == '__main__':
     # window4 = create_location('Kitchen Window', 'Kitchen window, West facing', lroom)
     # window5 = create_location('Desk Window', 'Desk window, East facing', lroom)
 
-    from pprint import pprint
-    graph = get_graph_under_location(root_location)
-    pprint(graph)
+    # from pprint import pprint
+    # graph = get_graph_under_location(root_location)
+    # pprint(graph)
+    sens = create_sensor("test_sensor", "dht_11", "3", "60", "flarbs/sec", "49e16758")
+    # print(sens)
+    # print(sens.node)
+    print(get_node_by_id('49e16758').sensors[0].name)
