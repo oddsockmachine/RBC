@@ -1,0 +1,11 @@
+schedule:
+  error_reporting:
+    enable: true
+    period: 10
+  log_reporting:
+    enable: true
+    period: 11
+jobs:
+  light_1:
+    period: 10
+    sensor: "abc123"

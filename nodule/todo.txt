@@ -1,0 +1,48 @@
+RPI ELK
+improve on_connect setup
+tests
+Send "report logs" msg, return last [x] logs from queue
+How to account for multiple sensors on same pin? Have to handle 1wire, i2c, spi etc
+  Could use spi/i2c address as pin so we can pass that in remotely
+Set_Name action (might need to restart)
+trigger_job should call a sensor/actuator immediately.
+If Node is offline/powered down, bridge should queue any sent messages/tasks until the node wakes up
+report internal voltage
+update_firmware: job pulls latest git repo, then restarts node
+
+daemon/service around node process
+Push notifications to mobile devices!
+Generalize libraries/interfaces so code for rpi and esp work the same
+Need to batch/buffer messages internally, send when there is enough power
+Update internal clock on wake
+alerts if too many errors in given time
+
+
+Components/services:
+  ELK/logging backend
+  Nodes
+    Solar power
+    Wakeup schedule should be minimum frequency of sensor readings
+  Sensors
+    Physical/electrical
+    Reading framework
+  Central server
+  Frontend, visualization
+  Phone app
+
+
+for id in core sdram_c sdram_i sdram_p ; do  echo -e "$id:\t$(vcgencmd measure_volts $id)" ; done
+
+
+
+Connect sensors to node
+Upload firmware to node
+Add config file to node, specifying which sensors etc
+On wake, node reads config and executes jobs as required.
+Each job executed writes a timestamp to disk
+Node regularly polls manager for config. If different, write it to disk.
+
+Manager is rest/gql app
+Node state stored in DB
+
+Nodes
