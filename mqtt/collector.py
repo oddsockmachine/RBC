@@ -32,14 +32,30 @@ def send_to_db(client, userdata, msg):
     return
 
 
+def send_to_file(client, userdata, msg):
+    mid = msg.mid
+    payload = loads(msg.payload.decode("utf-8"))
+    timestamp = msg.timestamp
+    url = msg.topic
+    time = payload['timestamp'].split('.')[0]
+    values = loads(payload['value'].replace("'", '"'))
+    # temp = values['temp']
+    log_line = '{}, {}\n'.format(time, values)
+    with open('logfile.txt', 'a') as logfile:
+        logfile.write(log_line)
+    return
+
+
+
 router = {
     'elk': send_to_elk,
     'db': send_to_db,
+    'file': send_to_file,
 }
 
 routes = {
     'presence': ['elk', 'db'],
-    'sensors': ['elk'],
+    'sensors': ['elk', 'file'],
     'logs': ['elk'],
     'errors': ['elk'],
     'report': ['elk', 'db'],
@@ -48,12 +64,12 @@ routes = {
 def msg_cb(client, userdata, msg):
     topic = msg.topic.split("/")[0]
     for route in routes.get(topic):
-        try:
-            r_func = router.get(route)
-            r_func(client, userdata, msg)
-        except:
-            print("Topic {} not recognized".format(topic))
-            pass
+        # try:
+        r_func = router.get(route)
+        r_func(client, userdata, msg)
+        # except:
+        #     print("Topic {} not recognized".format(topic))
+        #     pass
 
 config = load_config()
 name = 'bridge'
