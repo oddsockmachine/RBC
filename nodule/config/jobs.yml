@@ -1,11 +1,38 @@
-schedule:
-  error_reporting:
-    enable: true
-    period: 10
-  log_reporting:
-    enable: true
-    period: 11
-jobs:
-  light_1:
-    period: 10
-    sensor: "abc123"
+- uid: pqr246
+  description: report errors
+  period: 20
+  type: internal
+  function: report_errors
+- uid: pqr357
+  description: return debug logs
+  period: 30
+  type: internal
+  function: report_logs
+- uid: pqr468
+  description: "hourly light intensity check"
+  period: 10
+  type: sensor
+  component: "xyz555"
+- uid: asd321
+  description: "greenhouse air temp check"
+  period: 9
+  type: sensor
+  component: "xyz111"
+- uid: pqr579
+  description: "gentle water bed A"
+  period: 10
+  type: actuator
+  component: "abc888"
+  params: {on_time: 1}
+- uid: pqr680
+  description: "soak bed A"
+  period: 50
+  type: actuator
+  component: "abc888"
+  params: {on_time: 5}
+- uid: pqr680
+  description: "gentle water bed B"
+  period: 50
+  type: actuator
+  component: "abc999"
+  params: {on_time: 5}

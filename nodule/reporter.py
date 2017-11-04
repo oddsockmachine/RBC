@@ -24,3 +24,6 @@ def log_catch(node):
         msg = dumps({'timestamp': str(datetime.now()), 'error': str(e), 'node': node.name})
         node.log_error(msg)
         pass
+
+
+# separate streams/channels for debug, errors, logs, reports etc.

@@ -1,8 +1,8 @@
 import paho.mqtt.client as mqtt
 from sys import argv
 from jobs import *
-from sensors import *
-from sensor_set import SensorSet
+from components.sensors import *
+from components.gpio_set import *
 import schedule
 import time
 from json import loads, dumps
@@ -27,10 +27,8 @@ class Nodule(object):
         self.start_mqtt()  # Connect to the Mosquitto broker - used to send readings/reports, receive triggers from manager
 
         self.load_remote_config()  # We've just woken, so try to refresh config from source of truth
-        self.sensor_set = SensorSet()  # Set up sensors/actuators/external components according to config
-        # TODO self.sensor_set.load_config(self.config)  # TODO is this necessary, or can we set up above?
-        self.jobs = JobList()  # Set up jobs/schedules according to config
-        # TODO self.jobs.load_config(self.config)  # TODO is this necessary, or can we set up above?
+        self.gpio_set = GPIO_Set(self)  # Set up sensors/actuators/external components according to config
+        self.jobs = JobList(self)  # Set up jobs/schedules according to config
         self.wake_time = datetime.now()  # We will sometimes report this/track uptime
         return
 
@@ -39,7 +37,7 @@ class Nodule(object):
         Config will already have been read from disk, but it may have been
         updated since last read/restart.
         If this fails due to connectivity, just fall back to disk config."""
-        mgr_conf = self.config['nodule']['manager']
+        mgr_conf = self.config['hardware']['manager']
         config_url = 'http://{url}:{port}/{endpoint}/{uid}'.format(url=mgr_conf['url'],port=mgr_conf['port'],endpoint=mgr_conf['get_config_endpoint'],uid=self.UID)
         print("Attempting to refresh config from {}".format(config_url))
         try:
@@ -61,7 +59,7 @@ class Nodule(object):
         # LastWill must be set before connect()
         presence_channel = self.channel_mgr.presence()
         self.client.will_set(presence_channel, presence_msg(False), 0, False)
-        mqtt_conf = self.config['nodule']['mqtt']
+        mqtt_conf = self.config['hardware']['mqtt']
         self.client.connect(mqtt_conf['mqtt_url'], mqtt_conf['mqtt_port'], mqtt_conf['mqtt_keepalive'])
         self.client.loop_start()
         self.client.publish(presence_channel, presence_msg(True))
@@ -95,18 +93,21 @@ class Nodule(object):
         action2cb = {"add": cb_add_job,
                     "del": cb_del_job,
                     # "show": cb_show_jobs,
-                    "trigger": cb_trigger_job,
+                    "trigger": cb_trigger_job,   # WILL NEED TO BE ABLE TO TRIGGER JOB/ACTUATOR IMMEDIATELY BASED ON CENTRAL RULES ENGINE
+                    "refresh_config": cb_refresh_config,
                     "get_logs": cb_report_logs,}
                     # "query_sensor": cb_query_sensor,}
                     # "get_errors": cb_show_errors,
                     # "report": cb_report_in,}
         for action, cb in action2cb.items():
-            job_topic = "jobs/{}/{}/#".format(self.UID, action)
+            job_topic = "nodule/{}/{}/#".format(self.UID, action)
             job_topic = self.channel_mgr.jobs(action)
             client.message_callback_add(job_topic, cb)
             client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
 
 
+def cb_refresh_config(client, userdata, msg):
+    return
 def cb_report_in(client, userdata, msg):
     return
 def cb_add_job(client, userdata, msg):
@@ -133,7 +134,6 @@ def cb_trigger_job(client, userdata, msg):
 
 if __name__ == '__main__':
     myNodule = Nodule()
-    # myNodule.start_mqtt()
     while True:
         try:
             schedule.run_pending()

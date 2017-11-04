@@ -1,3 +1,5 @@
-1: {pin: 99, type: DHT_11}
-2: {pin: i2c_4, type: DS_temp}
-3: {pin: 3, type: LDR}
+- {uid: xyz111, pin: 1, type: DHT_11, description: 'Greenhouse air temp/humidity'}
+- {uid: xyz222, pin: i2c_3, type: DS_temp, description: 'Bed 1 temp'}
+- {uid: xyz333, pin: i2c_4, type: DS_temp, description: 'Bed 2 temp' }
+- {uid: xyz444, pin: i2c_5, type: DS_temp, description: 'Bed 3 temp' }
+- {uid: xyz555, pin: 3, type: LDR, description: 'Greenhouse light intensity'}

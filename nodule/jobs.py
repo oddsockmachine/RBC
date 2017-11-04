@@ -8,16 +8,29 @@ from logger import log_catch
 
 class JobList(object):
     """docstring for JobList."""
-    def __init__(self):
+    def __init__(self, nodule):
         super(JobList, self).__init__()
-        # self.client = _client
-        # global client
-        # client = _client
+        self.nodule = nodule
         self.jobs = []
+        self.load_jobs_from_config(nodule.config['jobs'])
+
+
+    def load_jobs_from_config(self, job_configs):
+        from pprint import pprint
+        pprint(job_configs)
+        for new_job_config in job_configs:
+            job_type = new_job_config['type']
+            if job_type in ['sensor', 'actuator']:
+                component = self.nodule.gpio_set.get_component_by_attr(job_type, 'uid', new_job_config['component'])
+                print(new_job_config['description'], component.description)
+                new_job = Job(new_job_config['period'], self.nodule, new_job_config['uid'], component, new_job_config['type'])
+                self.add_job(new_job)
+        return
+
     def add_job(self, job):
         self.jobs.append(job)
         # schedule.every(job.period).seconds.do(job.func, self.client, job.args).tag(job.name, job.uid, 'temp', 'sensor')
-        schedule.every(job.period).seconds.do(job.execute).tag(job.name, job.uid)
+        schedule.every(job.period).seconds.do(job.call).tag(job.kind, job.uid)
         # schedule.every(job.period).seconds.do(job.func, "123", self.client).tag(job.name, 'temp', 'sensor')
     def get_job(self, query):
         return
@@ -27,26 +40,30 @@ class JobList(object):
         jobs = [j.__dict__.copy() for j in self.jobs]
         [j.pop("func") for j in jobs]  # Magic side effect, don't care about return value
         return jobs
-    # def refresh_schedule(self):
-    #     """Empty the node's schedule, rebuild from its internal list of jobs"""
-    #     # schedule.clear() # TODO this will reset countdown to next run.
-    #     # print ([x.tags for x in schedule.jobs])
-    #     # for j in self.jobs.all_jobs():
-    #     #     schedule.every(j.period).seconds.do(j.func, "123", self.client).tag(j.name, 'temp', 'sensor')
-    #     return
 
 class Job(object):
     """docstring for Job."""
-    def __init__(self, period, node, name, func):
+    def __init__(self, period, nodule, uid, component, kind):
         super(Job, self).__init__()
-        self.name = name
+        self.uid = uid
         self.period = period
+        self.kind = kind
+        self.component = component
+    def call(self):
+        msg = self.execute()
+        msg.update(self.default_msg())
+        self.report(msg)
     def default_msg(self):
-        return {"node": self.node.name, "timestamp": str(datetime.now())}
+        """Provide default data that should be sent with each message"""
+        return {"job_uid": self.uid, "component_uid": self.component.uid, "timestamp": str(datetime.now())}
     def execute(self):
+        return {"values": "999"}
         raise Exception("Execute function not implemented for {}".format(str(self)))
-    def report(self):
-        return {'name': self.name, 'type': self.__class__.__name__}
+    def report(self, msg):
+        """Wrap message from sensor, actuator etc and send to reporter"""
+        print(msg)
+        return
+        return {'uid': self.uid, 'type': self.__class__.__name__}
 
 class SensorJob(Job):
     """docstring for Job."""
@@ -71,6 +88,11 @@ class SensorJob(Job):
             msg.update({"job_id": self.uid, "job_name":self.name, "pin": self.sensor.pin, "type": self.sensor.type, "value": str(result)})
             self.client.publish(channel, dumps(msg))
             self.last_run = datetime.now()
+
+class ActuatorJob(Job):
+    """docstring for ActuatorJob."""
+    def __init__(self, period, node, sensor):
+        return
 
 class InternalJob(Job):
     """docstring for Job."""

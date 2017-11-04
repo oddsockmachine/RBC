@@ -1,0 +1,16 @@
+manager:
+# url: 192.168.0.13
+  url: 127.0.0.1
+  port: 8080
+  get_config_endpoint: get_config/node
+mqtt:
+  mqtt_url: 127.0.0.1
+  mqtt_port: 1883
+  mqtt_keepalive: 1883
+
+
+topics: [sensors, logs, errors, report, presence]
+valid_pins:
+  rpi: [0,1,2,3,4,5,6,7,8,"cpu_temp","du"]
+  esp8266: [0,1,2,3,4, 90,91,92,93,94]
+  local: [0,1,2,3]

@@ -1,0 +1,4 @@
+- {uid: abc777, pin: 10, type: relay, description: 'Greenhouse airflow fan'}
+- {uid: abc888, pin: 11, type: pump, description: 'Water pump bed A'}
+- {uid: abc999, pin: 12, type: pump, description: 'Water pump bed B'}
+- {uid: abc111, pin: 13, type: servo, description: 'Greenhouse windows'}

@@ -10,6 +10,10 @@ If Node is offline/powered down, bridge should queue any sent messages/tasks unt
 report internal voltage
 update_firmware: job pulls latest git repo, then restarts node
 
+
+RULES ENGINE: IF TEMP>X && BED Y==DRY: WATER && OPEN WINDOW
+
+
 daemon/service around node process
 Push notifications to mobile devices!
 Generalize libraries/interfaces so code for rpi and esp work the same
@@ -17,21 +21,6 @@ Need to batch/buffer messages internally, send when there is enough power
 Update internal clock on wake
 alerts if too many errors in given time
 
-
-Components/services:
-  ELK/logging backend
-  Nodes
-    Solar power
-    Wakeup schedule should be minimum frequency of sensor readings
-  Sensors
-    Physical/electrical
-    Reading framework
-  Central server
-  Frontend, visualization
-  Phone app
-
-
-for id in core sdram_c sdram_i sdram_p ; do  echo -e "$id:\t$(vcgencmd measure_volts $id)" ; done
 
 
 

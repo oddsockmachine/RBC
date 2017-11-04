@@ -6,7 +6,7 @@ from yaml import load, dump
 
 # Separate files used for each type of config
 # Allows us to only write where necessary
-conf_types = ['jobs', 'nodule', 'sensors']
+conf_types = ['jobs', 'nodule', 'sensors', 'hardware', 'actuators']
 conf_file_paths = {c: "./config/{}.yml".format(c) for c in conf_types}
 
 def load_config_from_disk():
