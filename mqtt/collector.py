@@ -55,7 +55,7 @@ router = {
 
 routes = {
     'presence': ['elk', 'db'],
-    'sensors': ['elk', 'file'],
+    'sensors': ['elk'],#, 'file'],
     'logs': ['elk'],
     'errors': ['elk'],
     'report': ['elk', 'db'],

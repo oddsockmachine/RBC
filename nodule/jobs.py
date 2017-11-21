@@ -3,9 +3,10 @@ import schedule
 from json import dumps
 from logger import log_catch
 
-# def job_to_channel(location, _id):
-#     return "sensors/{location}/{_id}/temperature".format(location, _id)
-
+# TODO allow more advanced usage of scheduler- every minute/hour/day/week, specified times etc
+# TODO https://schedule.readthedocs.io/en/stable/faq.html#what-if-my-task-throws-an-exception
+# TODO https://gist.github.com/mplewis/8483f1c24f2d6259aef6
+# TODO https://schedule.readthedocs.io/en/stable/faq.html#how-can-i-add-generic-logging-to-my-scheduled-jobs
 class JobList(object):
     """docstring for JobList."""
     def __init__(self, nodule):
@@ -32,14 +33,14 @@ class JobList(object):
         # schedule.every(job.period).seconds.do(job.func, self.client, job.args).tag(job.name, job.uid, 'temp', 'sensor')
         schedule.every(job.period).seconds.do(job.call).tag(job.kind, job.uid)
         # schedule.every(job.period).seconds.do(job.func, "123", self.client).tag(job.name, 'temp', 'sensor')
-    def get_job(self, query):
-        return
-    def all_jobs(self):
-        return [j.report() for j in self.jobs]
-    def report_jobs(self):
-        jobs = [j.__dict__.copy() for j in self.jobs]
-        [j.pop("func") for j in jobs]  # Magic side effect, don't care about return value
-        return jobs
+    # def get_job(self, query):
+    #     return
+    # def all_jobs(self):
+    #     return [j.report() for j in self.jobs]
+    # def report_jobs(self):
+    #     jobs = [j.__dict__.copy() for j in self.jobs]
+    #     [j.pop("func") for j in jobs]  # Magic side effect, don't care about return value
+    #     return jobs
 
 class Job(object):
     """docstring for Job."""
@@ -49,6 +50,7 @@ class Job(object):
         self.period = period
         self.kind = kind
         self.component = component
+        self.nodule = nodule
     def call(self):
         msg = self.execute()
         msg.update(self.default_msg())
@@ -61,7 +63,8 @@ class Job(object):
         raise Exception("Execute function not implemented for {}".format(str(self)))
     def report(self, msg):
         """Wrap message from sensor, actuator etc and send to reporter"""
-        print(msg)
+        # print(msg)
+        self.nodule.publish(msg)
         return
         return {'uid': self.uid, 'type': self.__class__.__name__}
 

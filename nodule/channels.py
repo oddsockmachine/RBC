@@ -3,28 +3,26 @@
 
 class ChannelMgr(object):
     """Helper functions to manage channel urls"""
-    def __init__(self, nodename):
+    def __init__(self, node_uid):
         super(ChannelMgr, self).__init__()
-        self.nodename = nodename
-
-
-    def jobs(self, command):
-        return "jobs/{nodename}/{command}/#".format(nodename=self.nodename, command=command)
-
-    def errors(self):
-        return "errors/{nodename}".format(nodename=self.nodename)
-
-    def logs(self):
-        return "logs/{nodename}".format(nodename=self.nodename)
+        self.node_uid = node_uid
 
     def presence(self):
-        return "presence/{nodename}".format(nodename=self.nodename)
+        return "presence/{node_uid}".format(node_uid=self.node_uid)
+
+    def errors(self):
+        return "errors/{node_uid}".format(node_uid=self.node_uid)
+
+    def logs(self):
+        return "logs/{node_uid}".format(node_uid=self.node_uid)
 
     def report(self):
-        return "report/{nodename}".format(nodename=self.nodename)
+        return "report/{node_uid}".format(node_uid=self.node_uid)
 
-    def actions(self, actuator, action):
-        return "actions/{nodename}/{actuator}/{action}/#".format(nodename=self.nodename, actuator=actuator, action=action)
+    def actuators(self, action, actuator_uid):
+        # action should be trigger or report
+        return "actuators/{action}/{node_uid}/{actuator_uid}".format(action=action, node_uid=self.node_uid, actuator_uid=actuator_uid)
 
-    def sensors(self, node, sensor_type, uid):
-        return "sensors/{nodename}/{sensor_type}/{uid}".format(nodename=self.nodename, sensor_type=sensor_type, uid=uid)
+    def sensors(self, action, sensor_uid):
+        # action should be trigger or report
+        return "sensors/{action}/{node_uid}/{sensor_uid}".format(action=action, node_uid=self.node_uid, sensor_uid=sensor_uid)

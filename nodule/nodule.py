@@ -20,12 +20,13 @@ class Nodule(object):
         self.config = CONFIG  # Take config from disk
         self.UID = CONFIG['nodule']['UID']  # UID identifies this node on the manager and logger
         self.client = mqtt.Client(client_id=self.UID)
-        self.reporter = Reporter(self.client)  # Reporter manages sending reports/readings over mqtt, or buffering in case of connectivity issues
-        # self.report = self.reporter.report
-        # self.log = self.reporter.log
         self.channel_mgr = ChannelMgr(self.UID)  # ChannelMgr provides easy access to channel URLs
+        self.reporter = Reporter(self)  # Reporter manages sending reports/readings over mqtt, or buffering in case of connectivity issues
+        self.publish = self.reporter.publish  # Easy-access reporting functions delegate to reporter
+        self.debug = self.reporter.debug
+        self.log_error = self.reporter.log_error
         self.start_mqtt()  # Connect to the Mosquitto broker - used to send readings/reports, receive triggers from manager
-
+        # TODO update internal time if hw==espx
         self.load_remote_config()  # We've just woken, so try to refresh config from source of truth
         self.gpio_set = GPIO_Set(self)  # Set up sensors/actuators/external components according to config
         self.jobs = JobList(self)  # Set up jobs/schedules according to config
@@ -41,14 +42,12 @@ class Nodule(object):
         config_url = 'http://{url}:{port}/{endpoint}/{uid}'.format(url=mgr_conf['url'],port=mgr_conf['port'],endpoint=mgr_conf['get_config_endpoint'],uid=self.UID)
         print("Attempting to refresh config from {}".format(config_url))
         try:
-            pass
-            # r = request.get(config_url)
-            # new_config = r.json()
-            # write_config_to_disk('all', new_config)
-            # log success to mqtt
+            r = request.get(config_url)
+            new_config = r.json()
+            write_config_to_disk('all', new_config)
+            self.debug("New config read and updated for nodule {}".format(self.UID))
         except:
-            pass
-            # log failure to internal backlog
+            self.log_error("Could not update new config for nodule {}".format(self.UID))
         return
 
     def start_mqtt(self):
@@ -101,7 +100,7 @@ class Nodule(object):
                     # "report": cb_report_in,}
         for action, cb in action2cb.items():
             job_topic = "nodule/{}/{}/#".format(self.UID, action)
-            job_topic = self.channel_mgr.jobs(action)
+            # job_topic = self.channel_mgr.jobs(action)
             client.message_callback_add(job_topic, cb)
             client.subscribe(job_topic)  # Add, modify, remove, trigger, etc
 
