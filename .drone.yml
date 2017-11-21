@@ -1,0 +1,6 @@
+build:
+  image: python:alpine
+  commands:
+    - cat nodule/requirements.txt
+    - pip install -r nodule/requirements.txt
+    - python nodule/tests.py
