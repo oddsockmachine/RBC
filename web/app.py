@@ -1,7 +1,7 @@
 from sanic import Sanic
 from sanic.response import json
 from pony.orm import db_session, select
-from ponypostgres import Nodule, Component, Job, Zone
+from models import Nodule, Component, Job, Zone
 from sanic.response import text, json
 from sanic.exceptions import abort
 from yaml import dump as ydump
