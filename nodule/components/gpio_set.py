@@ -8,13 +8,13 @@ class GPIO_Set(object):
         self.nodule = nodule
         self.sensors = []
         self.actuators = []
-        hw_type = nodule.config['nodule']['HW_TYPE']
+        hw_type = nodule.config['nodule']['hw_type']
         self.valid_pins = nodule.config['hardware']['valid_pins'][hw_type]  # TODO get from config based on hardware type
         self.used_pins = set()
         self.load_sensors_from_config(nodule.config['sensors'])
         self.load_actuators_from_config(nodule.config['actuators'])
-        print(self.get_component_by_attr('sensor', 'uid', 'xyz444').description)
-        print(self.get_component_by_attr('sensor', 'pin_num', 'i2c_3').description)
+        # print(self.get_component_by_attr('sensor', 'uid', 'xyz444').description)
+        # print(self.get_component_by_attr('sensor', 'pin_num', 'i2c_3').description)
 
     def get_component_by_attr(self, kind, attr, value):
         group = self.sensors if kind == "sensor" else self.actuators
@@ -22,12 +22,12 @@ class GPIO_Set(object):
         if len(x) == 1:
             return x[0]
         if len(x) == 0:
-            raise Exception("{}: {} not found".format(kind, uid))
+            raise Exception("{}: {} not found".format(kind, attr))
         return
 
     def load_sensors_from_config(self, sensor_config):
         for new_sens_cfg in sensor_config:
-            sensor_class = get_sensor_class(new_sens_cfg['type'])
+            sensor_class = get_sensor_class(new_sens_cfg['component_type'])
             uid = new_sens_cfg['uid']
             pin_num = new_sens_cfg['pin']
             description = new_sens_cfg['description']
@@ -38,7 +38,7 @@ class GPIO_Set(object):
 
     def load_actuators_from_config(self, actuator_config):
         for new_actuator_cfg in actuator_config:
-            actuator_class = get_actuator_class(new_actuator_cfg['type'])
+            actuator_class = get_actuator_class(new_actuator_cfg['component_type'])
             uid = new_actuator_cfg['uid']
             pin_num = new_actuator_cfg['pin']
             description = new_actuator_cfg['description']

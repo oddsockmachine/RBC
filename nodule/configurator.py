@@ -26,6 +26,7 @@ CONFIG = load_config_from_disk()
 def write_config_to_disk(topic, conf):
     """Take a section of config and persist it to disk.
     Should be called whenever config is changed, to endure restarts."""
+    print("Writing config for {}".format(topic))
     if topic not in conf_types:
         raise Exception("Config type {} not valid, not writing".format(topic))
     conf_file_path = conf_file_paths[topic]
@@ -33,6 +34,12 @@ def write_config_to_disk(topic, conf):
         dump(conf, conf_file)
     # Update the shared variable to avoid having to re-read from disk
     CONFIG[topic] = conf
+
+def get_uid():
+    with open('./config/uid.txt', 'r') as uid_file:
+        uid = uid_file.read().strip()
+        print("This nodule's UID is: {}".format(uid))
+        return uid
 
 if __name__ == '__main__':
     from pprint import pprint

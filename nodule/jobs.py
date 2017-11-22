@@ -17,14 +17,15 @@ class JobList(object):
 
 
     def load_jobs_from_config(self, job_configs):
-        from pprint import pprint
-        pprint(job_configs)
+        # from pprint import pprint
+        # pprint(job_configs)
         for new_job_config in job_configs:
-            job_type = new_job_config['type']
+            job_type = new_job_config['kind']
             if job_type in ['sensor', 'actuator']:
                 component = self.nodule.gpio_set.get_component_by_attr(job_type, 'uid', new_job_config['component'])
-                print(new_job_config['description'], component.description)
-                new_job = Job(new_job_config['period'], self.nodule, new_job_config['uid'], component, new_job_config['type'])
+                # print(new_job_config['description'], component.description)
+                new_job = Job(new_job_config['interval'], self.nodule, new_job_config['uid'], component, new_job_config['kind'])
+                # TODO use scheduler more flexibly, eg "every monday", "every 10am"
                 self.add_job(new_job)
         return
 

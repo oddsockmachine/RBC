@@ -5,11 +5,12 @@ from components.sensors import *
 from components.gpio_set import *
 import schedule
 import time
+import requests
 from json import loads, dumps
 from logger import log_catch
 from reporter import Reporter
 from collections import deque
-from configurator import load_config_from_disk, write_config_to_disk, CONFIG
+from configurator import load_config_from_disk, write_config_to_disk, CONFIG, get_uid
 from channels import ChannelMgr
 
 
@@ -17,8 +18,8 @@ class Nodule(object):
     """docstring for Nodule."""
     def __init__(self):
         super(Nodule, self).__init__()
-        self.config = CONFIG  # Take config from disk
-        self.UID = CONFIG['nodule']['UID']  # UID identifies this node on the manager and logger
+        self.config = CONFIG  # Take config from disk - first attempt, only need basics
+        self.UID = get_uid()  # UID identifies this node on the manager and logger
         self.client = mqtt.Client(client_id=self.UID)
         self.channel_mgr = ChannelMgr(self.UID)  # ChannelMgr provides easy access to channel URLs
         self.reporter = Reporter(self)  # Reporter manages sending reports/readings over mqtt, or buffering in case of connectivity issues
@@ -27,27 +28,30 @@ class Nodule(object):
         self.log_error = self.reporter.log_error
         self.start_mqtt()  # Connect to the Mosquitto broker - used to send readings/reports, receive triggers from manager
         # TODO update internal time if hw==espx
-        self.load_remote_config()  # We've just woken, so try to refresh config from source of truth
+        self.fetch_remote_config()  # We've just woken, so try to refresh config from source of truth
+        self.config = load_config_from_disk()  # Load config from disk now that jobs, components etc are up-to-date
         self.gpio_set = GPIO_Set(self)  # Set up sensors/actuators/external components according to config
         self.jobs = JobList(self)  # Set up jobs/schedules according to config
         self.wake_time = datetime.now()  # We will sometimes report this/track uptime
         return
 
-    def load_remote_config(self):
+    def fetch_remote_config(self):
         """Try to load in config from central manager.
         Config will already have been read from disk, but it may have been
         updated since last read/restart.
         If this fails due to connectivity, just fall back to disk config."""
         mgr_conf = self.config['hardware']['manager']
-        config_url = 'http://{url}:{port}/{endpoint}/{uid}'.format(url=mgr_conf['url'],port=mgr_conf['port'],endpoint=mgr_conf['get_config_endpoint'],uid=self.UID)
-        print("Attempting to refresh config from {}".format(config_url))
-        try:
-            r = request.get(config_url)
-            new_config = r.json()
-            write_config_to_disk('all', new_config)
-            self.debug("New config read and updated for nodule {}".format(self.UID))
-        except:
-            self.log_error("Could not update new config for nodule {}".format(self.UID))
+        endpoints = mgr_conf['get_config_endpoints']
+        for cfg_type, endpoint in endpoints.items():
+            config_url = 'http://{url}:{port}/{endpoint}'.format(url=mgr_conf['url'],port=mgr_conf['port'],endpoint=endpoint).format(n_id=self.UID)
+            print("Attempting to refresh config from {}".format(config_url))
+            try:
+                r = requests.get(config_url)
+                new_config = r.json()
+                write_config_to_disk(cfg_type, new_config)
+                self.debug("New config read and updated for nodule {}".format(self.UID))
+            except:
+                self.log_error("Could not update new config for nodule {}".format(self.UID))
         return
 
     def start_mqtt(self):
