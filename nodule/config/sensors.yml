@@ -1,5 +1,12 @@
-- {uid: xyz111, pin: 1, type: DHT_11, description: 'Greenhouse air temp/humidity'}
-- {uid: xyz222, pin: i2c_3, type: DS_temp, description: 'Bed 1 temp'}
-- {uid: xyz333, pin: i2c_4, type: DS_temp, description: 'Bed 2 temp' }
-- {uid: xyz444, pin: i2c_5, type: DS_temp, description: 'Bed 3 temp' }
-- {uid: xyz555, pin: 3, type: LDR, description: 'Greenhouse light intensity'}
+- {component_type: DHT_11, description: balcony temperature/humidity, id: 1, kind: sensor,
+  name: balc temp/hmdy, pin: '1', uid: '111'}
+- {component_type: ds18b20, description: tomato soil temp, id: 2, kind: sensor, name: tom_soil_temp,
+  pin: i2c_2, uid: '222'}
+- {component_type: ds18b20, description: aubergine soil temp, id: 3, kind: sensor,
+  name: aub_soil_temp, pin: i2c_3, uid: '333'}
+- {component_type: moisture, description: tomato soil moisture, id: 4, kind: sensor,
+  name: tom_soil_moist, pin: '4', uid: '444'}
+- {component_type: moisture, description: aubergine soil moisture, id: 5, kind: sensor,
+  name: aub_soil_moist, pin: '5', uid: '555'}
+- {component_type: TSL2561, description: balcony light intensity, id: 6, kind: sensor,
+  name: balc lux, pin: i2c_6, uid: '666'}

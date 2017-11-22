@@ -1,108 +1,107 @@
 from sanic import Sanic
 from sanic.response import json
-from sanic.views import HTTPMethodView
-from model import get_node_by_id, get_all_nodes, create_node, get_location_by_url, get_graph_under_location, create_location
-from sanic.response import text
-from json import dumps
-app = Sanic("Node_Manager")
+from pony.orm import db_session, select
+from ponypostgres import Nodule, Component, Job, Zone
+from sanic.response import text, json
+from sanic.exceptions import abort
+from yaml import dump as ydump
+from json import dumps as jdump
+app = Sanic("Node Config Manager")
+
+
+def get_nodule(n_id):
+    print("Fetching config for {}".format(n_id))
+    with db_session:
+        nodule = Nodule.get(uid=n_id)
+        if not nodule:
+            abort(404)
+        print("Found nodule: {}".format(nodule.name))
+        return nodule
+
+def get_model(resource):
+    lookup = {
+        'jobs': Job,
+        'components': Component,
+        'sensors': Component,
+        'actuators': Component,
+        'nodule': Nodule
+    }
+    model = lookup.get(resource)
+    if not model:
+        print("Resource {} not known".format(resource))
+        abort(400)
+    return model
+
+def get_items(model, nodule):
+    with db_session:
+        items = select(x for x in model if x.nodule==nodule)[:]
+        print("Found {} {}s".format(len(items), model.__name__))
+        columns = model._columns_
+        data = []
+        for item in items:
+            d = {c: getattr(item, c) for c in columns if type(getattr(item, c)) in [str, int, bool]}
+            if model==Job:
+                component = item.component.uid
+                d['component'] = component
+            data.append(d)
+        # print(data)
+    return data
+
+def get_nodule_info(nodule):
+    columns = Nodule._columns_
+    data = {c: getattr(nodule, c) for c in columns if type(getattr(nodule, c)) in [str, int, bool]}
+    default_data = {'valid_pins': [],
+                    'manager': {'url': '127.0.0.1', 'port':'8888',
+                                'get_config_endpoints': {'nodule': 'nodule/{n_id}/nodule',
+                                             'hardware': 'nodule/{n_id}/hardware',
+                                             'sensors': 'nodule/{n_id}/sensors',
+                                             'actuators': 'nodule/{n_id}/actuators',
+                                             'jobs': 'nodule/{n_id}/jobs'}},
+                    'mqtt': {'url': '127.0.0.1', 'port': '1883', 'keepalive': '1883'},
+                    'topics': ['sensors', 'logs', 'errors', 'report', 'presence'],
+                    }
+    data.update(default_data)
+    return data
+
+def filter_components(data, kind):
+    kind_name = {'sensors': 'sensor', 'actuators': 'actuator'}.get(kind)
+    data = [d for d in data if d.get('kind') == kind_name]
+    return data
+
+
 
 @app.route("/")
 async def root(request):
     return text("Front page goes here")
 
+@app.route("/nodule/")
+async def all_nodules(request):
+    # Just return a list of nodule uids
+    with db_session:
+        nodules = select(n for n in Nodule)
+        data = [n.uid for n in nodules]
+    return json(data)
 
-class Node(HTTPMethodView):
-    async def get(self, request):
-        nodes = [n.to_json() for n in get_all_nodes()]
-        return json({"hello": "world", "nodes": nodes})
+@app.route("/nodule/<n_id:[A-z0-9]{6}>/")
+async def nodule_resources(request, n_id):
+    return text("TODO: Links to resources should go here...")
 
-    async def post(self, request):
-        print("creating new node")
-        data = request.json
-        print(data)
-        name = data['name']
-        # location = data['location']
-        location_url = data['location_url']
-        lat = data['lat']
-        lon = data['lon']
-        tags = ", ".join(data['tags'])
-        new_node = create_node(name, location_url, lat, lon, tags)
-        return(json({"status": "success",
-                     "node_id": new_node.uid.decode("utf-8")}))
-app.add_route(Node.as_view(), '/node/')
+@app.route("/nodule/<n_id:[A-z0-9]{6}>/nodule")
+async def nodule_config(request, n_id):
+    nodule = get_nodule(n_id)
+    data = get_nodule_info(nodule)
+    return text(jdump(data))
 
-class NodeID(HTTPMethodView):
-    async def get(self, request, node_id):
-        this_node = get_node_by_id(node_id).to_json()
-        # this_node['location'] = this_node['location'].url  # Hack to prevent deep recursion into location graph
-        return json(this_node)
-
-    async def put(self, request, node_id):
-        # TODO code for modifying node
-        return text('I am put method for node {}'.format(node_id))
-
-    async def delete(self, request, node_id):
-        # TODO code for deleting node
-        return text('I am delete method for node {}'.format(node_id))
-app.add_route(NodeID.as_view(), '/node/<node_id>')
-
-
-
-class SensorID(HTTPMethodView):
-    async def get(self, request, node_id, sensor_id):
-        # No need to get all sensors for a node, get node/node_id does that
-        # This is more for manipulating single sensors, viewing their data
-        this_node = get_node_by_id(node_id).to_json()
-        return text('I am get method for node {} sensor {}'.format(node_id, sensor_id))
-        return json(this_node)
-
-    async def post(self, request, node_id, sensor_id):
-        # TODO SHOULD SEND MQTT MSG TO NODE TO CREATE SENSOR/JOB, AND ONLY THEN CREATE SENSOR IN DB WHEN REPORT COMES BACK
-        return text('I am post method for node {} sensor {}'.format(node_id, sensor_id))
-
-    async def put(self, request, node_id, sensor_id):
-        # TODO code for modifying node
-        return text('I am put method for node {} sensor {}'.format(node_id, sensor_id))
-
-    async def delete(self, request, node_id, sensor_id):
-        # TODO code for deleting node
-        return text('I am delete method for node {} sensor {}'.format(node_id, sensor_id))
-app.add_route(SensorID.as_view(), '/node/<node_id>/sensor/<sensor_id>')
-
-
-class Location(HTTPMethodView):
-    async def get(self, request):
-        loc_url = request.args.get('loc_url')
-        location = get_location_by_url(loc_url)
-        location_data = location.to_json()
-        child_graph = get_graph_under_location(location)
-        print(child_graph)
-        return text(dumps({'location_data': location_data,
-                            'child_graph': child_graph}))
-
-    async def post(self, request):
-        data = request.json
-        name = data['name']
-        description = data['description']
-        parent_url = data['parent_url']
-        parent_loc = get_location_by_url(parent_url)
-        new_loc = create_location(name, description, parent_loc)
-        print(new_loc.to_json())
-        return(json({"status": "success",
-                     "location_url": new_loc.url}))
-
-    async def put(self, request):
-        # TODO code for modifying location
-        return text('I am put method for location {}'.format(loc_url))
-
-    async def delete(self, request):
-        # TODO code for deleting location
-        return text('I am delete method for location {}'.format(loc_url))
-app.add_route(Location.as_view(), '/location')
-
-
-
-
+@app.route("/nodule/<n_id:[A-z0-9]{6}>/<resource>")
+async def resource_config(request, n_id, resource):
+    model = get_model(resource)
+    nodule = get_nodule(n_id)
+    data = get_items(model, nodule)
+    if resource in ['sensors', 'actuators']:
+        data = filter_components(data, resource)
+    # if resource == 'jobs':
+    #     data = link_job_to_component(data)
+    return text(jdump(data))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=8888)

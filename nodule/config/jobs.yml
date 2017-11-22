@@ -1,73 +1,14 @@
-- uid: pqr246
-  description: report errors
-  period: 20
-  # interval: 999
-  # unit: minutes
-  # at_time: 12.34
-  # start_day: Monday
-  # tags: daily, water, sensor, actuator
-  type: internal
-  function: report_errors
-- uid: pqr357
-  description: return debug logs
-  period: 30
-  # interval: 999
-  # unit: minutes
-  # at_time: 12.34
-  # start_day: Monday
-  # tags: daily, water, sensor, actuator
-  type: internal
-  function: report_logs
-- uid: pqr468
-  description: "hourly light intensity check"
-  period: 10
-  # interval: 999
-  # unit: minutes
-  # at_time: 12.34
-  # start_day: Monday
-  # tags: daily, water, sensor, actuator
-  type: sensor
-  component: "xyz555"
-- uid: asd321
-  description: "greenhouse air temp check"
-  period: 4
-  # interval: 999
-  # unit: minutes
-  # at_time: 12.34
-  # start_day: Monday
-  # tags: daily, water, sensor, actuator
-  type: sensor
-  component: "xyz111"
-- uid: pqr579
-  description: "gentle water bed A"
-  period: 5
-  # interval: 999
-  # unit: minutes
-  # at_time: 12.34
-  # start_day: Monday
-  # tags: daily, water, sensor, actuator
-  type: actuator
-  component: "abc888"
-  params: {on_time: 1}
-- uid: pqr680
-  description: "soak bed A"
-  period: 10
-  # interval: 999
-  # unit: minutes
-  # at_time: 12.34
-  # start_day: Monday
-  # tags: daily, water, sensor, actuator
-  type: actuator
-  component: "abc888"
-  params: {on_time: 5}
-- uid: pqr680
-  description: "gentle water bed B"
-  period: 11
-  # interval: 999
-  # unit: minutes
-  # at_time: 12.34
-  # start_day: Monday
-  # tags: daily, water, sensor, actuator
-  type: actuator
-  component: "abc999"
-  params: {on_time: 5}
+- {component: '888', description: Runs the pump, id: 7, interval: 25, kind: actuator,
+  name: run pump, start_day: '', tags: _, uid: ttt, units: ''}
+- {component: '666', description: Light intensity on balcony, id: 6, interval: 5,
+  kind: sensor, name: balcony light, start_day: '', tags: _, uid: uuu, units: lux}
+- {component: '555', description: Moisture of soil in aubergine pot, id: 5, interval: 20,
+  kind: sensor, name: aubergine soil moisture, start_day: '', tags: _, uid: vvv, units: '%'}
+- {component: '444', description: Moisture of soil in tomato pot, id: 4, interval: 20,
+  kind: sensor, name: tomato soil moisture, start_day: '', tags: _, uid: www, units: '%'}
+- {component: '333', description: Temperature of soil in aubergine pot, id: 3, interval: 20,
+  kind: sensor, name: aubergine soil temp, start_day: '', tags: _, uid: xxx, units: C}
+- {component: '222', description: Temperature of soil in tomato pot, id: 2, interval: 20,
+  kind: sensor, name: tomato soil temp, start_day: '', tags: _, uid: yyy, units: C}
+- {component: '111', description: Balcony air temperature and humidity, id: 1, interval: 5,
+  kind: sensor, name: balcony air temp, start_day: '', tags: _, uid: zzz, units: C/%}

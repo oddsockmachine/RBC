@@ -1,4 +1,4 @@
-- {uid: abc777, pin: 10, type: relay, description: 'Greenhouse airflow fan'}
-- {uid: abc888, pin: 11, type: pump, description: 'Water pump bed A'}
-- {uid: abc999, pin: 12, type: pump, description: 'Water pump bed B'}
-- {uid: abc111, pin: 13, type: servo, description: 'Greenhouse windows'}
+- {component_type: servo, description: greenhouse window, id: 7, kind: actuator, name: window,
+  pin: '7', uid: '777'}
+- {component_type: pump, description: irrigation pump, id: 8, kind: actuator, name: pump,
+  pin: '8', uid: '888'}

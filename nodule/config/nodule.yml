@@ -1,13 +1,17 @@
-UID: ABC123
-# node_name: Foo
+batch: false
 debug: true
-
-err_log_size: 150
-log_size: 500
+err_log_size: 100
+hw_type: esp8266
+id: 1
+log_size: 100
+manager:
+  get_config_endpoints: {actuators: 'nodule/{n_id}/actuators', hardware: 'nodule/{n_id}/hardware',
+    jobs: 'nodule/{n_id}/jobs', nodule: 'nodule/{n_id}/nodule', sensors: 'nodule/{n_id}/sensors'}
+  port: '8888'
+  url: 127.0.0.1
+mqtt: {keepalive: '1883', port: '1883', url: 127.0.0.1}
+name: balcony
+tags: ''
 topics: [sensors, logs, errors, report, presence]
-batch: False  # Publish continuously, or batch messages
-
-# HW_TYPE: local
-HW_TYPE: esp8266
-# HW_TYPE: esp32
-# HW_TYPE: rpi
+uid: abc123
+valid_pins: []
