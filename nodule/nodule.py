@@ -1,5 +1,4 @@
 import paho.mqtt.client as mqtt
-from sys import argv
 from jobs import *
 from components.sensors import *
 from components.gpio_set import *

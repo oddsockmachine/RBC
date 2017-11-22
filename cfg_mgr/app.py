@@ -3,7 +3,6 @@ from pony.orm import db_session, select
 from models import Nodule, Component, Job, Zone
 from sanic.response import text, json
 from sanic.exceptions import abort
-from yaml import dump as ydump
 from json import dumps as jdump
 app = Sanic("Node Config Manager")
 

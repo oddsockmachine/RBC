@@ -1,4 +1,5 @@
 from yaml import load, dump
+from sys import argv
 # try:
 #     from yaml import CLoader as Loader, CDumper as Dumper
 # except ImportError:
@@ -36,6 +37,9 @@ def write_config_to_disk(topic, conf):
     CONFIG[topic] = conf
 
 def get_uid():
+    if len(argv) > 1:
+        uid = argv[1]
+        return uid
     with open('./config/uid.txt', 'r') as uid_file:
         uid = uid_file.read().strip()
         print("This nodule's UID is: {}".format(uid))
