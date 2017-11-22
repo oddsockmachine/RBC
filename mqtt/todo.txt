@@ -16,7 +16,7 @@ Generalize libraries/interfaces so code for rpi and esp work the same
 Need to batch/buffer messages internally, send when there is enough power
 Update internal clock on wake
 alerts if too many errors in given time
-
+use more flexible scheduling: daily, set time, etc
 
 Components/services:
   ELK/logging backend
