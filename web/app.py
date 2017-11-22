@@ -1,5 +1,4 @@
 from sanic import Sanic
-from sanic.response import json
 from pony.orm import db_session, select
 from models import Nodule, Component, Job, Zone
 from sanic.response import text, json
