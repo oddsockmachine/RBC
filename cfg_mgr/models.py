@@ -1,5 +1,6 @@
 from datetime import datetime, time
 from pony.orm import *
+from uuid import uuid4
 # set_sql_debug(True)
 
 db = Database()
@@ -28,7 +29,7 @@ class Nodule(db.Entity):
 
 class Component(db.Entity):
     id = PrimaryKey(int, auto=True)
-    uid = Required(str)
+    uid = Required(str, unique=True)
     name = Required(str)  # TODO needed?
     description = Required(str)  # What is this component doing, where is it placed?
     component_type = Required(str)  # eg DHT_11, ds18b20
@@ -40,7 +41,7 @@ class Component(db.Entity):
 
 class Job(db.Entity):
     id = PrimaryKey(int, auto=True)
-    uid = Required(str)
+    uid = Required(str, unique=True)
     name = Required(str)
     description = Required(str)
     kind = Required(str)  # internal, sensor or actuator
@@ -83,6 +84,12 @@ class Link(db.Entity):
 db.bind(provider='postgres', user='postgres', password='mysecretpassword', host='192.168.99.100', database='')
 # db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
 db.generate_mapping(create_tables=True)
+
+def uuid():
+    """Generate a uid to identify components/jobs which is short enough to be human-usable"""
+    uid = str(uuid4()).split('-')[0]
+    return uid
+
 if __name__ == '__main__':
 
     with db_session:
@@ -101,26 +108,33 @@ if __name__ == '__main__':
         Z8 = Zone(name='SW window', url='/3_bayside_village/living_room/sw_window', description='South West Window', parent=Z3)
 
         N1 = Nodule(uid='abc123', name='balcony', created_at=datetime.now(), zone=Z4, hw_type='esp8266')
-        N2 = Nodule(uid='def456', name='living room', created_at=datetime.now(), zone=Z3, hw_type='esp8266')
-        N3 = Nodule(uid='ghi789', name='SE Window', created_at=datetime.now(), zone=Z7, hw_type='esp8266')
-        N5 = Nodule(uid='jkl012', name='Sw Window', created_at=datetime.now(), zone=Z8, hw_type='esp8266')
+        N2 = Nodule(uid='def456', name='living room', created_at=datetime.now(), zone=Z3, hw_type='raspi')
+        N3 = Nodule(uid='ghi789', name='SE Window', created_at=datetime.now(), zone=Z7, hw_type='esp32')
+        N5 = Nodule(uid='jkl012', name='SW Window', created_at=datetime.now(), zone=Z8, hw_type='raspi')
         # n_bal = Nodule.get(name='balcony')
         # print(n_bal.name)
-        c1 = Component(uid='111', name='balc temp/hmdy', description='balcony temperature/humidity', kind='sensor', component_type='DHT_11', pin="1", nodule=N1)
-        c2 = Component(uid='222', name='tom_soil_temp', description='tomato soil temp', kind='sensor', component_type='ds18b20', pin="i2c_2", nodule=N1)
-        c3 = Component(uid='333', name='aub_soil_temp', description='aubergine soil temp', kind='sensor', component_type='ds18b20', pin="i2c_3", nodule=N1)
-        c4 = Component(uid='444', name='tom_soil_moist', description='tomato soil moisture', kind='sensor', component_type='moisture', pin="4", nodule=N1)
-        c5 = Component(uid='555', name='aub_soil_moist', description='aubergine soil moisture', kind='sensor', component_type='moisture', pin="5", nodule=N1)
-        c6 = Component(uid='666', name='balc lux', description='balcony light intensity', kind='sensor', component_type='TSL2561', pin="i2c_6", nodule=N1)
-
-        c7 = Component(uid='777', name='window', description='greenhouse window', kind='actuator', component_type='servo', pin="7", nodule=N1)
-        c8 = Component(uid='888', name='pump', description='irrigation pump', kind='actuator', component_type='pump', pin="8", nodule=N1)
+        c1 = Component(uid=uuid(), name='balc temp/hmdy', description='balcony temperature/humidity', kind='sensor', component_type='DHT_11', pin="1", nodule=N1)
+        c2 = Component(uid=uuid(), name='tom_soil_temp', description='tomato soil temp', kind='sensor', component_type='ds18b20', pin="i2c_2", nodule=N1)
+        c3 = Component(uid=uuid(), name='aub_soil_temp', description='aubergine soil temp', kind='sensor', component_type='ds18b20', pin="i2c_3", nodule=N1)
+        c4 = Component(uid=uuid(), name='tom_soil_moist', description='tomato soil moisture', kind='sensor', component_type='moisture', pin="4", nodule=N1)
+        c5 = Component(uid=uuid(), name='aub_soil_moist', description='aubergine soil moisture', kind='sensor', component_type='moisture', pin="5", nodule=N1)
+        c6 = Component(uid=uuid(), name='balc lux', description='balcony light intensity', kind='sensor', component_type='TSL2561', pin="i2c_6", nodule=N1)
+        c7 = Component(uid=uuid(), name='window', description='greenhouse window', kind='actuator', component_type='servo', pin="7", nodule=N1)
+        c8 = Component(uid=uuid(), name='pump', description='irrigation pump', kind='actuator', component_type='pump', pin="8", nodule=N1)
 
         #
-        j1 = Job(uid='zzz', name='balcony air temp', description='Balcony air temperature and humidity', kind='sensor', interval='5', units='C/%', tags='_', component=c1, nodule=N1)
-        j2 = Job(uid='yyy', name='tomato soil temp', description='Temperature of soil in tomato pot', kind='sensor', interval='20', units='C', tags='_', component=c2, nodule=N1)
-        j3 = Job(uid='xxx', name='aubergine soil temp', description='Temperature of soil in aubergine pot', kind='sensor', interval='20', units='C', tags='_', component=c3, nodule=N1)
-        j4 = Job(uid='www', name='tomato soil moisture', description='Moisture of soil in tomato pot', kind='sensor', interval='20', units='%', tags='_', component=c4, nodule=N1)
-        j5 = Job(uid='vvv', name='aubergine soil moisture', description='Moisture of soil in aubergine pot', kind='sensor', interval='20', units='%', tags='_', component=c5, nodule=N1)
-        j6 = Job(uid='uuu', name='balcony light', description='Light intensity on balcony', kind='sensor', interval='5', units='lux', tags='_', component=c6, nodule=N1)
-        j6 = Job(uid='ttt', name='run pump', description='Runs the pump', kind='actuator', interval='25',  tags='_', component=c8, nodule=N1)
+        j1 = Job(uid=uuid(), name='balcony air temp', description='Balcony air temperature and humidity', kind='sensor', interval='5', units='C/%', tags='_', component=c1, nodule=N1)
+        j2 = Job(uid=uuid(), name='tomato soil temp', description='Temperature of soil in tomato pot', kind='sensor', interval='20', units='C', tags='_', component=c2, nodule=N1)
+        j3 = Job(uid=uuid(), name='aubergine soil temp', description='Temperature of soil in aubergine pot', kind='sensor', interval='20', units='C', tags='_', component=c3, nodule=N1)
+        j4 = Job(uid=uuid(), name='tomato soil moisture', description='Moisture of soil in tomato pot', kind='sensor', interval='20', units='%', tags='_', component=c4, nodule=N1)
+        j5 = Job(uid=uuid(), name='aubergine soil moisture', description='Moisture of soil in aubergine pot', kind='sensor', interval='20', units='%', tags='_', component=c5, nodule=N1)
+        j6 = Job(uid=uuid(), name='balcony light', description='Light intensity on balcony', kind='sensor', interval='5', units='lux', tags='_', component=c6, nodule=N1)
+        j6 = Job(uid=uuid(), name='run pump', description='Runs the pump', kind='actuator', interval='25',  tags='_', component=c8, nodule=N1)
+
+        c9 = Component(uid=uuid(), name='chive_soil_moist', description='chive soil moisture', kind='sensor', component_type='moisture', pin="1", nodule=N2)
+        c10 = Component(uid=uuid(), name='room lux', description='living room light intensity', kind='sensor', component_type='TSL2561', pin="i2c_2", nodule=N2)
+        c11 = Component(uid=uuid(), name='lamp', description='thai lamp', kind='actuator', component_type='relay', pin="3", nodule=N2)
+
+        j7 = Job(uid=uuid(), name='chive_moist', description='Moisture of soil in chive pot', kind='sensor', interval='17',  tags='_', component=c9, nodule=N2)
+        j8 = Job(uid=uuid(), name='room light', description='Light intensity in living rom', kind='sensor', interval='30',  tags='_', component=c10, nodule=N2)
+        j9 = Job(uid=uuid(), name='room lamp', description='Turns on lamp in living room', kind='actuator', interval='100',  tags='_', component=c11, nodule=N2)

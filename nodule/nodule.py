@@ -62,6 +62,7 @@ class Nodule(object):
         presence_channel = self.channel_mgr.presence()
         self.client.will_set(presence_channel, presence_msg(False), 0, False)
         mqtt_conf = self.config['hardware']['mqtt']
+        print(mqtt_conf['mqtt_url'], mqtt_conf['mqtt_port'], mqtt_conf['mqtt_keepalive'])
         self.client.connect(mqtt_conf['mqtt_url'], mqtt_conf['mqtt_port'], mqtt_conf['mqtt_keepalive'])
         self.client.loop_start()
         self.client.publish(presence_channel, presence_msg(True))

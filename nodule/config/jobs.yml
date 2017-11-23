@@ -1,14 +1,6 @@
-- {component: '888', description: Runs the pump, id: 7, interval: 25, kind: actuator,
-  name: run pump, start_day: '', tags: _, uid: ttt, units: ''}
-- {component: '666', description: Light intensity on balcony, id: 6, interval: 5,
-  kind: sensor, name: balcony light, start_day: '', tags: _, uid: uuu, units: lux}
-- {component: '555', description: Moisture of soil in aubergine pot, id: 5, interval: 20,
-  kind: sensor, name: aubergine soil moisture, start_day: '', tags: _, uid: vvv, units: '%'}
-- {component: '444', description: Moisture of soil in tomato pot, id: 4, interval: 20,
-  kind: sensor, name: tomato soil moisture, start_day: '', tags: _, uid: www, units: '%'}
-- {component: '333', description: Temperature of soil in aubergine pot, id: 3, interval: 20,
-  kind: sensor, name: aubergine soil temp, start_day: '', tags: _, uid: xxx, units: C}
-- {component: '222', description: Temperature of soil in tomato pot, id: 2, interval: 20,
-  kind: sensor, name: tomato soil temp, start_day: '', tags: _, uid: yyy, units: C}
-- {component: '111', description: Balcony air temperature and humidity, id: 1, interval: 5,
-  kind: sensor, name: balcony air temp, start_day: '', tags: _, uid: zzz, units: C/%}
+- {component: 55d366f4, description: Turns on lamp in living room, id: 10, interval: 100,
+  kind: actuator, name: room lamp, start_day: '', tags: _, uid: 37bef1a5, units: ''}
+- {component: fdba470c, description: Light intensity in living rom, id: 9, interval: 30,
+  kind: sensor, name: room light, start_day: '', tags: _, uid: 7f460e4f, units: ''}
+- {component: '18906459', description: Moisture of soil in chive pot, id: 8, interval: 17,
+  kind: sensor, name: chive_moist, start_day: '', tags: _, uid: 6ac41cdd, units: ''}
