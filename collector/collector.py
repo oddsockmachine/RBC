@@ -5,13 +5,20 @@ import time
 from json import dumps, loads
 import socket
 from conf import load_config
+import requests
 
 def send_to_elk(client, userdata, msg):
     mid = msg.mid
     payload = loads(msg.payload.decode("utf-8"))
     timestamp = msg.timestamp
     url = msg.topic
+    nodule_id = url.split('/')[-2]
+    payload['nodule_id'] = nodule_id
+    payload['ts'] = timestamp
+    r = requests.post("http://dmip:9200/logs/test", data=dumps(payload))
+    print(r.text)
     print("ELK:\t", url, payload)
+
     def send_to_elk(sock, data):
         sock.send(json.dumps(data))
         sock.send('\n')
@@ -45,7 +52,10 @@ def send_to_file(client, userdata, msg):
         logfile.write(log_line)
     return
 
-
+def add_timestamp(payload):
+    ts = str(datetime.now())
+    payload['rec_ts'] = ts
+    return payload
 
 router = {
     'elk': send_to_elk,
@@ -75,7 +85,7 @@ config = load_config()
 name = 'bridge'
 channel = ChannelMgr(name)
 elk_port = 9300
-elk_host = '192.168.0.15'
+elk_host = 'dmip'
 # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # s.connect((elk_host, elk_port))
 # sock = s

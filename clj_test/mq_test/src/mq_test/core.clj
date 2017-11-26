@@ -4,20 +4,57 @@
             [clojure.string :as str]
             [clojure.data.json :as json]))
 
-(defn handle-delivery
-  [^String url _ ^bytes payload]
-  (let [t (nth (str/split url #"/") 0)]
-    (println (format "[consumer] received %s for topic %s" (String. payload "UTF-8") t))))
-
 (def topics ["presence" "logs" "errors" "report" "sensors"])
 
 
-(defn start-subscriber
-  [conn ^String topic]
-  (let [channel (str topic "/#")]
+(defn url_to_topic
+  [url]
+  (nth (str/split url #"/") 0))
+
+(defn send_to_elk [url payload]
+  (let [topic (url_to_topic url)
+        nodule_id url]
+    (println (format "[%s]:%s -> [ELK ]  %s" url topic (String. payload "UTF-8")))))
+
+(defn send_to_db [url payload]
+  (let [topic (url_to_topic url)
+        nodule_id url]
+    (println (format "[%s]:%s -> [DB  ]  %s" url topic (String. payload "UTF-8")))))
+
+(defn send_to_file [url payload]
+  (let [topic (url_to_topic url)
+        nodule_id url]
+    (println (format "[%s]:%s -> [FILE]  %s" url topic (String. payload "UTF-8")))))
+
+(defn router  ; Given a topic, return a list of handler functions that should be called
+  [topic]
+  (let [routes {"presence" ["elk" "db"]
+                "sensors" ["elk" "file"]
+                "logs" ["elk"]
+                "errors" ["elk"]
+                "report" ["elk" "db"]}
+        router {"elk" send_to_elk
+                "db" send_to_db
+                "file" send_to_file}
+        destinations (get routes topic)
+        funcs (map #(get router %) destinations)]
+    funcs))
+
+(defn handle_delivery
+  [^String url _ ^bytes payload]
+  (let [topic (url_to_topic url)  ; Get topic as first part of url
+        funcs (router topic)]  ; Get list of handler functions based on topic
+    (doseq [f funcs]  ; Send to each handler function
+      (f url payload))))
+
+(defn subscribe_to_topics  ; Subscribe to all topics in a list
+  [conn topics handler]
+  (prn "subscribing")
+  (doseq [t topics]
     (mh/subscribe conn
-                {channel 1}
-                handle-delivery)))
+                  {(str t "/#") 1}
+                  handler)))
+
 
 (defn presence_msg
   [connected name]
@@ -27,35 +64,9 @@
   [& args]
   (let [name    "collector"
         conn  (mh/connect "tcp://127.0.0.1:1883" name)]
-    (doseq [t topics]
-      (mh/subscribe conn
-                    {(str t "/#") 1}
-                    handle-delivery))
+    (subscribe_to_topics conn topics handle_delivery)
     (mh/publish conn (str "presence/" name) (str (presence_msg true name)))
-    ; (mh/subscribe conn {"americas/north/#" 1} handle-delivery)
-    ; (mh/subscribe conn {"americas/south/#" 1} handle-delivery)
-    ; (mh/subscribe conn {"americas/north/us/ca/+" 1} handle-delivery)
-    ; ; (mh/subscribe conn {"#/tx/austin" 1} handle-delivery)
-    ; (mh/subscribe conn {"europe/italy/rome" 1} handle-delivery)
-    ; (mh/subscribe conn {"asia/southeast/hk/+" 1} handle-delivery)
-    ; (mh/subscribe conn {"asia/southeast/#" 1} handle-delivery)
-    ; (prn "subscribed")
-    ; (mh/publish conn "americas/north/us/ca/sandiego"     "San Diego update")
-    ; (mh/publish conn "americas/north/us/ca/berkeley"     "Berkeley update")
-    ; (mh/publish conn "americas/north/us/ca/sanfrancisco" "SF update")
-    ; (mh/publish conn "americas/north/us/ny/newyork"      "NYC update")
-    ; (mh/publish conn "americas/south/brazil/saopaolo"    "São Paolo update")
-    ; (mh/publish conn "asia/southeast/hk/hongkong"        "Hong Kong update")
-    ; (mh/publish conn "asia/southeast/japan/kyoto"        "Kyoto update")
-    ; (mh/publish conn "asia/southeast/prc/shanghai"       "Shanghai update")
-    ; (mh/publish conn "europe/italy/roma"                 "Rome update")
-    ; (mh/publish conn "europe/france/paris"               "Paris update")
-    ; (mh/publish conn "report/foo"               "sensor update")
-    ; (mh/publish conn "presence/foo"               "presence update")
-    (prn "sent")
     (Thread/sleep 15000)
     (prn "disconnecting")
     (mh/disconnect conn)
-    ; (prn (presence_msg true name))
-    ; (prn (presence_msg false name))
     (System/exit 0)))

@@ -1,5 +1,6 @@
 # WiFi access
 MicroPython-fa3287
+micropythoN
 
 # Terminal access
 screen /dev/tty.SLAB_USBtoUART 115200
