@@ -134,9 +134,11 @@ if __name__ == '__main__':
         # c9 = Component(uid=uuid(), name='chive_soil_moist', description='chive soil moisture', kind='sensor', component_type='moisture', pin="1", nodule=N2)
         # c10 = Component(uid=uuid(), name='room lux', description='living room light intensity', kind='sensor', component_type='TSL2561', pin="i2c_2", nodule=N2)
         # c11 = Component(uid=uuid(), name='lamp', description='thai lamp', kind='actuator', component_type='relay', pin="3", nodule=N2)
-        c12 = Component(uid=uuid(), name='ds18b20', description='ds18b20', kind='sensor', component_type='ds18b20', pin="4", nodule=n_bal)
+        # c12 = Component(uid=uuid(), name='ds18b20', description='ds18b20', kind='sensor', component_type='ds18b20', pin="4", nodule=n_bal)
 
         # j7 = Job(uid=uuid(), name='chive_moist', description='Moisture of soil in chive pot', kind='sensor', interval='17',  tags='_', component=c9, nodule=N2)
-        j8 = Job(uid=uuid(), name='ds18b20', description='ds18b20', kind='sensor', interval='10',  tags='_', component=c12, nodule=n_bal)
+        # j8 = Job(uid=uuid(), name='ds18b20', description='ds18b20', kind='sensor', interval='10',  tags='_', component=c12, nodule=n_bal)
         # j8 = Job(uid=uuid(), name='room light', description='Light intensity in living rom', kind='sensor', interval='30',  tags='_', component=c10, nodule=N2)
         # j9 = Job(uid=uuid(), name='room lamp', description='Turns on lamp in living room', kind='actuator', interval='100',  tags='_', component=c11, nodule=N2)
+        jx = Job.get(name='chive_moist_quick').delete()
+        jx = Job.get(name='chive_moist_quick2').delete()

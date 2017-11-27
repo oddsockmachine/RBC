@@ -71,14 +71,17 @@ class DS18B20_Sensor(Sensor):
     """docstring for Mock_Sensor."""
     def __init__(self, uid, pin_num, description):
         super(Sensor, self).__init__()
+        print("creating ds18b20")
         self.uid = uid
         self.pin_num = pin_num
         self.description = description
         self.type = "ds18b20"
         self.units = "C"
         import glob
+        print("created")
 
     def read(self):
+        print("reading ds18b20")
         base_dir = '/sys/bus/w1/devices/'
         device_folder = glob.glob(base_dir + '28*')[0]
         device_file = device_folder + '/w1_slave'
@@ -97,6 +100,8 @@ class DS18B20_Sensor(Sensor):
                 temp_c = float(temp_string) / 1000.0
                 print(temp_c)
                 return {'temp': temp_c}
+        print("done")
+        return read_temp()
 
 
 
