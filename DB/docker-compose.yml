@@ -23,8 +23,6 @@ postgres:
         POSTGRES_PASSWORD: mysecretpassword
     ports:
         - "5432:5432"
-    volumes:
-        - ./postgresql:/var/lib/postgresql
 
 pgadmin4:
   image: dpage/pgadmin4

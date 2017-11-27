@@ -60,7 +60,11 @@ class Job(object):
         """Provide default data that should be sent with each message"""
         return {"job_uid": self.uid, "component_uid": self.component.uid, "timestamp": str(datetime.now())}
     def execute(self):
-        return {"values": "999"}
+        try:
+            r = self.component.read()
+            return r
+        except:
+            return {"values": "999"}
         raise Exception("Execute function not implemented for {}".format(str(self)))
     def report(self, msg):
         """Wrap message from sensor, actuator etc and send to reporter"""

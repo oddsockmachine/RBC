@@ -95,6 +95,7 @@ class DS18B20_Sensor(Sensor):
             if equals_pos != -1:
                 temp_string = lines[1][equals_pos+2:]
                 temp_c = float(temp_string) / 1000.0
+                print(temp_c)
                 return {'temp': temp_c}
 
 
