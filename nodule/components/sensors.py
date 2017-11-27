@@ -1,4 +1,5 @@
 from random import randint
+import glob
 # import RPi.GPIO as GPIO
 # import dht11
 # GPIO.setwarnings(False)
@@ -77,7 +78,6 @@ class DS18B20_Sensor(Sensor):
         self.description = description
         self.type = "ds18b20"
         self.units = "C"
-        import glob
         print("created")
 
     def read(self):
@@ -103,7 +103,7 @@ class DS18B20_Sensor(Sensor):
                 temp_c = float(temp_string) / 1000.0
                 print(temp_c)
                 return {'temp': temp_c}
-            return {'temp': 'error'}    
+            return {'temp': 'error'}
         print("done")
         return read_temp()
 
