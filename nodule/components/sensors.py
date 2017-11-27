@@ -81,15 +81,13 @@ class DS18B20_Sensor(Sensor):
         print("created")
 
     def read(self):
-        print("reading ds18b20")
+        # print("reading ds18b20")
         base_dir = '/sys/bus/w1/devices/'
         device_folder = glob.glob(base_dir + '28*')[0]
         device_file = device_folder + '/w1_slave'
-        print(device_file)
         def read_temp_raw():
             f = open(device_file, 'r')
             lines = f.readlines()
-            print(lines)
             f.close()
             return lines
         def read_temp():
@@ -97,14 +95,12 @@ class DS18B20_Sensor(Sensor):
             if lines[0].strip()[-3:] != 'YES':
                 return {'temp': 'error'}
             equals_pos = lines[1].find('t=')
-            print(equals_pos)
             if equals_pos != -1:
                 temp_string = lines[1][equals_pos+2:]
                 temp_c = float(temp_string) / 1000.0
-                print(temp_c)
+                # print(temp_c)
                 return {'temp': temp_c}
             return {'temp': 'error'}
-        print("done")
         return read_temp()
 
 
