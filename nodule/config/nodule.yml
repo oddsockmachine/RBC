@@ -1,8 +1,8 @@
 batch: false
 debug: true
 err_log_size: 100
-hw_type: raspi
-id: 2
+hw_type: esp8266
+id: 1
 log_size: 100
 manager:
   get_config_endpoints: {actuators: 'nodule/{n_id}/actuators', hardware: 'nodule/{n_id}/hardware',
@@ -10,8 +10,8 @@ manager:
   port: '8888'
   url: 127.0.0.1
 mqtt: {keepalive: '1883', port: '1883', url: 127.0.0.1}
-name: living room
+name: balcony
 tags: ''
 topics: [sensors, logs, errors, report, presence]
-uid: def456
+uid: abc123
 valid_pins: []

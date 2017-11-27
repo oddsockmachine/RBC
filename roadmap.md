@@ -10,6 +10,10 @@
 - Low-power/sleep modes
 - Buffer readings and report when power is most available
 
+## Sensors/Actuators
+
+- Default job to report addresses of all connected 1-wire/i2c devices
+
 
 ## Jobs & Scheduling
 
@@ -34,6 +38,7 @@
 
 - Create and deploy new nodules
 - Set up jobs and components on a nodule
+- Pick from preset components/common jobs
 - GIS, mapping and visualization
 - Push notifications to mobile
 

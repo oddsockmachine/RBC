@@ -12,7 +12,7 @@ def get_sensor_class(sensor_type):
         "Mock": Mock_Sensor,
         "DS_temp": Mock_Sensor,
         "LDR": Mock_Sensor,
-        "ds18b20": Mock_Sensor,
+        "ds18b20": DS18B20_Sensor,
         "moisture": Mock_Sensor,
         "TSL2561": Mock_Sensor,
         # "RPi_CPU_Temp": RPi_CPU_Temp,
@@ -64,6 +64,39 @@ class DHT_Sensor(Sensor):
         result_t = result.temperature
         result_h = result.humidity
         return {'temp': result_t, 'hmdy': result_h}
+
+
+
+class DS18B20_Sensor(Sensor):
+    """docstring for Mock_Sensor."""
+    def __init__(self, uid, pin_num, description):
+        super(Sensor, self).__init__()
+        self.uid = uid
+        self.pin_num = pin_num
+        self.description = description
+        self.type = "ds18b20"
+        self.units = "C"
+        import glob
+
+    def read(self):
+        base_dir = '/sys/bus/w1/devices/'
+        device_folder = glob.glob(base_dir + '28*')[0]
+        device_file = device_folder + '/w1_slave'
+        def read_temp_raw():
+            f = open(device_file, 'r')
+            lines = f.readlines()
+            f.close()
+            return lines
+        def read_temp():
+            lines = read_temp_raw()
+            if lines[0].strip()[-3:] != 'YES':
+                return {'temp': 'error'}
+            equals_pos = lines[1].find('t=')
+            if equals_pos != -1:
+                temp_string = lines[1][equals_pos+2:]
+                temp_c = float(temp_string) / 1000.0
+                return {'temp': temp_c}
+
 
 
 

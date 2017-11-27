@@ -1,2 +1,4 @@
-- {component_type: relay, description: thai lamp, id: 11, kind: actuator, name: lamp,
-  pin: '3', uid: 64b2c2ed}
+- {component_type: servo, description: greenhouse window, id: 7, kind: actuator, name: window,
+  pin: '7', uid: 1df1bdc9}
+- {component_type: pump, description: irrigation pump, id: 8, kind: actuator, name: pump,
+  pin: '8', uid: 0d1ae07a}
