@@ -1,2 +1,3 @@
 paho-mqtt==1.2.3
 requests==2.18.1
+pyaml==17.8.0
