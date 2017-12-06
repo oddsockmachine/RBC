@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+    postgraphql:
+        image: erasche/postgraphql:latest
+        ports:
+            - "5050:5000"
+        environment:
+            DB_GRAPHQL_PATH: "/graphql"
+            DB_GRAPHIQL_PATH: "/graphiql"
+            PG_SECRET: "deadbeefcafe"
+            DB_SCHEMA: "public"
+            PGUSER: postgres
+            PGPASSWORD: mysecretpassword
+            PGHOST: postgres
+            PGDATABASE: postgres
+            PGPORT: 5432
+        networks:
+            - back-tier
+        deploy:
+            placement:
+                constraints: [node.role == manager]
+        depends_on:
+            - postgres
+
+    postgres:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: mysecretpassword
+        networks:
+            - back-tier
+        ports:
+            - "5432:5432"
+        deploy:
+            placement:
+                constraints: [node.role == manager]
+
+
+    pgadmin4:
+        image: dpage/pgadmin4
+        ports:
+          - "8088:80"
+        environment:
+          PGADMIN_DEFAULT_EMAIL: oddsockmachine@gmail.com
+          PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+        networks:
+            - back-tier
+        deploy:
+            placement:
+                constraints: [node.role == manager]
+        depends_on:
+            - postgres
+
+    cfg_mgr:
+        image: oddsockmachine/cfg_mgr:0.1
+        environment:
+            db_pw: mysecretpassword
+            db_host: postgres
+        ports:
+            - "8888:8888"
+        depends_on:
+            - postgres
+        networks:
+            - back-tier
+        deploy:
+            replicas: 2
+
+
+
+networks:
+    back-tier:
+        external: false

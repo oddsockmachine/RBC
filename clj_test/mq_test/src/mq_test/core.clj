@@ -6,7 +6,6 @@
 
 (def topics ["presence" "logs" "errors" "report" "sensors"])
 
-
 (defn url_to_topic
   [url]
   (nth (str/split url #"/") 0))
@@ -54,7 +53,6 @@
     (mh/subscribe conn
                   {(str t "/#") 1}
                   handler)))
-
 
 (defn presence_msg
   [connected name]

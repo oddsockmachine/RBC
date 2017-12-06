@@ -3,7 +3,6 @@ from channels import ChannelMgr
 from pprint import pprint
 import time
 from json import dumps, loads
-import socket
 from conf import load_config
 import requests
 
@@ -18,10 +17,6 @@ def send_to_elk(client, userdata, msg):
     # r = requests.post("http://dmip:9200/logs/test", data=dumps(payload))
     # print(r.text)
     print("ELK:\t", url, payload)
-
-    def send_to_elk(sock, data):
-        sock.send(json.dumps(data))
-        sock.send('\n')
     return
 
 def send_to_db(client, userdata, msg):
@@ -86,9 +81,6 @@ name = 'bridge'
 channel = ChannelMgr(name)
 elk_port = 9300
 elk_host = 'dmip'
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# s.connect((elk_host, elk_port))
-# sock = s
 client = mqtt.Client(client_id=name)
 
 def presence_msg(connected=True):

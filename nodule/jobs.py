@@ -64,7 +64,7 @@ class Job(object):
             r = self.component.read()
             return r
         except:
-            return {"values": "999"}
+            return {"values": "none", "error": "failed to read component"}
         raise Exception("Execute function not implemented for {}".format(str(self)))
     def report(self, msg):
         """Wrap message from sensor, actuator etc and send to reporter"""

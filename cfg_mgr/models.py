@@ -1,6 +1,7 @@
 from datetime import datetime, time
 from pony.orm import *
 from uuid import uuid4
+from os import environ
 # set_sql_debug(True)
 
 db = Database()
@@ -78,10 +79,11 @@ class Link(db.Entity):
     description = Required(str)
 
 
+host = environ.get("db_host", "192.168.99.100")
+pw = environ.get("db_pw", "mysecretpassword")
 
 
-
-db.bind(provider='postgres', user='postgres', password='mysecretpassword', host='192.168.99.100', database='')
+db.bind(provider='postgres', user='postgres', password=pw, host=host, database='')
 # db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
 db.generate_mapping(create_tables=True)
 
