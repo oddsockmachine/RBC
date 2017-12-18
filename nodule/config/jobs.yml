@@ -1,18 +1,20 @@
-- {component: eed60a27, description: Runs the pump, id: 7, interval: 25, kind: actuator,
-  name: run pump, start_day: '', tags: _, uid: f8c3a2ec, units: ''}
-- {component: affbfc89, description: Light intensity on balcony, id: 6, interval: 5,
-  kind: sensor, name: balcony light, start_day: '', tags: _, uid: 204d5f8c, units: lux}
-- {component: 42858ee8, description: Moisture of soil in aubergine pot, id: 5, interval: 20,
-  kind: sensor, name: aubergine soil moisture, start_day: '', tags: _, uid: b3e6864f,
+- {component: 90fef839, description: ds18b20, id: 9, interval: 10, kind: sensor, name: ds18b20,
+  start_day: '', tags: _, uid: e6e0e575, units: ''}
+- {component: 998838ac, description: Runs the pump, id: 7, interval: 25, kind: actuator,
+  name: run pump, start_day: '', tags: _, uid: 8bd165fc, units: ''}
+- {component: 5e6108e0, description: Light intensity on balcony, id: 6, interval: 5,
+  kind: sensor, name: balcony light, start_day: '', tags: _, uid: d5a78087, units: lux}
+- {component: 41dae8d7, description: Moisture of soil in aubergine pot, id: 5, interval: 20,
+  kind: sensor, name: aubergine soil moisture, start_day: '', tags: _, uid: 53506c27,
   units: '%'}
-- {component: 71d59404, description: Moisture of soil in tomato pot, id: 4, interval: 20,
-  kind: sensor, name: tomato soil moisture, start_day: '', tags: _, uid: d2821188,
+- {component: aeaa0b7f, description: Moisture of soil in tomato pot, id: 4, interval: 20,
+  kind: sensor, name: tomato soil moisture, start_day: '', tags: _, uid: b0e14f3d,
   units: '%'}
-- {component: 076ba3e1, description: Temperature of soil in aubergine pot, id: 3,
-  interval: 20, kind: sensor, name: aubergine soil temp, start_day: '', tags: _, uid: 3bf977b1,
+- {component: 748c4d14, description: Temperature of soil in aubergine pot, id: 3,
+  interval: 20, kind: sensor, name: aubergine soil temp, start_day: '', tags: _, uid: 87bfb016,
   units: C}
-- {component: '97771921', description: Temperature of soil in tomato pot, id: 2, interval: 20,
-  kind: sensor, name: tomato soil temp, start_day: '', tags: _, uid: c7af8bd4, units: C}
-- {component: 02c1c6a7, description: Balcony air temperature and humidity, id: 1,
-  interval: 5, kind: sensor, name: balcony air temp, start_day: '', tags: _, uid: 9c003b95,
+- {component: 3e6c3984, description: Temperature of soil in tomato pot, id: 2, interval: 20,
+  kind: sensor, name: tomato soil temp, start_day: '', tags: _, uid: 4ac30e9a, units: C}
+- {component: 5ccf3804, description: Balcony air temperature and humidity, id: 1,
+  interval: 5, kind: sensor, name: balcony air temp, start_day: '', tags: _, uid: '41860834',
   units: C/%}

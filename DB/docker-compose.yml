@@ -31,3 +31,4 @@ pgadmin4:
   environment:
     PGADMIN_DEFAULT_EMAIL: user@domain.com
     PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+

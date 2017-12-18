@@ -1,73 +1,124 @@
 version: '3'
 
 services:
-    postgraphql:
-        image: erasche/postgraphql:latest
-        ports:
-            - "5050:5000"
-        environment:
-            DB_GRAPHQL_PATH: "/graphql"
-            DB_GRAPHIQL_PATH: "/graphiql"
-            PG_SECRET: "deadbeefcafe"
-            DB_SCHEMA: "public"
-            PGUSER: postgres
-            PGPASSWORD: mysecretpassword
-            PGHOST: postgres
-            PGDATABASE: postgres
-            PGPORT: 5432
-        networks:
-            - back-tier
-        deploy:
-            placement:
-                constraints: [node.role == manager]
-        depends_on:
-            - postgres
+  postgraphql:
+    image: erasche/postgraphql:latest
+    ports:
+      - "5050:5000"
+    environment:
+      DB_GRAPHQL_PATH: "/graphql"
+      DB_GRAPHIQL_PATH: "/graphiql"
+      PG_SECRET: "deadbeefcafe"
+      DB_SCHEMA: "public"
+      PGUSER: postgres
+      PGPASSWORD: mysecretpassword
+      PGHOST: postgres
+      PGDATABASE: postgres
+      PGPORT: 5432
+    networks:
+      - back-tier
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    depends_on:
+        - postgres
 
-    postgres:
-        image: postgres
-        restart: always
-        environment:
-            POSTGRES_PASSWORD: mysecretpassword
-        networks:
-            - back-tier
-        ports:
-            - "5432:5432"
-        deploy:
-            placement:
-                constraints: [node.role == manager]
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    networks:
+      - back-tier
+    ports:
+      - "5432:5432"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
 
-    pgadmin4:
-        image: dpage/pgadmin4
-        ports:
-          - "8088:80"
-        environment:
-          PGADMIN_DEFAULT_EMAIL: oddsockmachine@gmail.com
-          PGADMIN_DEFAULT_PASSWORD: mysecretpassword
-        networks:
-            - back-tier
-        deploy:
-            placement:
-                constraints: [node.role == manager]
-        depends_on:
-            - postgres
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+      - "8088:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: oddsockmachine@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+    networks:
+      - back-tier
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    depends_on:
+      - postgres
 
-    cfg_mgr:
-        image: oddsockmachine/cfg_mgr:0.1
-        environment:
-            db_pw: mysecretpassword
-            db_host: postgres
-        ports:
-            - "8888:8888"
-        depends_on:
-            - postgres
-        networks:
-            - back-tier
-        deploy:
-            replicas: 2
+  cfg_mgr:
+    image: oddsockmachine/cfg_mgr:0.1
+    environment:
+      db_pw: mysecretpassword
+      db_host: postgres
+    ports:
+      - "8888:8888"
+    depends_on:
+      - postgres
+    networks:
+      - back-tier
+    deploy:
+      replicas: 2
 
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - back-tier
+
+  collector:
+    image: redis:alpine
+    depends_on:
+      - mosquitto
+  #
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
+  #   volumes:
+  #     - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   environment:
+  #     ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+  #   networks:
+  #     - elk_net
+  #
+  # logstash:
+  #   image: docker.elastic.co/logstash/logstash:5.5.0
+  #   volumes:
+  #     - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+  #     - ./logstash/pipeline:/usr/share/logstash/pipeline
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+  #   networks:
+  #     - elk_net
+  #   depends_on:
+  #     - elasticsearch
+  #
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:5.5.0
+  #   volumes:
+  #     - ./kibana/config/:/usr/share/kibana/config
+  #   ports:
+  #     - "5601:5601"
+  #   networks:
+  #     - elk_net
+  #   depends_on:
+  #     - elasticsearch
 
 
 networks:
-    back-tier:
-        external: false
+  back-tier:
+    external: false
+  elk_net:
+    external: false

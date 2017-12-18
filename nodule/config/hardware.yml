@@ -1,6 +1,6 @@
 manager:
 # url: 192.168.0.13
-  url: dave1.ops
+  url: 10.0.88.108
   port: 8888
   get_config_endpoints:
     nodule: nodule/{n_id}/nodule
@@ -9,7 +9,7 @@ manager:
     actuators: nodule/{n_id}/actuators
     jobs: nodule/{n_id}/jobs
 mqtt:
-  mqtt_url: dave1.ops
+  mqtt_url: 10.0.88.60
   mqtt_port: 1883
   mqtt_keepalive: 1883
 

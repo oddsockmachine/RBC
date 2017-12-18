@@ -1,12 +1,14 @@
 - {component_type: DHT_11, description: balcony temperature/humidity, id: 1, kind: sensor,
-  name: balc temp/hmdy, pin: '1', uid: 02c1c6a7}
+  name: balc temp/hmdy, pin: '1', uid: 5ccf3804}
 - {component_type: ds18b20, description: tomato soil temp, id: 2, kind: sensor, name: tom_soil_temp,
-  pin: i2c_2, uid: '97771921'}
+  pin: i2c_2, uid: 3e6c3984}
 - {component_type: ds18b20, description: aubergine soil temp, id: 3, kind: sensor,
-  name: aub_soil_temp, pin: i2c_3, uid: 076ba3e1}
+  name: aub_soil_temp, pin: i2c_3, uid: 748c4d14}
 - {component_type: moisture, description: tomato soil moisture, id: 4, kind: sensor,
-  name: tom_soil_moist, pin: '4', uid: 71d59404}
+  name: tom_soil_moist, pin: '4', uid: aeaa0b7f}
 - {component_type: moisture, description: aubergine soil moisture, id: 5, kind: sensor,
-  name: aub_soil_moist, pin: '5', uid: 42858ee8}
+  name: aub_soil_moist, pin: '5', uid: 41dae8d7}
 - {component_type: TSL2561, description: balcony light intensity, id: 6, kind: sensor,
-  name: balc lux, pin: i2c_6, uid: affbfc89}
+  name: balc lux, pin: i2c_6, uid: 5e6108e0}
+- {component_type: ds18b20, description: ds18b20, id: 12, kind: sensor, name: ds18b20,
+  pin: '4', uid: 90fef839}
