@@ -16,6 +16,7 @@ def get_sensor_class(sensor_type):
         "ds18b20": DS18B20_Sensor,
         "moisture": Mock_Sensor,
         "TSL2561": Mock_Sensor,
+        "OPI_stats": OPI_Stats_Sensor,
         # "RPi_CPU_Temp": RPi_CPU_Temp,
         # "RPi_Disk_Usage": RPi_Disk_Usage,
         # "RPi_Mem_Usage": RPi_Mem_Usage,
@@ -69,7 +70,7 @@ class DHT_Sensor(Sensor):
 
 
 class DS18B20_Sensor(Sensor):
-    """docstring for Mock_Sensor."""
+    """docstring for DS18B20_Sensor."""
     def __init__(self, uid, pin_num, description):
         super(Sensor, self).__init__()
         print("creating ds18b20")
@@ -125,3 +126,21 @@ class Mock_Sensor(Sensor):
     def read(self):
         result = self.randomizer.get()
         return {'mock': {'value': result, 'units': self.units}}
+
+class OPI_Stats_Sensor(Sensor):
+    """docstring for Stats_Sensor."""
+    def __init__(self, uid, pin_num, description):
+        super(Sensor, self).__init__()
+        print("creating ds18b20")
+        self.uid = uid
+        self.pin_num = pin_num
+        self.description = description
+        self.type = "ds18b20"
+        self.units = "C"
+        print("created")
+
+    def read(self):
+        # TODO
+        cmd = 'sudo armbianmonitor -m'
+
+    sudo armbianmonitor -m

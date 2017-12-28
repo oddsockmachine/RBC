@@ -6,6 +6,7 @@
   - In progress
 - Orange Pi support
   - http://lucsmall.com/2017/01/19/beginners-guide-to-the-orange-pi-zero/
+  - Now working
 - NanoPi support
   - http://nanopi.io/nanopi-neo.html
   - http://www.friendlyarm.com/index.php?route=product/product&product_id=197
