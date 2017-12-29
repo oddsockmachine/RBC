@@ -18,14 +18,13 @@ pip install -r requirements/requirements.txt
 # python nodule.py
 
 
-sudo vim /etc/network/interfaces
-auto wlan0
-iface wlan0 inet dhcp
-wpa-ssid <Your Access Point Name aka SSID>
-wpa-psk <Your WPA Password>
+# sudo vim /etc/network/interfaces
+# auto wlan0
+# iface wlan0 inet dhcp
+# wpa-ssid <Your Access Point Name aka SSID>
+# wpa-psk <Your WPA Password>
 
-sudo ifup wlan0
-
+# sudo ifup wlan0
 
 sudo nmtui
 sudo ifconfig wlan0
