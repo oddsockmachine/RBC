@@ -4,14 +4,7 @@ err_log_size: 100
 hw_type: esp8266
 id: 1
 log_size: 100
-manager:
-  get_config_endpoints: {actuators: 'nodule/{n_id}/actuators', hardware: 'nodule/{n_id}/hardware',
-    jobs: 'nodule/{n_id}/jobs', nodule: 'nodule/{n_id}/nodule', sensors: 'nodule/{n_id}/sensors'}
-  port: '8888'
-  url: 127.0.0.1
-mqtt: {keepalive: '1883', port: '1883', url: 127.0.0.1}
 name: balcony
 tags: ''
 topics: [sensors, logs, errors, report, presence]
 uid: abc123
-valid_pins: []

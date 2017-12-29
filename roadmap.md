@@ -37,6 +37,7 @@
 - Jobs/Components as templates
   - Pick and choose standard jobs/components on a nodule
   - Or deploy a standardized type of nodule
+- Job to git pull and restart process
 
 ## UI
 - Create and deploy new nodules

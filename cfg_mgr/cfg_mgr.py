@@ -4,7 +4,17 @@ from models import Nodule, Component, Job, Zone
 from sanic.response import text, json
 from sanic.exceptions import abort
 from json import dumps as jdump
+from yaml import load as yload
+
+
+conf = {}
+with open('./platform_config.yml', 'r') as conf_file:
+    conf = yload(conf_file)
+
+
 app = Sanic("Node Config Manager")
+
+
 
 
 def get_nodule(n_id):
@@ -22,7 +32,7 @@ def get_model(resource):
         'components': Component,
         'sensors': Component,
         'actuators': Component,
-        'nodule': Nodule
+        'Nodule': Nodule
     }
     model = lookup.get(resource)
     if not model:
@@ -46,16 +56,21 @@ def get_items(model, nodule):
     return data
 
 def get_nodule_info(nodule):
+    """Return a standard config for the nodule to find the rest of the platform"""
     columns = Nodule._columns_
     data = {c: getattr(nodule, c) for c in columns if type(getattr(nodule, c)) in [str, int, bool]}
-    default_data = {'valid_pins': [],
-                    'manager': {'url': '127.0.0.1', 'port':'8888',
-                                'get_config_endpoints': {'nodule': 'nodule/{n_id}/nodule',
-                                             'hardware': 'nodule/{n_id}/hardware',
-                                             'sensors': 'nodule/{n_id}/sensors',
-                                             'actuators': 'nodule/{n_id}/actuators',
-                                             'jobs': 'nodule/{n_id}/jobs'}},
-                    'mqtt': {'url': '127.0.0.1', 'port': '1883', 'keepalive': '1883'},
+    default_data = {
+    # 'valid_pins': {'raspi': [0,1,2,3,4,5,6,7,8,"cpu_temp","du"],
+    #                                'esp8266': [0,1,2,3,4, 90,91,92,93,94],
+    #                                'local': [0,1,2,3],
+    #                                },
+                    # 'manager': {'url': '127.0.0.1', 'port':'8888',
+                    #             'get_config_endpoints': {'nodule': 'nodule/{n_id}/nodule',
+                    #                          'hardware': 'nodule/{n_id}/hardware',
+                    #                          'sensors': 'nodule/{n_id}/sensors',
+                    #                          'actuators': 'nodule/{n_id}/actuators',
+                    #                          'jobs': 'nodule/{n_id}/jobs'}},
+                    # 'mqtt': {'url': '127.0.0.1', 'port': 1883, 'keepalive': 1000},
                     'topics': ['sensors', 'logs', 'errors', 'report', 'presence'],
                     }
     data.update(default_data)
@@ -89,6 +104,11 @@ async def nodule_config(request, n_id):
     nodule = get_nodule(n_id)
     data = get_nodule_info(nodule)
     return text(jdump(data))
+
+
+@app.route("/nodule/<n_id:[A-z0-9]{6}>/platform")
+async def platform_config(request, n_id):
+    return text(jdump(conf))
 
 @app.route("/nodule/<n_id:[A-z0-9]{6}>/<resource>")
 async def resource_config(request, n_id, resource):

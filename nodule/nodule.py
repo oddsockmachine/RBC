@@ -25,10 +25,10 @@ class Nodule(object):
         self.publish = self.reporter.publish  # Easy-access reporting functions delegate to reporter
         self.debug = self.reporter.debug
         self.log_error = self.reporter.log_error
-        self.start_mqtt()  # Connect to the Mosquitto broker - used to send readings/reports, receive triggers from manager
         # TODO update internal time if hw==espx
         self.fetch_remote_config()  # We've just woken, so try to refresh config from source of truth
         self.config = load_config_from_disk()  # Load config from disk now that jobs, components etc are up-to-date
+        self.start_mqtt()  # Connect to the Mosquitto broker - used to send readings/reports, receive triggers from manager
         self.gpio_set = GPIO_Set(self)  # Set up sensors/actuators/external components according to config
         self.jobs = JobList(self)  # Set up jobs/schedules according to config
         self.wake_time = datetime.now()  # We will sometimes report this/track uptime
@@ -39,7 +39,7 @@ class Nodule(object):
         Config will already have been read from disk, but it may have been
         updated since last read/restart.
         If this fails due to connectivity, just fall back to disk config."""
-        mgr_conf = self.config['hardware']['manager']
+        mgr_conf = self.config['platform']['manager']
         endpoints = mgr_conf['get_config_endpoints']
         for cfg_type, endpoint in endpoints.items():
             config_url = 'http://{url}:{port}/{endpoint}'.format(url=mgr_conf['url'],port=mgr_conf['port'],endpoint=endpoint).format(n_id=self.UID)
@@ -61,9 +61,9 @@ class Nodule(object):
         # LastWill must be set before connect()
         presence_channel = self.channel_mgr.presence()
         self.client.will_set(presence_channel, presence_msg(False), 0, False)
-        mqtt_conf = self.config['hardware']['mqtt']
-        print(mqtt_conf['mqtt_url'], mqtt_conf['mqtt_port'], mqtt_conf['mqtt_keepalive'])
-        self.client.connect(mqtt_conf['mqtt_url'], mqtt_conf['mqtt_port'], mqtt_conf['mqtt_keepalive'])
+        mqtt_conf = self.config['platform']['mqtt']
+        print(mqtt_conf)
+        self.client.connect(mqtt_conf['url'], int(mqtt_conf['port']), int(mqtt_conf['keepalive']))
         self.client.loop_start()
         self.client.publish(presence_channel, presence_msg(True))
         return

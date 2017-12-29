@@ -14,8 +14,8 @@ def send_to_elk(client, userdata, msg):
     nodule_id = url.split('/')[-2]
     payload['nodule_id'] = nodule_id
     payload['ts'] = timestamp
-    r = requests.post("http://10.0.88.60:9200/logs/test", data=dumps(payload))
-    print(r.text)
+    # r = requests.post("http://10.0.88.60:9200/logs/test", data=dumps(payload))
+    # print(r.text)
     print("ELK:\t", url, payload)
     return
 

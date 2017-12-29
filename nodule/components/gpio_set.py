@@ -9,7 +9,9 @@ class GPIO_Set(object):
         self.sensors = []
         self.actuators = []
         hw_type = nodule.config['nodule']['hw_type']
-        self.valid_pins = nodule.config['hardware']['valid_pins'][hw_type]  # TODO get from config based on hardware type
+        # print(hw_type)
+        # print(nodule.config['nodule']['valid_pins'])
+        self.valid_pins = nodule.config['platform']['valid_pins'][hw_type]  # TODO get from config based on hardware type
         self.used_pins = set()
         self.load_sensors_from_config(nodule.config['sensors'])
         self.load_actuators_from_config(nodule.config['actuators'])

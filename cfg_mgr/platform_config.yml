@@ -1,21 +1,22 @@
 manager:
 # url: 192.168.0.13
-  url: 10.0.88.108
+  url: 127.0.0.1
   port: 8888
   get_config_endpoints:
     nodule: nodule/{n_id}/nodule
-    hardware: nodule/{n_id}/hardware
+    platform: nodule/{n_id}/platform
     sensors: nodule/{n_id}/sensors
     actuators: nodule/{n_id}/actuators
     jobs: nodule/{n_id}/jobs
 mqtt:
-  mqtt_url: 10.0.88.60
-  mqtt_port: 1883
-  mqtt_keepalive: 1883
+  url: 127.0.0.1
+  port: 1883
+  keepalive: 1000
 
 
 topics: [sensors, logs, errors, report, presence]
 valid_pins:
   raspi: [0,1,2,3,4,5,6,7,8,"cpu_temp","du"]
+  opi: [0,1,2,3,4,5,6,7,8,"cpu_temp","du","armbian"]
   esp8266: [0,1,2,3,4, 90,91,92,93,94]
   local: [0,1,2,3]
