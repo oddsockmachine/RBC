@@ -106,10 +106,10 @@ def populate_test_data():
         Z7 = Zone(name='SE window', url='/3_bayside_village/living_room/se_window', description='South East Window', parent=Z3)
         Z8 = Zone(name='SW window', url='/3_bayside_village/living_room/sw_window', description='South West Window', parent=Z3)
 
-        N1 = Nodule(uid='abc123', name='balcony', created_at=datetime.now(), zone=Z4, hw_type='esp8266')
+        N1 = Nodule(uid='abc123', name='balcony', created_at=datetime.now(), zone=Z4, hw_type='opi')
         N2 = Nodule(uid='def456', name='living room', created_at=datetime.now(), zone=Z3, hw_type='raspi')
-        N3 = Nodule(uid='ghi789', name='SE Window', created_at=datetime.now(), zone=Z7, hw_type='esp32')
-        N5 = Nodule(uid='jkl012', name='SW Window', created_at=datetime.now(), zone=Z8, hw_type='raspi')
+        N3 = Nodule(uid='ghi789', name='SE Window', created_at=datetime.now(), zone=Z7, hw_type='local')
+        N5 = Nodule(uid='jkl012', name='SW Window', created_at=datetime.now(), zone=Z8, hw_type='esp32')
 
         c1 = Component(uid=uuid(), name='balc temp/hmdy', description='balcony temperature/humidity', kind='sensor', component_type='DHT_11', pin="1", nodule=N1)
         c2 = Component(uid=uuid(), name='tom_soil_temp', description='tomato soil temp', kind='sensor', component_type='ds18b20', pin="i2c_2", nodule=N1)
