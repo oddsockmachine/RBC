@@ -1,4 +1,5 @@
-git clone https://github.com/oddsockmachine/RBC.git
+# git clone https://github.com/oddsockmachine/RBC.git
+# cd RBC/nodule
 
 sudo apt-get update
 sudo apt install tree
@@ -8,7 +9,6 @@ sudo apt-get install -y python3-venv
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 # sudo dpkg-reconfigure locales
-cd RBC/nodule
 pyvenv venv
 source venv/bin/activate
 which python

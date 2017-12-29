@@ -142,5 +142,3 @@ class OPI_Stats_Sensor(Sensor):
     def read(self):
         # TODO
         cmd = 'sudo armbianmonitor -m'
-
-    sudo armbianmonitor -m
