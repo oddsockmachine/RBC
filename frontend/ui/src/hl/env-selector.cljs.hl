@@ -1,12 +1,12 @@
 (ns hl.env-selector)
 
 
-(defelem nodule-stats-box [{:keys [nodulename noduleselector]} _]
+(defelem nodule-stats-box [{:keys [nodulename noduleuid noduleselector]} _]
   (div :class "email-item email-item-selected pure-g"
       (div :class "pure-u" :click #(reset! noduleselector nodulename)
           (div :class "pure-u-3-4"
               (h5 :class "email-name" nodulename)
-              (h4 :class "email-subject" nodulename)
+              (h4 :class "email-subject" noduleuid)
               (p :class "email-desc" "3 Sensors")
               (p :class "email-desc" "3 Actuators")
               (p :class "email-desc" "15 Jobs")
@@ -18,7 +18,7 @@
 (defelem nodule-selector-list [{:keys [nodulelist noduleselector]} _]
   (div :id "list" :class "pure-u-1"
       (for-tpl [nodule nodulelist]
-        (nodule-stats-box :nodulename @nodule :noduleselector noduleselector))))
+        (nodule-stats-box :nodulename (get @nodule "name") :noduleuid (get @nodule "uid") :noduleselector noduleselector))))
 
 (defelem nodule-header [{:keys [nodulename noduleuid env-count]} _]
   (div :class "email-content-header pure-g"

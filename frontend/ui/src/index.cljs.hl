@@ -29,6 +29,7 @@
         (div :id "main" :class "pure-u-1"
             (div :class "email-content"
                 (es/nodule-header :nodulename nodule-select :noduleuid "xyz999" :envcount 2)
+                ; (p (first rpc/nodule-list))
                 ; (ul :class "pcssc-accordion accordion-tab"
                 ;     (li :class "accordion-section"
                 ;         (input :type "radio" :class "accordion-section-selector pcssc-invisible" :id "zero" :name "tab-head" :role "tab"
