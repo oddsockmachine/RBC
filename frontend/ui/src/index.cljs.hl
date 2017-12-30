@@ -8,6 +8,7 @@
 ;; Cells for each input example.
 (defc ws-select "")
 (defc nodule-select "___")
+
 ; (defc= workspaces (rpc/get-ws-from-env env-select))
 ; (defc check-box false)
 
@@ -16,6 +17,8 @@
   (head
     ; (link :href "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css" :rel "stylesheet" :type "text/css")
     (link :href "https://unpkg.com/purecss@1.0.0/build/pure-min.css" :rel "stylesheet" :type "text/css")
+    (link :rel "stylesheet" :href "https://unpkg.com/purecss-components@0.0.12/dist/pure-components.css" :integrity "sha384-3vxDvOU9lXU+bcgTkQNhnflfhRt/EFEGLtd3jQn8vQRGGQlpBX9VOq4oIufzLOO9" :crossorigin "anonymous")
+    ; https://joe-crick.github.io/pure-css-components/#tabs
     (link :href "css/extra.css" :rel "stylesheet" :type "text/css")
     (title "Nodule Manager"))
   (body
@@ -25,10 +28,51 @@
         (es/nodule-selector-list :nodulelist rpc/nodule-list :noduleselector nodule-select)
         (div :id "main" :class "pure-u-1"
             (div :class "email-content"
-                (es/nodule-header :nodulename nodule-select :noduleuid "xxx" :envcount 2)
+                (es/nodule-header :nodulename nodule-select :noduleuid "xyz999" :envcount 2)
+                ; (ul :class "pcssc-accordion accordion-tab"
+                ;     (li :class "accordion-section"
+                ;         (input :type "radio" :class "accordion-section-selector pcssc-invisible" :id "zero" :name "tab-head" :role "tab"
+                ;                "checked")
+                ;         (label :for "zero" :class "accordion-section-header" "Nodule")
+                ;         (div :class "accordion-section-content"
+                ;             (h2 "Nodule")
+                ;             "???????????????????"
+                ;         )
+                ;
+                ;     )
+                ;     (li :class "accordion-section"
+                ;         (input :type "radio" :class "accordion-section-selector pcssc-invisible" :id "one" :name "tab-head" :role "tab")
+                ;         (label :for "one" :class "accordion-section-header" "Jobs")
+                ;         (div :class "accordion-section-content"
+                ;             (h2 "Jobs")
+                ;             "???????????????????"
+                ;         )
+                ;
+                ;     )
+                ;     (li :class "accordion-section"
+                ;         (input :type "radio" :class "accordion-section-selector pcssc-invisible" :id "two" :name "tab-head" :role "tab")
+                ;         (label :for "two" :class "accordion-section-header" "Components")
+                ;         (div :class "accordion-section-content"
+                ;             (h2 "Components")
+                ;             "???????????????????"
+                ;         )
+                ;     )
+                ; )
 
-                (h1 "hello world")
-                (p nodule-select)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 ; (div :class "email-content-body"
                 ;     (h1 "Viewing Environment: " (b nodule-select))
                 ;
@@ -48,7 +92,7 @@
                 ;                         (th "Selected")))
                 ;                 (tbody
                 ;                     (for-tpl [x rpc/ws-list]
-                ;                       (tr :class (if (< (rand-int 10) 5) "pure-table-odd" "")
+                ;                       (tr :class (if (> (rand-int 10) 5) "pure-table-odd" "")
                 ;                           (td "1")
                 ;                           (td x)
                 ;                           (td "-")
