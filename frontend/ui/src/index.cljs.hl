@@ -1,0 +1,60 @@
+
+(page "index.html"
+  (:require [app.rpc :as rpc])
+  (:require [hl.env-selector :as es])
+)
+
+
+;; Cells for each input example.
+(defc ws-select "")
+(defc nodule-select "___")
+; (defc= workspaces (rpc/get-ws-from-env env-select))
+; (defc check-box false)
+
+(rpc/init)
+(html
+  (head
+    ; (link :href "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css" :rel "stylesheet" :type "text/css")
+    (link :href "https://unpkg.com/purecss@1.0.0/build/pure-min.css" :rel "stylesheet" :type "text/css")
+    (link :href "css/extra.css" :rel "stylesheet" :type "text/css")
+    (title "Nodule Manager"))
+  (body
+
+    (div :id "layout" :class "content pure-g"
+        (es/rbc-nav)
+        (es/nodule-selector-list :nodulelist rpc/nodule-list :noduleselector nodule-select)
+        (div :id "main" :class "pure-u-1"
+            (div :class "email-content"
+                (es/nodule-header :nodulename nodule-select :noduleuid "xxx" :envcount 2)
+
+                (h1 "hello world")
+                (p nodule-select)
+                ; (div :class "email-content-body"
+                ;     (h1 "Viewing Environment: " (b nodule-select))
+                ;
+                ;     ;    TODO REPLACE EXCLAIM W WS-MDLS
+                ;     (form :submit #(rpc/do-exclaim @ws-select) ; edit and submit form to load record
+                ;       (p (label "Workspace name: ")
+                ;           (input :value ws-select :keyup #(reset! ws-select @%)))
+                ;       (p (button :type "submit" "Search")))
+                ;     (p (text "Workspaces: ~{rpc/stateE}"))
+                ;
+                ;             (table :class "pure-table pure-table-horizontal"
+                ;                 (thead
+                ;                     (tr
+                ;                         (th "#")
+                ;                         (th "Workspace Name")
+                ;                         (th "Model Name")
+                ;                         (th "Selected")))
+                ;                 (tbody
+                ;                     (for-tpl [x rpc/ws-list]
+                ;                       (tr :class (if (< (rand-int 10) 5) "pure-table-odd" "")
+                ;                           (td "1")
+                ;                           (td x)
+                ;                           (td "-")
+                ;                           (td (input :type "checkbox" :click #(do (swap! check-box not) true) :value check-box))
+                ;                           ))))
+                ;
+                ;       )
+                      ))
+                      )))
