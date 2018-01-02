@@ -29,7 +29,7 @@
   '[pandeiro.boot-http    :refer [serve]])
 
 (deftask dev
-  "Build model-shop for local development."
+  "Build cfg-mgr for local development."
   []
   (comp
     (serve
@@ -44,7 +44,7 @@
     (cljs)))
 
 (deftask prod
-  "Build model-shop for production deployment."
+  "Build cfg-mgr for production deployment."
   []
   (comp
     (hoplon)

@@ -6,13 +6,13 @@
   (reduce #(get %1 %2) data keys))
 
 
-(defelem nodule-stats-box [{:keys [nodule noduleselector]} _]
+(defelem nodule-stats-box [{:keys [this-nodule nodule-pointer]} _]
   (div :class "email-item email-item-selected pure-g"
-      (div :class "pure-u" :click #(reset! noduleselector @nodule)
+      (div :class "pure-u" :click #(reset! nodule-pointer @this-nodule)
           (div :class "pure-u-3-4"
-              (h4 :class "email-subject" (get @nodule "name"))
-              (h5 :class "email-name" (get @nodule "uid"))
-              (p :class "email-desc" "Zone: "(gql-get ["zoneByZone" "name"] @nodule))
+              (h4 :class "email-subject" (get @this-nodule "name"))
+              (h5 :class "email-name" (get @this-nodule "uid"))
+              (p :class "email-desc" "Zone: "(gql-get ["zoneByZone" "name"] @this-nodule))
               ; (p :class "email-desc" (gql-get ["componentsByNodule" "totalCount"] @nodule) " sensors")
               ; (p :class "email-desc" (gql-get ["componentsByNodule" "totalCount"] @nodule) " actuators")
               ; (p :class "email-desc" (gql-get ["jobsByNodule" "totalCount"] @nodule) " jobs")
@@ -21,10 +21,10 @@
       )
 ))
 
-(defelem nodule-selector-list [{:keys [nodulelist noduleselector]} _]
+(defelem nodule-selector-list [{:keys [nodulelist nodule-pointer]} _]
   (div :id "list" :class "pure-u-1"
       (for-tpl [nodule nodulelist]
-        (nodule-stats-box :nodule nodule :noduleselector noduleselector))))
+        (nodule-stats-box :this-nodule nodule :nodule-pointer nodule-pointer))))
 
 (defelem nodule-header [{:keys [nodule env-count]} _]
   (div :class "email-content-header pure-g"

@@ -7,9 +7,9 @@
 
 ;; Cells for each input example.
 (defc ws-select "")
-(defc nodule-select [])
+(defc selected-nodule [])
 ; (defc all-nodule-stats "foo")
-; (defc= nodule-select (some section of nodule stats))
+; (defc= selected-nodule (some section of nodule stats))
 (defc= num-nodules (count rpc/all-nodule-stats))
 
 (defc test-results
@@ -18,10 +18,20 @@
    :subject "Organic Chemistry"
    :sequence "CHM2049"})
 
+(defc= test-results-with-mean
+  (let [scores (:scores test-results)
+        mean   (/ (reduce + scores) (count scores))
+        grade  (cond (<= 90 mean) :A
+                     (<= 80 mean) :B
+                     (<= 70 mean) :C
+                     (<= 60 mean) :D
+                     :else        :F)]
+    (assoc test-results :mean mean :grade grade)))
+
 (defc= subject (get test-results :subject))
 
-; (defc= workspaces (rpc/get-ws-from-env env-select))
-; (defc check-box false)
+; (cell= (print subject))
+; (add-watch selected-nodule :k #(prn %4))
 
 (rpc/init)
 (html
@@ -36,10 +46,9 @@
 
     (div :id "layout" :class "content pure-g"
         (fe/rbc-nav :nodule-count num-nodules)
-        (fe/nodule-selector-list :nodulelist rpc/all-nodule-stats :noduleselector nodule-select)
+        (fe/nodule-selector-list :nodulelist rpc/all-nodule-stats :nodule-pointer selected-nodule)
         (div :id "main" :class "pure-u-1"
             (div :class "email-content"
-                (fe/nodule-header :nodule nodule-select :env-count 2)
-                ; (p (text (get nodule-select "uid")))
+                (fe/nodule-header :nodule selected-nodule :env-count 2)
                       ))
                       )))
