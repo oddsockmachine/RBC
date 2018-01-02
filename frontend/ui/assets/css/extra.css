@@ -143,6 +143,7 @@ a {
     }
     .email-name,
     .email-subject {
+        text-transform: uppercase;
         margin: 0;
     }
     .email-name {

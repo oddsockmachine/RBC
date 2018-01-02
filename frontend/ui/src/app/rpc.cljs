@@ -15,10 +15,16 @@
   (mkremote 'app.api/get-nodule-list nodule-list error loading))
 
 
+(defc all-nodule-stats nil)
+(def get-all-nodule-stats
+  (mkremote 'app.api/all-nodule-stats all-nodule-stats error loading))
+
+
 
 
 (defn init []
   ; (get-state)
+  (get-all-nodule-stats)
   (get-nodule-list))
   ; (get-ws-from-env "gaga"))
   ; (do-exclaim [])

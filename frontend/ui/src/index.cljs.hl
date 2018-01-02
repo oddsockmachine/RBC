@@ -1,13 +1,24 @@
 
 (page "index.html"
   (:require [app.rpc :as rpc])
-  (:require [hl.fe-components :as fe])
+  (:require [hl.components :as fe])
 )
 
 
 ;; Cells for each input example.
 (defc ws-select "")
-(defc nodule-select "___")
+(defc nodule-select [])
+; (defc all-nodule-stats "foo")
+; (defc= nodule-select (some section of nodule stats))
+(defc= num-nodules (count rpc/all-nodule-stats))
+
+(defc test-results
+  {:scores [74 51 97 88 89 91 72 77 69 72 45 63]
+   :proctor "Mr. Smith"
+   :subject "Organic Chemistry"
+   :sequence "CHM2049"})
+
+(defc= subject (get test-results :subject))
 
 ; (defc= workspaces (rpc/get-ws-from-env env-select))
 ; (defc check-box false)
@@ -24,82 +35,11 @@
   (body
 
     (div :id "layout" :class "content pure-g"
-        (fe/rbc-nav)
-        (fe/nodule-selector-list :nodulelist rpc/nodule-list :noduleselector nodule-select)
+        (fe/rbc-nav :nodule-count num-nodules)
+        (fe/nodule-selector-list :nodulelist rpc/all-nodule-stats :noduleselector nodule-select)
         (div :id "main" :class "pure-u-1"
             (div :class "email-content"
-                (fe/nodule-header :nodulename nodule-select :noduleuid "xyz999" :envcount 2)
-                ; (p (first rpc/nodule-list))
-                ; (ul :class "pcssc-accordion accordion-tab"
-                ;     (li :class "accordion-section"
-                ;         (input :type "radio" :class "accordion-section-selector pcssc-invisible" :id "zero" :name "tab-head" :role "tab"
-                ;                "checked")
-                ;         (label :for "zero" :class "accordion-section-header" "Nodule")
-                ;         (div :class "accordion-section-content"
-                ;             (h2 "Nodule")
-                ;             "???????????????????"
-                ;         )
-                ;
-                ;     )
-                ;     (li :class "accordion-section"
-                ;         (input :type "radio" :class "accordion-section-selector pcssc-invisible" :id "one" :name "tab-head" :role "tab")
-                ;         (label :for "one" :class "accordion-section-header" "Jobs")
-                ;         (div :class "accordion-section-content"
-                ;             (h2 "Jobs")
-                ;             "???????????????????"
-                ;         )
-                ;
-                ;     )
-                ;     (li :class "accordion-section"
-                ;         (input :type "radio" :class "accordion-section-selector pcssc-invisible" :id "two" :name "tab-head" :role "tab")
-                ;         (label :for "two" :class "accordion-section-header" "Components")
-                ;         (div :class "accordion-section-content"
-                ;             (h2 "Components")
-                ;             "???????????????????"
-                ;         )
-                ;     )
-                ; )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                ; (div :class "email-content-body"
-                ;     (h1 "Viewing Environment: " (b nodule-select))
-                ;
-                ;     ;    TODO REPLACE EXCLAIM W WS-MDLS
-                ;     (form :submit #(rpc/do-exclaim @ws-select) ; edit and submit form to load record
-                ;       (p (label "Workspace name: ")
-                ;           (input :value ws-select :keyup #(reset! ws-select @%)))
-                ;       (p (button :type "submit" "Search")))
-                ;     (p (text "Workspaces: ~{rpc/stateE}"))
-                ;
-                ;             (table :class "pure-table pure-table-horizontal"
-                ;                 (thead
-                ;                     (tr
-                ;                         (th "#")
-                ;                         (th "Workspace Name")
-                ;                         (th "Model Name")
-                ;                         (th "Selected")))
-                ;                 (tbody
-                ;                     (for-tpl [x rpc/ws-list]
-                ;                       (tr :class (if (> (rand-int 10) 5) "pure-table-odd" "")
-                ;                           (td "1")
-                ;                           (td x)
-                ;                           (td "-")
-                ;                           (td (input :type "checkbox" :click #(do (swap! check-box not) true) :value check-box))
-                ;                           ))))
-                ;
-                ;       )
+                (fe/nodule-header :nodule nodule-select :env-count 2)
+                ; (p (text (get nodule-select "uid")))
                       ))
                       )))

@@ -35,7 +35,7 @@
     (serve
       :handler 'app.handler/app
       :reload true
-      :port 8001)
+      :port 8000)
     (watch)
     ; (speak)
     (hoplon)
