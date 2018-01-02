@@ -15,9 +15,6 @@
                   [ring                      "1.5.0"]
                   [javax.servlet/servlet-api "2.5"]
                   [ring/ring-defaults        "0.2.1"]
-                  ; [mysql/mysql-connector-java "5.1.18"]
-                  ; [org.clojure/java.jdbc     "0.7.3"]
-                  ; [honeysql                  "0.9.1"]
                   [clj-http "3.7.0"]
                   [org.clojure/data.json "0.2.6"]]
 
@@ -38,7 +35,7 @@
     (serve
       :handler 'app.handler/app
       :reload true
-      :port 8000)
+      :port 8001)
     (watch)
     ; (speak)
     (hoplon)

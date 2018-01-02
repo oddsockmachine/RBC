@@ -1,7 +1,7 @@
 
 (page "index.html"
   (:require [app.rpc :as rpc])
-  (:require [hl.env-selector :as es])
+  (:require [hl.fe-components :as fe])
 )
 
 
@@ -24,11 +24,11 @@
   (body
 
     (div :id "layout" :class "content pure-g"
-        (es/rbc-nav)
-        (es/nodule-selector-list :nodulelist rpc/nodule-list :noduleselector nodule-select)
+        (fe/rbc-nav)
+        (fe/nodule-selector-list :nodulelist rpc/nodule-list :noduleselector nodule-select)
         (div :id "main" :class "pure-u-1"
             (div :class "email-content"
-                (es/nodule-header :nodulename nodule-select :noduleuid "xyz999" :envcount 2)
+                (fe/nodule-header :nodulename nodule-select :noduleuid "xyz999" :envcount 2)
                 ; (p (first rpc/nodule-list))
                 ; (ul :class "pcssc-accordion accordion-tab"
                 ;     (li :class "accordion-section"
