@@ -75,9 +75,10 @@ services:
       - back-tier
 
   collector:
-    image: redis:alpine
+    image: oddsockmachine/collector:0.1
     depends_on:
       - mosquitto
+
   #
   # elasticsearch:
   #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
