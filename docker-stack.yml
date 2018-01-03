@@ -53,7 +53,7 @@ services:
       - postgres
 
   cfg_mgr:
-    image: oddsockmachine/cfg_mgr:0.1
+    image: oddsockmachine/cfg_mgr:0.4
     environment:
       db_pw: mysecretpassword
       db_host: postgres
@@ -64,7 +64,7 @@ services:
     networks:
       - back-tier
     deploy:
-      replicas: 2
+      replicas: 1
 
   mosquitto:
     image: eclipse-mosquitto

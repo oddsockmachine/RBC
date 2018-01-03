@@ -1,8 +1,8 @@
 (set-env!
   :dependencies '[[adzerk/boot-cljs          "1.7.228-1"]
-                  [com.cemerick/piggieback "0.2.1" :scope "test"]
-                  [weasel "0.7.0" :scope "test"]
-                  [org.clojure/tools.nrepl "0.2.12" :scope "test"]
+                  [com.cemerick/piggieback   "0.2.1" :scope "test"]
+                  [weasel                    "0.7.0" :scope "test"]
+                  [org.clojure/tools.nrepl   "0.2.12" :scope "test"]
                   [adzerk/boot-cljs-repl     "0.3.3"]
                   [adzerk/boot-reload        "0.4.12"]
                   [compojure                 "1.6.0-beta1"]
@@ -15,8 +15,8 @@
                   [ring                      "1.5.0"]
                   [javax.servlet/servlet-api "2.5"]
                   [ring/ring-defaults        "0.2.1"]
-                  [clj-http "3.7.0"]
-                  [org.clojure/data.json "0.2.6"]]
+                  [clj-http                  "3.7.0"]
+                  [org.clojure/data.json     "0.2.6"]]
 
   :source-paths   #{"src"}
   :resource-paths #{"assets"})
@@ -29,7 +29,7 @@
   '[pandeiro.boot-http    :refer [serve]])
 
 (deftask dev
-  "Build cfg-mgr for local development."
+  "Build Nodule Mgr for local development."
   []
   (comp
     (serve
@@ -44,7 +44,7 @@
     (cljs)))
 
 (deftask prod
-  "Build cfg-mgr for production deployment."
+  "Build Nodule Mgr for production deployment."
   []
   (comp
     (hoplon)
