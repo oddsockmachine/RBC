@@ -1,4 +1,4 @@
 - {component_type: servo, description: greenhouse window, id: 7, kind: actuator, name: window,
-  pin: '7', uid: 1df1bdc9}
+  pin: '7', uid: 3f265b1c}
 - {component_type: pump, description: irrigation pump, id: 8, kind: actuator, name: pump,
-  pin: '8', uid: 0d1ae07a}
+  pin: '8', uid: de90bb9f}

@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: kub.oddsockmachine.com
+    http:
+      paths:
+      - path: /cfg
+        backend:
+          serviceName: cfg-mgr
+          servicePort: 8888
+      - path: /gql
+        backend:
+          serviceName: postgraphql
+          servicePort: 5050

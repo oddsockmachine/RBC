@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  ghost-consulting:
+    image: oddsockmachine/ghost-blog:latest
+    ports:
+      - "2368:2368"
+    networks:
+      - ghost
+    labels:
+      kompose.service.type: LoadBalancer
+  ghost-community:
+    image: oddsockmachine/ghost-blog:latest
+    ports:
+      - "2368:2368"
+    networks:
+      - ghost
+    labels:
+      kompose.service.type: LoadBalancer
+
+
+networks:
+  ghost:
+    external: false

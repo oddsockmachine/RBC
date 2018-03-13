@@ -11,7 +11,7 @@
   [keys data]
   (reduce #(get %1 %2) data keys))
 
-(def graphql-url "http://rbc.oddsockmachine.com:5050/graphql")
+(def graphql-url "http://rbc.local:5000/graphql")
 
 (defn make-query
   [params]

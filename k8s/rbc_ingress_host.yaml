@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hostbased
+spec:
+  rules:
+  - host: cfg.kub.oddsockmachine.com
+    http:
+      paths:
+      - backend:
+          serviceName: cfg-mgr
+          servicePort: 8888
+  - host: gql.kub.oddsockmachine.com
+    http:
+      paths:
+      - backend:
+          serviceName: postgraphql
+          servicePort: 5050

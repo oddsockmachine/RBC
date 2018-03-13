@@ -1,7 +1,7 @@
 batch: false
 debug: true
 err_log_size: 100
-hw_type: esp8266
+hw_type: opi
 id: 1
 log_size: 100
 name: balcony

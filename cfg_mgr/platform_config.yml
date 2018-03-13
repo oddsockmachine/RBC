@@ -9,7 +9,7 @@ manager:
     actuators: nodule/{n_id}/actuators
     jobs: nodule/{n_id}/jobs
 mqtt:
-  url: 127.0.0.1
+  url: 192.168.0.21
   port: 1883
   keepalive: 1000
 

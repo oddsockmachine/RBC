@@ -79,47 +79,68 @@ services:
     depends_on:
       - mosquitto
 
-  #
-  # elasticsearch:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
-  #   volumes:
-  #     - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-  #   ports:
-  #     - "9200:9200"
-  #     - "9300:9300"
-  #   environment:
-  #     ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-  #   networks:
-  #     - elk_net
-  #
-  # logstash:
-  #   image: docker.elastic.co/logstash/logstash:5.5.0
-  #   volumes:
-  #     - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-  #     - ./logstash/pipeline:/usr/share/logstash/pipeline
-  #   ports:
-  #     - "5000:5000"
-  #   environment:
-  #     LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-  #   networks:
-  #     - elk_net
-  #   depends_on:
-  #     - elasticsearch
-  #
-  # kibana:
-  #   image: docker.elastic.co/kibana/kibana:5.5.0
-  #   volumes:
-  #     - ./kibana/config/:/usr/share/kibana/config
-  #   ports:
-  #     - "5601:5601"
-  #   networks:
-  #     - elk_net
-  #   depends_on:
-  #     - elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-platinum:6.1.1
+    environment:
+      http.host: 0.0.0.0
+      transport.host: 127.0.0.1
+      ELASTIC_PASSWORD: foobarbaz
+    ports:
+      - "9200:9200"
+    networks:
+      - 'elk'
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.1.1
+    environment:
+      ELASTICSEARCH_USERNAME: kibana
+      ELASTICSEARCH_PASSWORD: foobarbaz
+    ports:
+      - "5601:5601"
+    networks:
+      - 'elk'
+    depends_on:
+      - 'elasticsearch'
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.1.1
+    environment:
+      - 'xpack.monitoring.elasticsearch.password=foobarbaz'
+    volumes:
+      - /opt/elk/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    networks:
+      - 'elk'
+    depends_on:
+      - 'elasticsearch'
+      - 'setup_logstash'
+
+  setup_logstash:
+    image: centos:7
+    volumes:
+      - /opt/elk/scripts/setup-logstash.sh:/usr/local/bin/setup-logstash.sh:ro
+    command: '/bin/bash -c cat /usr/local/bin/setup-logstash.sh | tr -d "\r" | bash'
+    environment:
+      ELASTIC_PASSWORD: foobarbaz
+    networks:
+      - 'elk'
+    depends_on:
+      - 'elasticsearch'
+
+  setup_kibana:
+    image: centos:7
+    volumes:
+      - /opt/elk/scripts/setup-kibana.sh:/usr/local/bin/setup-kibana.sh:ro
+    command: '/bin/bash -c cat /usr/local/bin/setup-kibana.sh | tr -d "\r" | bash'
+    environment:
+      ELASTIC_PASSWORD: foobarbaz
+    networks:
+      - 'elk'
+    depends_on:
+      - 'elasticsearch'
 
 
 networks:
   back-tier:
     external: false
-  elk_net:
+  elk:
     external: false

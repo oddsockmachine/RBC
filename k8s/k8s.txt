@@ -1,0 +1,39 @@
+minikube start
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+kubectl proxy
+
+TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
+kubectl apply -f admin_rbac.yaml
+
+kompose up
+kompose -f ./ghost-stack.yml up
+# kompose convert
+kubectl get pods
+kubectl apply -f rbc_ingress.yaml
+kubectl apply -f rbc_namespace.yaml
+
+postgraphql_ip=$(minikube service --url postgraphql)
+cfgmgr_ip=$(minikube service --url cfg-mgr)
+mosquitto_ip=$(minikube service --url mosquitto)
+grafana_ip=$(minikube service -n kube-system --url monitoring-grafana)
+ghost_consulting_ip=$(minikube service --url ghost-consulting)
+ghost_community_ip=$(minikube service --url ghost-community)
+
+
+echo "postgraphql_ip: " $postgraphql_ip
+echo "cfg-mgr_ip: " $cfgmgr_ip
+echo "mosquitto_ip: " $mosquitto_ip
+echo "monitoring-grafana_ip: " $grafana_ip
+echo "ghost_consulting_ip: " $ghost_consulting_ip
+echo "ghost_community_ip: " $ghost_community_ip
+
+curl $cfgmgr_ip/nodule/abc123/components
+
+curl http://kub.net/cfg/nodule/abc123/sensors
+curl http://kub.net/gql/graphiql
+
+kubectl delete deployment postgraphql postgres cfg-mgr collector mosquitto pgadmin4
+kubectl delete service postgraphql postgres cfg-mgr collector mosquitto pgadmin4
+minikube stop
