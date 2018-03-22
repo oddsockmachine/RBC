@@ -1,34 +1,42 @@
-postgraphql:
-    image: erasche/postgraphql:latest
-    ports:
-        - "5050:5000"
-    environment:
-        #DB_DEFAULT_ROLE: postgres
-        DB_GRAPHQL_PATH: "/graphql"
-        DB_GRAPHIQL_PATH: "/graphiql"
-        PG_SECRET: "deadbeefcafe"
-        DB_SCHEMA: "public"
-        PGUSER: postgres
-        PGPASSWORD: mysecretpassword
-        PGHOST: postgres
-        PGDATABASE: postgres
-        PGPORT: 5432
-    links:
-        - "postgres"
+version: "2"
 
-postgres:
-    image: postgres
-    restart: always
-    environment:
-        POSTGRES_PASSWORD: mysecretpassword
-    ports:
-        - "5432:5432"
+services:
 
-pgadmin4:
-  image: dpage/pgadmin4
-  ports:
-    - "8080:80"
-  environment:
-    PGADMIN_DEFAULT_EMAIL: user@domain.com
-    PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+    postgraphql:
+        image: erasche/postgraphql:latest
+        ports:
+            - "5050:5000"
+        environment:
+            #DB_DEFAULT_ROLE: postgres
+            DB_GRAPHQL_PATH: "/graphql"
+            DB_GRAPHIQL_PATH: "/graphiql"
+            PG_SECRET: "deadbeefcafe"
+            DB_SCHEMA: "public"
+            PGUSER: postgres
+            PGPASSWORD: mysecretpassword
+            PGHOST: postgres
+            PGDATABASE: postgres
+            PGPORT: 5432
+        links:
+            - "postgres"
 
+    postgres:
+        image: postgres
+        restart: always
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        environment:
+            POSTGRES_PASSWORD: mysecretpassword
+        ports:
+            - "5432:5432"
+
+    pgadmin4:
+      image: dpage/pgadmin4
+      ports:
+        - "8080:80"
+      environment:
+        PGADMIN_DEFAULT_EMAIL: user@domain.com
+        PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+
+volumes:
+    pgdata:
