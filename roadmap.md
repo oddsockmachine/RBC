@@ -49,7 +49,7 @@
 ## Logging and Analytics
 - Dashboards
 - Alerts
-- Machine learning?
+- Machine learning - http://blog.oddsockmachine.com:5601/app/ml#/jobs?_g=()
 - IFTTT/rules engine
 
 

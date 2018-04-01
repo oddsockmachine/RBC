@@ -1,0 +1,29 @@
+
+Nav left column
+  All nodules
+  Nodule by zone
+  Nodule by type
+  Nodule by tag
+
+Front page
+  Show nodules
+    basic stats
+    <link to nodule info page>
+    { query { allNodules { nodes { name uid presence power hwType zoneByZone{ name } componentsByNodule{ totalCount } jobsByNodule{ totalCount } } } } }
+    power in battery symbol at top
+    presence is green or red card color
+    hwtype = small symbol (raspberry, orange, chip etc)
+
+
+Nodule
+  All info
+  Overview of allcomponents and jobs
+  Left column:
+    9 components:
+      - sensor foo blah <edit> <del>
+      - sensor2 foo bar <edit> <del>
+    <Add component>
+  Right column:
+    5 jobs:
+      - job1 foo bar <edit> <del>
+      <add job>

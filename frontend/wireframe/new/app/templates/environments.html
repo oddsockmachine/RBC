@@ -1,0 +1,265 @@
+
+{% extends "base.html" %}
+{% block title %}
+Environments
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+
+
+
+<div class="content">
+				<div class="container-fluid">
+						<div class="row">
+								<div class="col-md-12">
+										<div class="card">
+												<div class="header">
+														<h4 class="title">Environments</h4>
+														<p class="category">Showing all development environments</p>
+												</div>
+												<div class="content table-responsive table-full-width">
+														<table class="table table-striped">
+																<thead>
+																	<th>Name</th>
+																	<th>Purpose</th>
+																	<th>Status</th>
+																	<th>Servers</th>
+																	<th>Owner</th>
+																	<th>Created</th>
+																	<th>TF Plan Ver</th>
+																	<th>Cost To Date</th>
+																	<th>Av Users/Week</th>
+																</thead>
+																<tbody>
+																		<tr>
+																			<td>drake</td>
+																			<td>Squawk WS Test</td>
+																			<td>Running</td>
+																			<td>7</td>
+																			<td>Zefeng</td>
+																			<td>14/07/2017</td>
+																			<td>4.6</td>
+																			<td>$103</td>
+																			<td>2</td>
+																		</tr>
+																		<tr>
+																			<td>bieber</td>
+																			<td>Dashboards</td>
+																			<td>Running</td>
+																			<td>19</td>
+																			<td>Tara</td>
+																			<td>28/05/2017</td>
+																			<td>3.5</td>
+																			<td>$1030</td>
+																			<td>12</td>
+																		</tr>
+																		<tr>
+																			<td>kanye</td>
+																			<td>Dashboards</td>
+																			<td>Running</td>
+																			<td>19</td>
+																			<td>Iain</td>
+																			<td>28/05/2017</td>
+																			<td>3.5</td>
+																			<td>$1030</td>
+																			<td>9</td>
+																		</tr>
+																		<tr>
+																			<td>weekend</td>
+																			<td>Gecko + Consul Integration</td>
+																			<td>Running</td>
+																			<td>7</td>
+																			<td>Manish</td>
+																			<td>14/07/2017</td>
+																			<td>4.6</td>
+																			<td>$103</td>
+																			<td>2</td>
+																		</tr>
+																		<tr>
+																			<td>sfeng2</td>
+																			<td>Bizmap</td>
+																			<td>Running</td>
+																			<td>18</td>
+																			<td>Vandan</td>
+																			<td>12/11/2016</td>
+																			<td>1.2</td>
+																			<td>$4025</td>
+																			<td>6</td>
+																		</tr>
+																		<tr>
+																			<td>hub2</td>
+																			<td>Bizmap</td>
+																			<td>Updating</td>
+																			<td>16/23</td>
+																			<td>Asavir</td>
+																			<td>18/11/2016</td>
+																			<td>2.6</td>
+																			<td>$5753</td>
+																			<td>4</td>
+																		</tr>
+																		<tr>
+																			<td>spears</td>
+																			<td>Audit Logger</td>
+																			<td>Paused</td>
+																			<td>0/25</td>
+																			<td>Saurabh</td>
+																			<td>25/06/2016</td>
+																			<td>1.8</td>
+																			<td>$8036</td>
+																			<td>8</td>
+																		</tr>
+																		<tr>
+																			<td>kesha</td>
+																			<td>BYOK</td>
+																			<td>Paused</td>
+																			<td>0/34</td>
+																			<td>Emily</td>
+																			<td>02/07/2016</td>
+																			<td>1.9</td>
+																			<td>$7056</td>
+																			<td>7</td>
+																		</tr>
+																</tbody>
+														</table>
+
+												</div>
+										</div>
+								</div>
+
+
+								<div class="col-md-12">
+										<div class="card card-plain">
+												<div class="header">
+														<h4 class="title">Drake</h4>
+														<p class="category">Details for Drake environment</p>
+												</div>
+												<div class="content table-responsive table-full-width">
+													<ul class="nav nav-tabs nav-justified">
+														<li><a href="#">Overview</a></li>
+														<li><a href="#">Controls</a></li>
+														<li><a href="#">Recent Events</a></li>
+														<li><a href="#">Logs</a></li>
+														<li><a href="#">Properties</a></li>
+														<li class="active"><a href="#">App Versions</a></li>
+														<li><a href="#">Update TF Plan</a></li>
+														<li><a href="#">Scale</a></li>
+														<li><a href="#">Add/Transfer Data</a></li>
+														<li><a href="#">Promte to QA Env</a></li>
+													</ul>
+													<table class="table table-hover">
+                                    <thead>
+                                      <th>Service</th>
+                                    	<th>Version</th>
+                                    	<th>Deployed on</th>
+                                    	<th>By</th>
+                                    	<th>Test Results</th>
+                                    </thead>
+                                    <tbody>
+																			<tr>
+																				<td>Admin</td>
+																				<td>7.3.1</td>
+																				<td>14/07/2017</td>
+																				<td>Zefeng</td>
+																				<td><a>Pass</a></td>
+																			</tr>
+																			<tr>
+																				<td>API</td>
+																				<td>8.1.23</td>
+																				<td>12/07/2017</td>
+																				<td>Zefeng</td>
+																				<td><a>Performance Fail</a></td>
+																			</tr>
+																			<tr>
+																				<td>API</td>
+																				<td>8.1.23</td>
+																				<td>12/07/2017</td>
+																				<td>Zefeng</td>
+																				<td><a>Pass</a></td>
+																			</tr>
+																			<tr>
+																				<td>API</td>
+																				<td>8.1.23</td>
+																				<td>12/07/2017</td>
+																				<td>Zefeng</td>
+																				<td><a>Pass</a></td>
+																			</tr>
+
+                                    </tbody>
+                                </table>
+												</div>
+										</div>
+								</div>
+
+
+						</div>
+				</div>
+		</div>
+
+<!-- <div id="content" class="content">
+		<div class="container-fluid">
+		<div class="wrapper">
+				<div class="inner-wrapper">
+						<div class="left pane">Left</div>
+						<div class="center pane">
+								<div class="inner">
+										<div class="top">Center top<p>blah</p><p>blah</p></div>
+										<div class="bottom">Center bottom</div>
+								</div>
+						</div>
+						<div class="right pane">Right</div>
+				</div>
+		</div>
+		</div>
+</div> -->
+
+
+
+
+
+
+
+				<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js">
+				</script>
+				<script type="text/javascript" src="https://golden-layout.com/files/latest/js/goldenlayout.min.js"></script>
+				<link type="text/css" rel="stylesheet" href="https://golden-layout.com/files/latest/css/goldenlayout-base.css" />
+
+				<link type="text/css" rel="stylesheet" href="https://golden-layout.com/files/latest/css/goldenlayout-light-theme.css" />
+
+				<script type="text/javascript">
+				var config = {
+				    content: [{
+				        type: 'row',
+				        content:[{
+				            type: 'component',
+				            componentName: 'testComponent',
+				            componentState: { label: 'A' }
+				        },{
+				            type: 'column',
+				            content:[{
+				                type: 'component',
+				                componentName: 'testComponent',
+				                componentState: { label: 'B' }
+				            },{
+				                type: 'component',
+				                componentName: 'testComponent',
+				                componentState: { label: 'C' }
+				            }]
+				        }]
+				    }]
+				};
+
+				// var myLayout = new GoldenLayout( config );
+				var myLayout = new GoldenLayout( config, document.getElementById( 'content'))
+
+				myLayout.registerComponent( 'testComponent', function( container, componentState ){
+				    container.getElement().html( '<h2>' + componentState.label + '</h2>' );
+				});
+
+				myLayout.init();
+				</script> -->
+				{% endblock %}

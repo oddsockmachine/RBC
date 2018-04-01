@@ -19,11 +19,16 @@
 (def get-all-nodule-stats
   (mkremote 'app.api/all-nodule-stats all-nodule-stats error loading))
 
+(defc update nil)
+(def test-update
+  (mkremote 'app.api/test-update update error loading))
+
 
 
 
 (defn init []
   ; (get-state)
+  (prn "hi")
   (get-all-nodule-stats)
   (get-nodule-list))
   ; (get-ws-from-env "gaga"))

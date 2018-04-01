@@ -1,0 +1,18 @@
+kibana:
+  url: http://blog.oddsockmachine.com
+  port: 5601
+logstash:
+  url: http://blog.oddsockmachine.com
+  port: 5000
+elasticsearch:
+  url: http://blog.oddsockmachine.com
+  port: 9200
+mqtt:
+  url: rbc.local
+  port: 1883
+nodered:
+  url: rbc.local
+  port: 1880
+cfg_mgr:
+  url: rbc.local
+  port: 8888

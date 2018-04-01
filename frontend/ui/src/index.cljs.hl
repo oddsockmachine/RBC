@@ -50,5 +50,7 @@
         (div :id "main" :class "pure-u-1"
             (div :class "email-content"
                 (fe/nodule-header :nodule selected-nodule :env-count 2)
+                (h1 "foooo")
+                (button "hi" :click #(rpc/update))
                       ))
                       )))

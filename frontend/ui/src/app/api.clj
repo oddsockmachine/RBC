@@ -11,7 +11,8 @@
   [keys data]
   (reduce #(get %1 %2) data keys))
 
-(def graphql-url "http://rbc.local:5000/graphql")
+(def graphql-url "http://dmip:5050/graphql")
+; (def graphql-url "http://rbc.local:5000/graphql")
 
 (defn make-query
   [params]
@@ -37,3 +38,9 @@
   (let [data (map #(assoc %1 "num-sensors" 2 "num-actuators" 4 "num-jobs" 4) (get-nodule-list))]
     (prn data)
     data))
+
+
+(defrpc test-update []
+  (do
+    (prn "hi")
+    ("hi")))
