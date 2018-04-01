@@ -58,7 +58,7 @@ class Job(object):
         self.report(msg)
     def default_msg(self):
         """Provide default data that should be sent with each message"""
-        return {"job_uid": self.uid, "component_uid": self.component.uid, "timestamp": str(datetime.now())}
+        return {"nodule_uid": self.nodule.UID, "job_uid": self.uid, "component_uid": self.component.uid, "timestamp": str(datetime.now())}
     def execute(self):
         try:
             r = self.component.read()
