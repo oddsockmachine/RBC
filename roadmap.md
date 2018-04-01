@@ -4,12 +4,14 @@
 - Pick from different config profiles (test, local, remote etc)
 - Rasberry Pi support
   - In progress
+  - Now working
 - Orange Pi support
   - http://lucsmall.com/2017/01/19/beginners-guide-to-the-orange-pi-zero/
   - Now working
 - NanoPi support
   - http://nanopi.io/nanopi-neo.html
   - http://www.friendlyarm.com/index.php?route=product/product&product_id=197
+  - More expensive the opi, not bothering
 
 - esp8266/esp32 support
   - deferring to SBCs due to ease of development/library support/ethernet etc, but IOT chips have lower power consumption and inbuilt ADCs
@@ -25,7 +27,6 @@
 
 ## Jobs & Scheduling
 - Job to immediately reload config from manager
-- Job to report nodule's IP
 - Internal clock
   - Update on wake from central server
 - More flexible scheduling, eg:
@@ -34,6 +35,7 @@
   - once per hour/minute/day
 - Ad-hoc execution
   - Call an actuator (or even sensor) immediately
+  - eg: Must have configured non-sensor component (like IP report) or actuator (like git pull) already, even if it doesn't have an associated job
 - Jobs/Components as templates
   - Pick and choose standard jobs/components on a nodule
   - Or deploy a standardized type of nodule

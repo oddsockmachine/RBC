@@ -2,3 +2,5 @@
   pin: '7', uid: 3f265b1c}
 - {component_type: pump, description: irrigation pump, id: 8, kind: actuator, name: pump,
   pin: '8', uid: de90bb9f}
+- {component_type: git_pull, description: Git Pull, id: 15, kind: actuator, name: gitpuller,
+  pin: x, uid: 2f9a099b}

@@ -1,5 +1,8 @@
 from random import randint
 import glob
+import socket
+from subprocess import check_output
+
 # import RPi.GPIO as GPIO
 # import dht11
 # GPIO.setwarnings(False)
@@ -17,6 +20,8 @@ def get_sensor_class(sensor_type):
         "moisture": Mock_Sensor,
         "TSL2561": Mock_Sensor,
         "OPI_stats": OPI_Stats_Sensor,
+        "IP": IP_Sensor,
+        "uptime": Uptime_Sensor,
         # "RPi_CPU_Temp": RPi_CPU_Temp,
         # "RPi_Disk_Usage": RPi_Disk_Usage,
         # "RPi_Mem_Usage": RPi_Mem_Usage,
@@ -142,3 +147,41 @@ class OPI_Stats_Sensor(Sensor):
     def read(self):
         # TODO
         cmd = 'sudo armbianmonitor -m'
+
+class IP_Sensor(Sensor):
+    """docstring for IP_Sensor."""
+    def __init__(self, uid, pin_num, description):
+        super(Sensor, self).__init__()
+        print("creating IP sensor")
+        self.uid = uid
+        self.description = description
+        self.type = "ip_address"
+        print("created")
+
+    def read(self):
+        # print("Getting IP")
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            s.connect(('10.255.255.255', 1))
+            IP = s.getsockname()[0]
+        except:
+            IP = '127.0.0.1'
+        finally:
+            s.close()
+        # print(IP)
+        return  {'IP': {'value': IP}}
+
+
+class Uptime_Sensor(Sensor):
+    """docstring for Uptime_Sensor."""
+    def __init__(self, uid, pin_num, description):
+        super(Sensor, self).__init__()
+        self.uid = uid
+        self.description = description
+        self.type = "uptime"
+
+    def read(self):
+        # print("Getting uptime")
+        uptime = str(check_output(["uptime"]))
+        uptime = uptime[12:-3].split('user')[0].split(',')[0]
+        return  {'uptime': {'value': uptime}}

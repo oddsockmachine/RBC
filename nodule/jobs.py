@@ -1,7 +1,8 @@
-from functions import *
+# from functions import *
 import schedule
 from json import dumps
 from logger import log_catch
+from datetime import datetime
 
 # TODO allow more advanced usage of scheduler- every minute/hour/day/week, specified times etc
 # TODO https://schedule.readthedocs.io/en/stable/faq.html#what-if-my-task-throws-an-exception
@@ -53,6 +54,8 @@ class Job(object):
         self.component = component
         self.nodule = nodule
     def call(self):
+        print(self.kind)
+        print(self.component)
         msg = self.execute()
         msg.update(self.default_msg())
         self.report(msg)
@@ -61,7 +64,12 @@ class Job(object):
         return {"nodule_uid": self.nodule.UID, "job_uid": self.uid, "component_uid": self.component.uid, "timestamp": str(datetime.now())}
     def execute(self):
         try:
-            r = self.component.read()
+            if self.kind == "sensor":
+                r = self.component.read()
+            elif self.kind == "actuator":
+                print("actuating")
+                r = self.component.actuate([]) # TODO empty params passed in
+                print("done")
             return r
         except:
             return {"values": "none", "error": "failed to read component"}

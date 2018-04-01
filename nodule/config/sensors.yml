@@ -12,3 +12,7 @@
   name: balc lux, pin: i2c_6, uid: da682dc1}
 - {component_type: ds18b20, description: ds18b20, id: 12, kind: sensor, name: ds18b20,
   pin: '4', uid: 6a0b3839}
+- {component_type: IP, description: IP Reporter, id: 13, kind: sensor, name: ip_reporter,
+  pin: x, uid: c97ce74b}
+- {component_type: uptime, description: Uptime Reporter, id: 14, kind: sensor, name: uptimer,
+  pin: x, uid: adb5b5a7}

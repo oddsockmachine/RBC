@@ -72,13 +72,6 @@ class Zone(db.Entity):
 
 
 
-class Link(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    created_at = Required(str)
-    url = Required(str)
-    description = Required(str)
-
-
 host = environ.get("db_host", "192.168.99.100")
 pw = environ.get("db_pw", "mysecretpassword")
 
@@ -94,8 +87,6 @@ def uuid():
 
 def populate_test_data():
     with db_session:
-        L1 = Link(created_at='Tuesday', url='facebook.com', description='Facebook')
-        L2 = Link(created_at='Thursday', url='hackaday.com', description='HackADay')
         Z0 = Zone(name='root', url='/', description='root')
         Z1 = Zone(name='3_bayside_village', url='/3_bayside_village', description='3 Bayside Village', parent=Z0)
         Z2 = Zone(name='bedroom', url='/3_bayside_village/bedroom', description='Bedroom', parent=Z1)
@@ -108,7 +99,7 @@ def populate_test_data():
 
         N1 = Nodule(uid='abc123', name='balcony', created_at=datetime.now(), zone=Z4, hw_type='opi')
         N2 = Nodule(uid='def456', name='living room', created_at=datetime.now(), zone=Z3, hw_type='raspi')
-        N3 = Nodule(uid='ghi789', name='SE Window', created_at=datetime.now(), zone=Z7, hw_type='local')
+        N3 = Nodule(uid='ghi789', name='SE Window', created_at=datetime.now(), zone=Z7, hw_type='opi')
         N5 = Nodule(uid='jkl012', name='SW Window', created_at=datetime.now(), zone=Z8, hw_type='esp32')
 
         c1 = Component(uid=uuid(), name='balc temp/hmdy', description='balcony temperature/humidity', kind='sensor', component_type='DHT_11', pin="1", nodule=N1)
@@ -138,6 +129,21 @@ def populate_test_data():
         j8 = Job(uid=uuid(), name='ds18b20', description='ds18b20', kind='sensor', interval='10',  tags='_', component=c12, nodule=N1)
         j8 = Job(uid=uuid(), name='room light', description='Light intensity in living rom', kind='sensor', interval='30',  tags='_', component=c10, nodule=N2)
         j9 = Job(uid=uuid(), name='room lamp', description='Turns on lamp in living room', kind='actuator', interval='100',  tags='_', component=c11, nodule=N2)
+
+        ipc = Component(uid=uuid(), name='ip_reporter', description='IP Reporter', kind='sensor', component_type='IP', pin="x", nodule=N1)
+        ipj = Job(uid=uuid(), name='ip_reporter', description='IP Reporter', kind='sensor', interval='3',  tags='_', component=ipc, nodule=N1)
+        ipc = Component(uid=uuid(), name='ip_reporter', description='IP Reporter', kind='sensor', component_type='IP', pin="x", nodule=N2)
+        ipj = Job(uid=uuid(), name='ip_reporter', description='IP Reporter', kind='sensor', interval='3',  tags='_', component=ipc, nodule=N2)
+        ipc = Component(uid=uuid(), name='ip_reporter', description='IP Reporter', kind='sensor', component_type='IP', pin="x", nodule=N3)
+        ipj = Job(uid=uuid(), name='ip_reporter', description='IP Reporter', kind='sensor', interval='3',  tags='_', component=ipc, nodule=N3)
+
+        upc = Component(uid=uuid(), name='uptimer', description='Uptime Reporter', kind='sensor', component_type='uptime', pin="x", nodule=N1)
+        upj = Job(uid=uuid(), name='uptimer', description='Uptime Reporter', kind='sensor', interval='3',  tags='_', component=upc, nodule=N1)
+        upc = Component(uid=uuid(), name='uptimer', description='Uptime Reporter', kind='sensor', component_type='uptime', pin="x", nodule=N2)
+        upj = Job(uid=uuid(), name='uptimer', description='Uptime Reporter', kind='sensor', interval='3',  tags='_', component=upc, nodule=N2)
+        upc = Component(uid=uuid(), name='uptimer', description='Uptime Reporter', kind='sensor', component_type='uptime', pin="x", nodule=N3)
+        upj = Job(uid=uuid(), name='uptimer', description='Uptime Reporter', kind='sensor', interval='3',  tags='_', component=upc, nodule=N3)
+
         print("Done")
 
 # if __name__ == '__main__':
@@ -147,3 +153,7 @@ with db_session:
     if not root_zone:
         print("No data in DB, will populate with test data")
         populate_test_data()
+    n1 = Nodule.get(uid='abc123')
+    print(n1)
+    upc = Component(uid=uuid(), name='gitpuller', description='Git Pull', kind='actuator', component_type='git_pull', pin="x", nodule=n1)
+    upj = Job(uid=uuid(), name='gitpuller', description='Git Pull', kind='actuator', interval='10',  tags='_', component=upc, nodule=n1)

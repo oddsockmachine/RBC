@@ -1,4 +1,6 @@
 from random import randint
+from subprocess import check_output
+
 # import RPi.GPIO as GPIO
 # import dht11
 # GPIO.setwarnings(False)
@@ -10,6 +12,7 @@ def get_actuator_class(actuator_type):
         "relay": Relay,
         "pump": Pump,
         "servo": Servo,
+        "git_pull": Git_Pull,
     }
     return actuators.get(actuator_type)
 
@@ -111,3 +114,43 @@ class Mock_Actuator(Actuator):
         # sleep(on_time)
         # self.pin.off()
         return
+
+
+class Config_Reloader(Actuator):
+    """Representation of a particular type of actuator on a pin/port."""
+    def __init__(self, uid, pin_num, description):
+        super(Actuator, self).__init__()
+        self.uid = uid
+        self.pin_num = pin_num
+        # self.pin = machine.Pin(pin_num, machine.Pin.OUT, machine.Pin.PULL_UP)
+        self.description = description
+        self.type = "Mock_Actuator"
+        self.required_params = ['param1', 'param2']
+    def actuate(self, parameters):
+        param1 = parameters['param1']
+        param2 = parameters['param2']
+        # self.pin.on()
+        # sleep(on_time)
+        # self.pin.off()
+        return
+
+
+class Git_Pull(Actuator):
+    """Representation of a particular type of actuator on a pin/port."""
+    def __init__(self, uid, pin_num, description):
+        super(Actuator, self).__init__()
+        self.uid = uid
+        self.description = description
+        self.type = "Internal Actuator"
+        print("Creating git pull actuator")
+        # self.required_params = ['param1', 'param2']
+    def actuate(self, parameters):
+        print("doing git pull")
+        git_out = check_output('ls')
+        print(git_out)
+        # param1 = parameters['param1']
+        # param2 = parameters['param2']
+        # self.pin.on()
+        # sleep(on_time)
+        # self.pin.off()
+        return git_out

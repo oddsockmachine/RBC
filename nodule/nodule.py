@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 from jobs import *
-from components.sensors import *
+# from components.sensors import *
 from components.gpio_set import *
 import schedule
 import time
@@ -11,6 +11,7 @@ from reporter import Reporter
 from collections import deque
 from configurator import load_config_from_disk, write_config_to_disk, CONFIG, get_uid
 from channels import ChannelMgr
+from datetime import datetime
 
 
 class Nodule(object):

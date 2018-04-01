@@ -1,3 +1,9 @@
+- {component: 2f9a099b, description: Git Pull, id: 14, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: 970c35fa, units: ''}
+- {component: adb5b5a7, description: Uptime Reporter, id: 13, interval: 3, kind: sensor,
+  name: uptimer, start_day: '', tags: _, uid: a439c81b, units: ''}
+- {component: c97ce74b, description: IP Reporter, id: 12, interval: 3, kind: sensor,
+  name: ip_reporter, start_day: '', tags: _, uid: 39f99f61, units: ''}
 - {component: 6a0b3839, description: ds18b20, id: 9, interval: 10, kind: sensor, name: ds18b20,
   start_day: '', tags: _, uid: be9452fa, units: ''}
 - {component: de90bb9f, description: Runs the pump, id: 7, interval: 25, kind: actuator,
