@@ -1,7 +1,11 @@
 from peewee import *
 from playhouse.postgres_ext import *
+from os import environ
 
-database = PostgresqlDatabase('postgres', **{'host': 'dmip', 'user': 'postgres', 'password': 'mysecretpassword'})
+host = environ.get("db_host", "192.168.99.100")
+pw = environ.get("db_pw", "mysecretpassword")
+
+database = PostgresqlDatabase('postgres', **{'host': host, 'user': 'postgres', 'password': pw})
 
 class UnknownField(object):
     def __init__(self, *_, **__): pass
@@ -92,4 +96,3 @@ class Post(BaseModel):
 
     class Meta:
         table_name = 'post'
-
