@@ -1,3 +1,8 @@
+Pick from different config profiles (test, local, remote etc)
+Convert models to sqla etc instead of pony
+use flask-admin to create frontend quickly
+
+
 # Roadmap
 
 ## Hardware
