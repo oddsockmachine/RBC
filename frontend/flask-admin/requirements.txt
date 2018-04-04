@@ -1,0 +1,5 @@
+Flask
+Flask-Admin
+peewee
+wtf-peewee
+psycopg2
