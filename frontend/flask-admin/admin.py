@@ -6,6 +6,8 @@ import flask_admin as admin
 from flask_admin.contrib.peewee import ModelView
 
 from models import *
+from redis import Redis
+from flask_admin.contrib import rediscli
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456790'
@@ -102,7 +104,7 @@ if __name__ == '__main__':
     logging.basicConfig()
     logging.getLogger().setLevel(logging.DEBUG)
 
-    admin = admin.Admin(app, name='Example: Peewee')
+    admin = admin.Admin(app, name='RBC Admin', template_mode='bootstrap3')
 
     admin.add_view(UserAdmin(User))
     admin.add_view(PostAdmin(Post))
@@ -110,6 +112,7 @@ if __name__ == '__main__':
     admin.add_view(NoduleAdmin(Nodule))
     admin.add_view(ComponentAdmin(Component))
     admin.add_view(JobAdmin(Job))
+    admin.add_view(rediscli.RedisCli(Redis(host="dmip")))
 
     try:
         User.create_table()
