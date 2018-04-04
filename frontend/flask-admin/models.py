@@ -2,7 +2,7 @@ from peewee import *
 from playhouse.postgres_ext import *
 from os import environ
 
-host = environ.get("db_host", "192.168.99.100")
+host = environ.get("db_host", "rbc.local")
 pw = environ.get("db_pw", "mysecretpassword")
 
 database = PostgresqlDatabase('postgres', **{'host': host, 'user': 'postgres', 'password': pw})
@@ -19,6 +19,9 @@ class Zone(BaseModel):
     name = TextField()
     parent = ForeignKeyField(column_name='parent', field='id', model='self', null=True)
     url = TextField()
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         table_name = 'zone'
@@ -41,6 +44,9 @@ class Nodule(BaseModel):
     woken_at = DateTimeField(null=True)
     zone = ForeignKeyField(column_name='zone', field='id', model=Zone)
 
+    def __unicode__(self):
+        return '%s - %s' % (self.name, self.uid)
+
     class Meta:
         table_name = 'nodule'
 
@@ -52,6 +58,8 @@ class Component(BaseModel):
     nodule = ForeignKeyField(column_name='nodule', field='id', model=Nodule)
     pin = TextField()
     uid = TextField(unique=True)
+    def __unicode__(self):
+        return '%s - %s' % (self.name, self.uid)
 
     class Meta:
         table_name = 'component'
@@ -70,6 +78,8 @@ class Job(BaseModel):
     tags = TextField()
     uid = TextField(unique=True)
     units = TextField()
+    def __unicode__(self):
+        return '%s - %s' % (self.name, self.uid)
 
     class Meta:
         table_name = 'job'
