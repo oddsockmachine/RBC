@@ -20,7 +20,7 @@ class Zone(BaseModel):
     parent = ForeignKeyField(column_name='parent', field='id', model='self', null=True)
     url = TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -44,7 +44,7 @@ class Nodule(BaseModel):
     woken_at = DateTimeField(null=True)
     zone = ForeignKeyField(column_name='zone', field='id', model=Zone)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (self.name, self.uid)
 
     class Meta:
@@ -58,7 +58,7 @@ class Component(BaseModel):
     nodule = ForeignKeyField(column_name='nodule', field='id', model=Nodule)
     pin = TextField()
     uid = TextField(unique=True)
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (self.name, self.uid)
 
     class Meta:
@@ -78,7 +78,7 @@ class Job(BaseModel):
     tags = TextField()
     uid = TextField(unique=True)
     units = TextField()
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (self.name, self.uid)
 
     class Meta:

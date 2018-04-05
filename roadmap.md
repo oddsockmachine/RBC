@@ -1,7 +1,5 @@
 Pick from different config profiles (test, local, remote etc)
-Convert models to sqla etc instead of pony
-use flask-admin to create frontend quickly
-
+ensure sensor reading msgs contain human-readable info about which sensor/component/job etc
 
 # Roadmap
 

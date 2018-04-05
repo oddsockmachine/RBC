@@ -69,21 +69,38 @@ class PostAdmin(ModelView):
 
 
 
+class OverView(ModelView):
+    create_modal = True
+    edit_modal = True
+    page_size = 50
+    column_sortable_list = ()
+    can_set_page_size = True
 
-
-
-
-
-class UserAdmin(ModelView):
     pass
 
-class ZoneAdmin(ModelView):
+class ZoneAdmin(OverView):
+    column_list = ['name', 'description', 'parent', ]
     pass
-class NoduleAdmin(ModelView):
+
+class NoduleAdmin(OverView):
+    column_list = ['name', 'uid', 'zone', 'hw_type', 'presence', 'debug', 'power', 'tags',  'batch', ]
+    column_descriptions = dict(
+        name='First and Last name'
+    )
     pass
-class ComponentAdmin(ModelView):
+
+class ComponentAdmin(OverView):
+    column_list = ['name', 'description', 'component_type', 'kind', 'pin', 'nodule', ]
+    form_choices = {
+    'kind': [
+        ('sensor', 'sensor'),
+        ('actuator', 'actuator')
+        ]
+    }
     pass
-class JobAdmin(ModelView):
+
+class JobAdmin(OverView):
+    column_list = ['name', 'description', 'kind', 'units', 'interval', 'period', 'at_time', 'start_day', 'nodule',  'params', 'tags',]
     pass
 
 

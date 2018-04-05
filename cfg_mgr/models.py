@@ -46,8 +46,8 @@ class Job(db.Entity):
     name = Required(str)
     description = Required(str)
     kind = Required(str)  # internal, sensor or actuator
-    period = Optional(int)
-    interval = Optional(int)
+    period = Optional(int)  # eg every minute, day, week
+    interval = Optional(int)  # eg every 5 s
     units = Optional(str)
     at_time = Optional(time)
     start_day = Optional(str)

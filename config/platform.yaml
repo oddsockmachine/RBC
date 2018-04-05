@@ -16,3 +16,13 @@ nodered:
 cfg_mgr:
   url: rbc.local
   port: 8888
+admin:
+  url: rbc.local
+  port: 5001
+postgres:
+  url: rbc.local
+  port: 5432
+  pw: mysecretpassword
+gql:
+  url: rbc.local
+  port: 5050
