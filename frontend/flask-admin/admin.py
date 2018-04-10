@@ -100,7 +100,7 @@ class ComponentAdmin(OverView):
     pass
 
 class JobAdmin(OverView):
-    column_list = ['name', 'description', 'kind', 'units', 'interval', 'period', 'at_time', 'start_day', 'nodule',  'params', 'tags',]
+    column_list = ['name', 'description', 'kind', 'units', 'interval', 'period', 'at_time', 'start_day', 'nodule',  'component', 'params', 'tags',]
     pass
 
 
