@@ -1,0 +1,4 @@
+git clone https://github.com/unixbigot/logstash-input-mqtt.git
+cd logstash-input-mqtt/
+gem build logstash-input-mqtt.gemspec
+bin/logstash-plugin install --no-verify
