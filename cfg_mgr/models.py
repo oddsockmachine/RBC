@@ -155,5 +155,5 @@ with db_session:
         populate_test_data()
     n1 = Nodule.get(uid='abc123')
     print(n1)
-    upc = Component(uid=uuid(), name='gitpuller', description='Git Pull', kind='actuator', component_type='git_pull', pin="x", nodule=n1)
-    upj = Job(uid=uuid(), name='gitpuller', description='Git Pull', kind='actuator', interval='10',  tags='_', component=upc, nodule=n1)
+    # upc = Component(uid=uuid(), name='gitpuller', description='Git Pull', kind='actuator', component_type='git_pull', pin="x", nodule=n1)
+    # upj = Job(uid=uuid(), name='gitpuller', description='Git Pull', kind='actuator', interval='10',  tags='_', component=upc, nodule=n1)

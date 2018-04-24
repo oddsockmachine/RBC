@@ -1,5 +1,5 @@
 debug: true
-MQTT_URL: rbc.local
+MQTT_URL: dmip
 MQTT_PORT: 1883
 MQTT_KEEPALIVE: 1000
 HW_TYPE: local

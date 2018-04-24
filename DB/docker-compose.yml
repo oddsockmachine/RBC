@@ -1,6 +1,39 @@
 version: "2"
 
 services:
+    # nginx-proxy:
+    #     image: jwilder/nginx-proxy
+    #     ports:
+    #       - "80:80"
+    #     volumes:
+    #       - /var/run/docker.sock:/tmp/docker.sock:ro
+
+    cfg_mgr:
+        image: oddsockmachine/cfg_mgr:latest
+        ports:
+            - "8888:8888"
+        environment:
+            db_host: postgres
+            db_pw: mysecretpassword
+            VIRTUAL_HOST: cfg_mgr.dmip
+
+        links:
+            - "postgres"
+    admin:
+        image: oddsockmachine/admin:latest
+        ports:
+            - "5001:5001"
+        environment:
+            db_host: postgres
+            db_pw: mysecretpassword
+            VIRTUAL_HOST: admin.dmip
+        links:
+            - "postgres"
+            - "redis"
+    redis:
+      image: "redis:alpine"
+      ports:
+          - "6379:6379"
 
     postgraphql:
         image: erasche/postgraphql:latest
@@ -37,6 +70,16 @@ services:
       environment:
         PGADMIN_DEFAULT_EMAIL: user@domain.com
         PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+    mqtt:
+        image: mrinus/docker-openwrt-mosquitto
+        container_name: mosquitto
+        ports:
+          - 1883:1883
+        # entrypoint: /usr/local/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
+        # volumes:
+          # - ./etc/mosquitto:/etc/mosquitto:ro
+          # - ./var/log/mosquitto:/var/log/mosquitto:rw
+
 
 volumes:
     pgdata:

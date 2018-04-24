@@ -1,0 +1,31 @@
+kibana:
+  url: http://blog.oddsockmachine.com
+  port: 5601
+logstash:
+  url: http://blog.oddsockmachine.com
+  port: 5000
+elasticsearch:
+  url: http://blog.oddsockmachine.com
+  port: 9200
+mqtt:
+  url: localhost
+  port: 1883
+nodered:
+  url: localhost
+  port: 1880
+cfg_mgr:
+  url: localhost
+  port: 8888
+admin:
+  url: localhost
+  port: 5001
+postgres:
+  url: dmip
+  port: 5432
+  pw: mysecretpassword
+gql:
+  url: dmip
+  port: 5050
+redis:
+  url: dmip
+  port: 6379

@@ -1,6 +1,22 @@
 - {component_type: servo, description: greenhouse window, id: 7, kind: actuator, name: window,
-  pin: '7', uid: 3f265b1c}
+  pin: '7', uid: 554f94f4}
 - {component_type: pump, description: irrigation pump, id: 8, kind: actuator, name: pump,
-  pin: '8', uid: de90bb9f}
-- {component_type: git_pull, description: Git Pull, id: 15, kind: actuator, name: gitpuller,
-  pin: x, uid: 2f9a099b}
+  pin: '8', uid: 3536d664}
+- {component_type: git_pull, description: Git Pull, id: 34, kind: actuator, name: gitpuller,
+  pin: x, uid: 2754ea7e}
+- {component_type: git_pull, description: Git Pull, id: 37, kind: actuator, name: gitpuller,
+  pin: x, uid: c6f315cc}
+- {component_type: git_pull, description: Git Pull, id: 55, kind: actuator, name: gitpuller,
+  pin: x, uid: 42621e68}
+- {component_type: git_pull, description: Git Pull, id: 56, kind: actuator, name: gitpuller,
+  pin: x, uid: 53f6014a}
+- {component_type: git_pull, description: Git Pull, id: 89, kind: actuator, name: gitpuller,
+  pin: x, uid: 594d5b0e}
+- {component_type: git_pull, description: Git Pull, id: 122, kind: actuator, name: gitpuller,
+  pin: x, uid: af524e98}
+- {component_type: git_pull, description: Git Pull, id: 155, kind: actuator, name: gitpuller,
+  pin: x, uid: 28461c94}
+- {component_type: git_pull, description: Git Pull, id: 188, kind: actuator, name: gitpuller,
+  pin: x, uid: 2749d563}
+- {component_type: git_pull, description: Git Pull, id: 221, kind: actuator, name: gitpuller,
+  pin: x, uid: 4d1eced2}

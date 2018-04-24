@@ -1,26 +1,38 @@
-- {component: 2f9a099b, description: Git Pull, id: 14, interval: 10, kind: actuator,
-  name: gitpuller, start_day: '', tags: _, uid: 970c35fa, units: ''}
-- {component: adb5b5a7, description: Uptime Reporter, id: 13, interval: 3, kind: sensor,
-  name: uptimer, start_day: '', tags: _, uid: a439c81b, units: ''}
-- {component: c97ce74b, description: IP Reporter, id: 12, interval: 3, kind: sensor,
-  name: ip_reporter, start_day: '', tags: _, uid: 39f99f61, units: ''}
-- {component: 6a0b3839, description: ds18b20, id: 9, interval: 10, kind: sensor, name: ds18b20,
-  start_day: '', tags: _, uid: be9452fa, units: ''}
-- {component: de90bb9f, description: Runs the pump, id: 7, interval: 25, kind: actuator,
-  name: run pump, start_day: '', tags: _, uid: 3c661f42, units: ''}
-- {component: da682dc1, description: Light intensity on balcony, id: 6, interval: 5,
-  kind: sensor, name: balcony light, start_day: '', tags: _, uid: 1e83da57, units: lux}
-- {component: b7f7d6c4, description: Moisture of soil in aubergine pot, id: 5, interval: 20,
-  kind: sensor, name: aubergine soil moisture, start_day: '', tags: _, uid: c5f18cc9,
+- {component: 4d1eced2, description: Git Pull, id: 219, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: c43ae313, units: ''}
+- {component: 2749d563, description: Git Pull, id: 186, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: 2517f250, units: ''}
+- {component: 28461c94, description: Git Pull, id: 153, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: 201edeeb, units: ''}
+- {component: af524e98, description: Git Pull, id: 120, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: bce9e9e6, units: ''}
+- {component: 594d5b0e, description: Git Pull, id: 87, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: 1503b359, units: ''}
+- {component: 53f6014a, description: Git Pull, id: 54, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: bdfa24a8, units: ''}
+- {component: 42621e68, description: Git Pull, id: 53, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: f9c615a6, units: ''}
+- {component: c6f315cc, description: Git Pull, id: 35, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: ed05932d, units: ''}
+- {component: 2754ea7e, description: Git Pull, id: 34, interval: 10, kind: actuator,
+  name: gitpuller, start_day: '', tags: _, uid: 2f1924d6, units: ''}
+- {component: f837e66a, description: ds18b20, id: 9, interval: 10, kind: sensor, name: ds18b20,
+  start_day: '', tags: _, uid: 300dbcd0, units: ''}
+- {component: 3536d664, description: Runs the pump, id: 7, interval: 25, kind: actuator,
+  name: run pump, start_day: '', tags: _, uid: 216edc86, units: ''}
+- {component: 5da99a51, description: Light intensity on balcony, id: 6, interval: 5,
+  kind: sensor, name: balcony light, start_day: '', tags: _, uid: f362abec, units: lux}
+- {component: 4e7d50e2, description: Moisture of soil in aubergine pot, id: 5, interval: 20,
+  kind: sensor, name: aubergine soil moisture, start_day: '', tags: _, uid: 08c608bf,
   units: '%'}
-- {component: 8ebf2dd5, description: Moisture of soil in tomato pot, id: 4, interval: 20,
-  kind: sensor, name: tomato soil moisture, start_day: '', tags: _, uid: 1984cc12,
+- {component: c4f59959, description: Moisture of soil in tomato pot, id: 4, interval: 20,
+  kind: sensor, name: tomato soil moisture, start_day: '', tags: _, uid: fd41a001,
   units: '%'}
-- {component: 4d2e9ebf, description: Temperature of soil in aubergine pot, id: 3,
-  interval: 20, kind: sensor, name: aubergine soil temp, start_day: '', tags: _, uid: 4dbe5269,
+- {component: e51f5751, description: Temperature of soil in aubergine pot, id: 3,
+  interval: 20, kind: sensor, name: aubergine soil temp, start_day: '', tags: _, uid: ad50af01,
   units: C}
-- {component: b416457d, description: Temperature of soil in tomato pot, id: 2, interval: 20,
-  kind: sensor, name: tomato soil temp, start_day: '', tags: _, uid: 7cc5c332, units: C}
-- {component: 91b7eef4, description: Balcony air temperature and humidity, id: 1,
-  interval: 5, kind: sensor, name: balcony air temp, start_day: '', tags: _, uid: 2a7eea38,
+- {component: 8397e6b5, description: Temperature of soil in tomato pot, id: 2, interval: 20,
+  kind: sensor, name: tomato soil temp, start_day: '', tags: _, uid: 8a4ba038, units: C}
+- {component: e83dc99c, description: Balcony air temperature and humidity, id: 1,
+  interval: 5, kind: sensor, name: balcony air temp, start_day: '', tags: _, uid: 3ccbd925,
   units: C/%}

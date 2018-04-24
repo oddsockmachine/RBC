@@ -5,7 +5,7 @@ from sanic.response import text, json
 from sanic.exceptions import abort
 from json import dumps as jdump
 from yaml import load as yload
-
+# from get_config_profile import *
 
 conf = {}
 with open('./platform_config.yml', 'r') as conf_file:
@@ -80,7 +80,6 @@ def filter_components(data, kind):
     kind_name = {'sensors': 'sensor', 'actuators': 'actuator'}.get(kind)
     data = [d for d in data if d.get('kind') == kind_name]
     return data
-
 
 
 @app.route("/")

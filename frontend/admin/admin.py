@@ -129,7 +129,7 @@ if __name__ == '__main__':
     admin.add_view(NoduleAdmin(Nodule))
     admin.add_view(ComponentAdmin(Component))
     admin.add_view(JobAdmin(Job))
-    admin.add_view(rediscli.RedisCli(Redis(host="dmip")))
+    admin.add_view(rediscli.RedisCli(Redis(host="redis")))
 
     try:
         User.create_table()

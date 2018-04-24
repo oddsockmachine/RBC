@@ -26,3 +26,6 @@ postgres:
 gql:
   url: rbc.local
   port: 5050
+redis:
+  url: rbc.local
+  port: 6379

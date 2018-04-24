@@ -42,7 +42,7 @@ class Actuator(object):
     def call(self, params):
         self.validate_params(params)
         self.call(params)
-        return
+        return {}
 
 class Relay(Actuator):
     """Representation of a particular type of actuator on a pin/port."""
@@ -58,7 +58,7 @@ class Relay(Actuator):
         self.pin.on()
         sleep(on_time)
         self.pin.off()
-        return
+        return {}
 
 class Pump(Actuator):
     """Representation of a particular type of actuator on a pin/port."""
@@ -76,7 +76,7 @@ class Pump(Actuator):
         self.pin.on()
         sleep(on_time)
         self.pin.off()
-        return
+        return {}
 
 class Servo(Actuator):
     """Representation of a particular type of actuator on a pin/port."""
@@ -94,7 +94,7 @@ class Servo(Actuator):
         # self.pin.on()
         # sleep(on_time)
         # self.pin.off()
-        return
+        return {}
 
 
 class Mock_Actuator(Actuator):
@@ -113,7 +113,7 @@ class Mock_Actuator(Actuator):
         # self.pin.on()
         # sleep(on_time)
         # self.pin.off()
-        return
+        return {}
 
 
 class Config_Reloader(Actuator):
@@ -132,7 +132,7 @@ class Config_Reloader(Actuator):
         # self.pin.on()
         # sleep(on_time)
         # self.pin.off()
-        return
+        return {}
 
 
 class Git_Pull(Actuator):
@@ -153,4 +153,4 @@ class Git_Pull(Actuator):
         # self.pin.on()
         # sleep(on_time)
         # self.pin.off()
-        return git_out
+        return {'result': git_out.decode()}
