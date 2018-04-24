@@ -2,3 +2,5 @@
 */*/venv
 *.pyc
 mqtt/__pycache__
+./elk/
+elk/
