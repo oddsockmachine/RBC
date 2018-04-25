@@ -78,12 +78,12 @@ services:
         container_name: mosquitto
         ports:
           - 1883:1883
-    nodule1:
-        image: oddsockmachine/nodule:0.2
-        container_name: nodule1
-        links:
-            - "mqtt"
-            - "cfg_mgr"
+    # nodule1:
+    #     image: oddsockmachine/nodule:0.2
+    #     container_name: nodule1
+    #     links:
+    #         - "mqtt"
+    #         - "cfg_mgr"
 
         # entrypoint: /usr/local/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
         # volumes:
