@@ -9,7 +9,7 @@ services:
     #       - /var/run/docker.sock:/tmp/docker.sock:ro
 
     cfg_mgr:
-        image: oddsockmachine/cfg_mgr:0.8
+        image: oddsockmachine/cfg_mgr:0.9
         container_name: cfg_mgr
         ports:
             - "8888:8888"

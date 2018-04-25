@@ -1,9 +1,15 @@
-FROM python:3.6.5-stretch
+FROM python:3.6.5-slim-stretch
 
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gcc g++ \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apt-get purge -y --auto-remove gcc g++
+
 
 COPY . .
 CMD [ "python", "./cfg_mgr.py" ]
