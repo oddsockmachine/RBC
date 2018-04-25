@@ -9,7 +9,7 @@ manager:
     actuators: nodule/{n_id}/actuators
     jobs: nodule/{n_id}/jobs
 mqtt:
-  url: dmip
+  url: mqtt
   port: 1883
   keepalive: 1000
 

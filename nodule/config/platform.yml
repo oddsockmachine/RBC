@@ -2,8 +2,8 @@ manager:
   get_config_endpoints: {actuators: 'nodule/{n_id}/actuators', jobs: 'nodule/{n_id}/jobs',
     nodule: 'nodule/{n_id}/nodule', platform: 'nodule/{n_id}/platform', sensors: 'nodule/{n_id}/sensors'}
   port: 8888
-  url: 127.0.0.1
-mqtt: {keepalive: 1000, port: 1883, url: dmip}
+  url: cfg_mgr
+mqtt: {keepalive: 1000, port: 1883, url: mqtt}
 topics: [sensors, logs, errors, report, presence]
 valid_pins:
   esp8266: [0, 1, 2, 3, 4, 90, 91, 92, 93, 94]
