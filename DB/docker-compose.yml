@@ -21,7 +21,7 @@ services:
         links:
             - "postgres"
     admin:
-        image: oddsockmachine/admin:latest
+        image: oddsockmachine/admin:0.3
         container_name: admin
         ports:
             - "5001:5001"
