@@ -66,26 +66,24 @@ services:
         ports:
             - "5432:5432"
 
-    # pgadmin4:
-    #   image: dpage/pgadmin4
-    #   ports:
-    #     - "8080:80"
-    #   environment:
-    #     PGADMIN_DEFAULT_EMAIL: user@domain.com
-    #     PGADMIN_DEFAULT_PASSWORD: mysecretpassword
-    # mqtt:
-    #     image: mrinus/docker-openwrt-mosquitto
-    #     container_name: mosquitto
-    #     ports:
-    #       - 1883:1883
-
-
-    # nodule1:
-    #     image: oddsockmachine/nodule:0.2
-    #     container_name: nodule1
-    #     links:
-    #         - "mqtt"
-    #         - "cfg_mgr"
+    pgadmin4:
+      image: dpage/pgadmin4
+      ports:
+        - "8080:80"
+      environment:
+        PGADMIN_DEFAULT_EMAIL: user@domain.com
+        PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+    mqtt:
+        image: mrinus/docker-openwrt-mosquitto
+        container_name: mosquitto
+        ports:
+          - 1883:1883
+    nodule1:
+        image: oddsockmachine/nodule:0.2
+        container_name: nodule1
+        links:
+            - "mqtt"
+            - "cfg_mgr"
 
         # entrypoint: /usr/local/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
         # volumes:

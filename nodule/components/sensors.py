@@ -184,4 +184,5 @@ class Uptime_Sensor(Sensor):
         # print("Getting uptime")
         uptime = str(check_output(["uptime"]))
         uptime = uptime[12:-3].split('user')[0].split(',')[0]
+        print(uptime)
         return  {'uptime': {'value': uptime}}

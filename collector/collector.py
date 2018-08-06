@@ -5,6 +5,7 @@ import time
 from json import dumps, loads
 from conf import load_config
 import requests
+import sys
 
 def send_to_elk(client, userdata, msg):
     mid = msg.mid
@@ -14,9 +15,9 @@ def send_to_elk(client, userdata, msg):
     nodule_id = url.split('/')[-2]
     payload['nodule_id'] = nodule_id
     payload['ts'] = timestamp
-    # r = requests.post("http://10.0.88.60:9200/logs/test", data=dumps(payload))
-    # print(r.text)
-    print("ELK:\t", url, payload)
+    # r = requests.post("http://10.0.88.108:9200/logs/test", data=dumps(payload))
+    # sys.stdout.write(r.text)
+    sys.stdout.write("ELK:\t{}, {}".format(url, payload))
     return
 
 def send_to_db(client, userdata, msg):
@@ -24,13 +25,13 @@ def send_to_db(client, userdata, msg):
     payload = loads(msg.payload.decode("utf-8"))
     timestamp = msg.timestamp
     url = msg.topic
-    # print("DB:\t", url, payload)
+    # sys.stdout.write("DB:\t", url, payload)
     topic, node_name = url.split('/')
-    print(node_name, topic)
+    # sys.stdout.write(node_name, topic)
     if topic == 'presence':
-        print("{}.presence = {}".format(node_name, payload.get('presence')))
+        sys.stdout.write("{}.presence = {}".format(node_name, payload.get('presence')))
     elif topic == 'report':
-        print("{} = {}".format(node_name, payload))
+        sys.stdout.write("{} = {}".format(node_name, payload))
     return
 
 
@@ -73,7 +74,7 @@ def msg_cb(client, userdata, msg):
         r_func = router.get(route)
         r_func(client, userdata, msg)
         # except:
-        #     print("Topic {} not recognized".format(topic))
+        #     sys.stdout.write("Topic {} not recognized".format(topic))
         #     pass
 
 config = load_config()
