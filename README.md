@@ -1,5 +1,7 @@
 # RBC: Resource Based Community
 
+# Now hosted at https://gitlab.com/RBC-parent
+
 ### A resource manager for a community farm
 
 ##### Overview
