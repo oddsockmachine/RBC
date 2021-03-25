@@ -2,7 +2,7 @@ aiofiles==0.3.2
 httptools==0.0.9
 pony==0.7.3
 psycopg2==2.7.3.2
-PyYAML==3.12
+PyYAML==5.4
 sanic==0.6.0
 ujson==1.35
 uvloop==0.8.1
